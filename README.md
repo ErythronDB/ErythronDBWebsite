@@ -1,3 +1,3 @@
 # ErythronDBWebsite
 
-Depends on the VEuPathDB/WDK to build
+powered by the VEuPathDB Strategies-Web Development Kit 
