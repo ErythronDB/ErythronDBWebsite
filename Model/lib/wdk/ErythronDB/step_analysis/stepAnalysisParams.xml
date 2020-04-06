@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wdkModel>
+  <paramSet name="stepAnalysisParams">
+    <stringParam name="answerIdSql" number="false" isSql="true" visible="false" />
+
+    <stringParam name="stepParamValuesSql" number="false" isSql="true" visible="false"/>
+
+    <flatVocabParam name="organism" queryRef="StepAnalysisVocab.Organism" prompt="Organism" quote="false" multiPick="false" dependedParamRef="stepAnalysisParams.answerIdSql">
+      <help>Select an organism.</help>
+    </flatVocabParam> 
+  </paramSet>
+
+  <paramSet name="geneNetworkAnalysisParams">
+    <flatVocabParam name="organism" queryRef="StepAnalysisVocab.NCBITaxon" prompt="Organism" quote="false" multiPick="false" dependedParamRef="stepAnalysisParams.answerIdSql">
+      <help>Select an organism.</help>
+    </flatVocabParam>
+  </paramSet>
+
+
+  <paramSet name="heatmapAnalysisParams">
+    <flatVocabParam name="recommended_experiment" prompt="Recommended Expression Dataset" queryRef="StepAnalysisVocab.RecommendedExperiment" quote="false" multiPick="false" readonly="true" dependedParamRef="stepAnalysisParams.stepParamValuesSql">
+      <help>Recommended expression data for the heatmap display based on search parameters.  This dataset will be selected by default in the list of available expression datasets provided below.
+      A recommended dataset of "None" indicates that the search result was not based on a specific dataset.</help>
+    </flatVocabParam>
+
+    <enumParam name="boolean_cluster_samples" prompt="Cluster Samples?" quote="false" multiPick="false" displayType="checkBox">
+      <enumList>
+        <enumValue>
+          <term>true</term>
+          <display>Yes</display>
+          <internal>true</internal>
+        </enumValue>
+          <enumValue default="true">
+          <term>false</term>
+          <display>No</display>
+          <internal>false</internal>
+        </enumValue>
+      </enumList>
+      <help>Cluster samples? If not checked, samples will be displayed in time series or paired order.</help>
+    </enumParam>
+
+    <flatVocabParam name="experiment" prompt="Available Expression Datasets" queryRef="StepAnalysisVocab.Experiment" quote="false" multiPick="false" displayType="checkBox" dependedParamRef="stepAnalysisParams.answerIdSql,stepAnalysisParams.stepParamValuesSql">
+      <suggest allowEmpty="true" emptyValue="None"></suggest>
+      <help>Datasets in which at least one gene in your result set is expressed.  
+      The number of expressed genes from your result is indicated in parantheses after the dataset name. 
+      If a recommended dataset is provided above, it will be selected by default.  
+      Datasets marked with an asterisk (*) are comprehensive, and include all samples in the study.</help>
+    </flatVocabParam>
+
+    <enumParam name="value_type" prompt="Color/Scale by" multiPick="false" displayType="select" quote="true">
+      <help>Choose whether to plot raw expression, log2 expression or row normalized expression values.</help>
+      <enumList>
+        <enumValue default="true">
+          <term>norm</term>
+          <display>row-normalized mRNA expression</display>
+          <internal>norm</internal>
+        </enumValue>
+         <enumValue default="true">
+          <term>raw</term>
+          <display>raw mRNA expression</display>
+          <internal>raw</internal>
+        </enumValue>
+        <enumValue>
+          <term>log2</term>
+          <display>log2 mRNA expression</display>
+          <internal>log2</internal>
+        </enumValue>
+      </enumList>
+    </enumParam>
+
+    <enumParam name="color" prompt="Color Scheme" multiPick="false" displayType="select" quote="true">
+      <help>Select a color scheme for the heatmap.</help>
+
+      <enumList>
+        <enumValue>
+          <term>BuGn</term>
+          <display>Blue/Green</display>
+          <internal>BuGn</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>OrRd</term>
+          <display>Orange/Red</display>
+          <internal>OrRed</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>PuBu</term>
+          <display>Purple/Blue</display>
+          <internal>PuBu</internal>
+        </enumValue>
+
+        <enumValue default="true">
+          <term>YlGnBu</term>
+          <display>Yellow/Green/Blue</display>
+          <internal>YlGnBu</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>BuGn</term>
+          <display>Blue/Green</display>
+          <internal>BuGn</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>Blues</term>
+          <display>Blue Shades</display>
+          <internal>Blues</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>Oranges</term>
+          <display>Orange Shades</display>
+          <internal>Oranges</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>Greens</term>
+          <display>Green Shades</display>
+          <internal>Greens</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>Purples</term>
+          <display>Purple Shades</display>
+          <internal>Purples</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>Reds</term>
+          <display>Red Shades</display>
+          <internal>Reds</internal>
+        </enumValue>
+
+        <enumValue>
+          <term>Greys</term>
+          <display>Grey Shades</display>
+          <internal>Greys</internal>
+        </enumValue>
+
+      </enumList>
+    </enumParam>
+  </paramSet>
+
+  <paramSet name="enrichmentAnalysisParams">
+
+    <enumParam name="ontology" prompt="Ontology" quote="false" displayType="checkBox" multiPick="false">
+      <enumList>
+        <enumValue default="true">
+          <term>BP</term>
+          <internal>BP</internal>
+          <display>Biological Process (BP)</display>
+        </enumValue>
+        <enumValue >
+          <term>MF</term>
+          <internal>MF</internal>
+          <display>Molecular Function (MF)</display>
+        </enumValue>
+        <enumValue >
+          <term>CC</term>
+          <internal>CC</internal>
+          <display>Cellular Component (CC)</display>
+        </enumValue>
+      </enumList>
+      <help>
+        Select a GO aspect for your analysis.
+        The Gene Ontology (GO) is comprised of three structured, controlled vocabularies that 
+        describe gene products in terms of their 
+        related biological processes (incl. pathways) dependent on the activity of multiple gene products (BP), 
+        cellular components where gene products are active (CC) and molecular functions/activities of gene products (MF). 
+      </help>
+    </enumParam>
+
+    <stringParam name="boolean_include_iea" prompt="Evidence" number="false" default="true">
+      <help>
+	        Indicate whether you would like the analysis to consider associations inferred from electronic associations (computationally assigned; GO evidence code = IEA).
+      </help>
+    </stringParam>
+
+    <enumParam name="pathway_database" prompt="Pathway Database" quote="false" displayType="checkBox" multiPick="true">
+      <enumList>
+        <enumValue default="true">
+          <term>KEGG</term>
+          <internal>KEGG</internal>
+          <display>KEGG</display>
+        </enumValue>
+        <enumValue>
+          <term>Reactome</term>
+          <internal>Reactome</internal>
+          <display>Reactome</display>
+        </enumValue>
+      </enumList>
+    </enumParam>
+
+    <numberParam name="pvalue_threshold" prompt="Min Adjusted P-value" min="0" max="1.0" default="0.05">
+      <help>
+        Choose a p-value cutoff. 
+        The p-value is a statistical measure of the likelihood that a GO term is enriched in your gene set 
+        (i.e. appears more often in your gene list than it expected, given how often it appears in the background set). 
+        This fitering criterion will be applied to the adjusted p-value, a corrected p-value that has been adjusted for multiple hypothesis testing.
+      </help>
+    </numberParam>
+  </paramSet>
+
+</wdkModel>

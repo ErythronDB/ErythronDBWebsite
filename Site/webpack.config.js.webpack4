@@ -1,0 +1,47 @@
+var configure = require('../../EbrcWebsiteCommon/Site/site.webpack.config');
+const autoprefixer = require('autoprefixer');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = configure({
+  entry: {
+    'site-legacy': [
+      require.resolve('../../EbrcWebsiteCommon/Site/webapp/wdkCustomization/js/common.js'),
+      './webapp/wdkCustomization/js/client/main.js'
+    ],
+    'site-client': [
+      './webapp/wdkCustomization/js/client/main.js'
+    ]
+
+  },
+  module: {
+      rules: [{          
+	  test: /\.less$/,
+          use:  [
+              'style-loader',
+              MiniCssExtractPlugin.loader,
+              'css-loader',
+               {
+	       loader: 'postcss-loader',
+	             options: {
+	               plugins: () => autoprefixer({browsers: ['last 3 versions', '> 1%']})
+	             }
+	     },
+              'less-loader'
+          ]
+	  // loader: MiniCssExtractPlugin.extract(
+	    // ['css-loader',
+	    //  {
+	    //    loader: 'postcss-loader',
+	    //          options: {
+	    //            plugins: () => autoprefixer({browsers: ['last 3 versions', '> 1%']})
+	    //          }
+	    //  },
+	    //  'less-loader'])
+	}]
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    })
+  ]
+});

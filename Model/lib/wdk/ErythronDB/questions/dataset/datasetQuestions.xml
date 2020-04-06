@@ -1,0 +1,158 @@
+<wdkModel>
+
+  <questionSet name="DatasetQuestions" displayName="Search for Data sets">
+
+    <!-- ************************************************************ -->
+    <!-- SourceId -->  
+    <!-- ************************************************************ -->
+    
+    <question name="AllDatasets"
+      displayName="Datasets"
+      shortDisplayName="All DS"
+      fullAnswer="true"
+      queryRef="DatasetIds.AllDatasets"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList summary="summary,organism,data_type,primary_contact"
+		      sorting="data_type asc,display_name asc" />
+      <description>
+         Find all datasets.
+      </description>
+    </question>
+
+    <question name="DatasetsByDatasetNames"
+      displayName="Datasets by dataset names"
+      shortDisplayName="Search"
+      fullAnswer="true"
+      queryRef="DatasetIds.ByExternalDatabaseNames"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList sorting="data_type asc" />
+      <description>
+         Find datasets that are associated with an attribute on record page (e.g., GO/KEGG pathway tables)
+      </description>
+    </question>
+   
+    <question name="DatasetsByReferenceName"
+      displayName="Datasets used in a search"
+      shortDisplayName="Search"
+      fullAnswer="true"
+      queryRef="DatasetIds.ByReferenceName"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList sorting="data_type asc" />
+      <description>
+         Find datasets that are associated with an attribute on record page (ex. PTM table, profile graphs etc.)
+      </description>
+    </question>
+    
+    <question name="DatasetsByQuestionName"
+      displayName="Datasets used in a search"
+      shortDisplayName="Search"
+      fullAnswer="true"
+      queryRef="DatasetIds.ByQuestionName"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList sorting="display_name asc" />
+      <description>
+        Find datasets that are associated with a particular search.
+      </description>
+    </question>
+
+    
+    <question name="DatasetsById"
+      displayName="Datasets by ID"
+      shortDisplayName="ID"
+      fullAnswer="true"
+      queryRef="DatasetIds.ById"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList sorting="display_name asc" />
+      <description>
+         Find datasets by ID
+      </description>
+    </question>
+
+    
+    <question name="DatasetsByRecordClass"
+      displayName="Datasets used on a record page for an organism"
+      shortDisplayName="Record"
+      fullAnswer="true"
+      queryRef="DatasetIds.ByRecordClass"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList sorting="data_type asc" />
+      <description>
+         Find datasets that are associated with a particular record type and organism, to be used in an a record page.
+      </description>
+    </question>
+
+    
+    <question name="DatasetsByType"
+      displayName="Datasets used on a record page for a type"
+      shortDisplayName="Type"
+      fullAnswer="true"
+      queryRef="DatasetIds.ByType"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList sorting="data_type asc" />
+      <description>
+         Find datasets that are associated with a particular data set type.
+      </description>
+    </question>
+
+    
+    <question name="DatasetsByTypeAndSubtype"
+      displayName="Datasets used on a record page for a type and subtype"
+      shortDisplayName="TypeAndSubtype"
+      fullAnswer="true"
+      queryRef="DatasetIds.ByTypeAndSubtype"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <attributesList sorting="data_type asc" />
+      <description>
+         Find datasets that are associated with a particular data set type and subtype
+      </description>
+    </question>
+
+    <question name="DatasetsByCategoryAndSubtype"
+      displayName="Datasets used on a record page for a category and subtype"
+      shortDisplayName="CategoryAndSubtype"
+      fullAnswer="true"
+      queryRef="DatasetIds.ByCategoryAndSubtype"
+      recordClassRef="DatasetRecordClasses.DatasetRecordClass"
+      noSummaryOnSingleRecord="true">
+      <description>
+         Find datasets that are associated with a particular data set type and subtype
+      </description>
+    </question>
+
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+  <!-- Text search -->
+  <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+    <!-- <question name="DatasetsByTextSearch" -->
+    <!--   displayName="Text (keyword)" -->
+    <!--   shortDisplayName="Text" -->
+    <!--   fullAnswer="false" -->
+    <!--   queryRef="DatasetIds.ByKeyword" -->
+    <!--   recordClassRef="DatasetRecordClasses.DatasetRecordClass" -->
+    <!--   noSummaryOnSingleRecord="true"> -->
+    <!--   <attributesList -->
+    <!--      summary="hit_count,percent_count,display_name,contact,institution" -->
+    <!--      sorting="percent_count desc, display_name asc" /> -->
+    <!--   <description> -->
+    <!--      Find RNA Seq datasets with high change of expression in the provided gene list. -->
+    <!--   </description> -->
+    <!--    <dynamicAttributes> -->
+    <!--      <columnAttribute name="hit_count" displayName="# Valid Input Genes"  align="center" help="Number of gene identifiers from the input list that could be mapped to this organism by checking for valid IDs or ortholog transform"/> -->
+    <!--      <columnAttribute name="percent_count" displayName="Match Percentage"  align="center" help="Percentage of matches from the Input Valid Gene List"/> -->
+    <!--   </dynamicAttributes> -->
+
+    <!-- </question> -->
+
+
+
+  </questionSet>
+</wdkModel>

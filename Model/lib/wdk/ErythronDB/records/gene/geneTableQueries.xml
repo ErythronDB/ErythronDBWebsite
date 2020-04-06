@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+	<querySet name="GeneTables" queryType="table" isCacheable="false">
+
+		<!-- =================================================================== -->
+		<!-- Gene Model -->
+		<!-- =================================================================== -->
+
+		<sqlQuery name="Transcripts">
+			<column name="source_id"/>
+			<column name="transcript_id"/>
+			<column name="transcript_length"/>
+			<column name="transcript_exon_count"/>
+			<sql>
+				<![CDATA[
+		 SELECT gene_source_id AS source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 transcript_source_id AS transcript_id,
+		 transcript_length,
+		 exon_count AS transcript_exon_count
+		 FROM CBIL.TranscriptAttributes
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<!-- =================================================================== -->
+		<!-- Transcriptomics -->
+		<!-- =================================================================== -->
+		<sqlQuery name="MicroarrayComparison">
+			<column name="source_id"/>
+			<column name="cell_or_lineage"/>
+			<column name="ref_condition"/>
+			<column name="alt_condition"/>
+			<column name="dataset_name"/>
+			<column name="dataset_id"/>
+			<column name="ref_mean_expression"/>
+			<column name="alt_mean_expression"/>
+			<column name="fold_change"/>
+			<column name="adj_p_value"/>
+			<column name="confidence_interval"/>
+			<sql>
+				<![CDATA[
+		 SELECT ga.source_id,
+		   split_part(pan.name, ': ', 2) AS cell_or_lineage,
+                 split_part(split_part(pan.name, ': ', 1), ' v ', 2) AS ref_condition,
+                 split_part(split_part(pan.name, ': ', 1), ' v ', 1) AS alt_condition,
+		 round(r.mean1::numeric, 2) AS ref_mean_expression,
+		 round(r.mean2::numeric, 2) AS alt_mean_expression,
+		 round(r.fold_change::numeric, 2) AS fold_change,
+		 CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE') ELSE round(r.adj_p_value::numeric,4)::text END AS adj_p_value,
+		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval,
+		 pan.name AS comparison,
+		 p.source_id AS dataset_id,
+		 split_part(p.name, ': ', 2) AS dataset_name
+		 FROM ErythronDB.Comparison c,
+		 Study.StudyLink sl,
+		 Study.ProtocolAppNode pan,
+		 Study.Study s,
+		 Study.Study p,
+		 Results.GeneDiffResult r,
+		 CBIL.GeneAttributes ga
+		 WHERE sl.study_id = s.study_id
+		 AND sl.protocol_app_node_id = c.protocol_app_node_id
+		 AND c.protocol_app_node_id = pan.protocol_app_node_id
+		 AND r.protocol_app_node_id = c.protocol_app_node_id
+		 AND r.gene_id = ga.gene_id
+		 AND r.adj_p_value <= 0.05
+		 AND p.study_id = s.investigation_id
+		 ORDER BY fold_change DESC
+	]]>
+			</sql>
+		</sqlQuery>
+
+
+		
+
+		<sqlQuery name="ExpressionProfile">
+			<column name="source_id"/>
+			<column name="dataset_id"/>
+			<column name="dataset_name"/>
+			<column name="dataset_description"/>
+			<column name="gene_profile"/>
+			<column name="reporter_profile"/>
+			<column name="avg_gene_profile"/>
+			<sql>
+				<![CDATA[
+						SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneNotSampledProfile p,
+						(##WDK_ID_SQL##) id
+						WHERE p.source_id = id.source_id
+
+						UNION ALL
+
+						SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneNotExpressedProfile p,
+						(##WDK_ID_SQL##) id
+						WHERE p.source_id = id.source_id
+
+						UNION ALL
+
+						SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneExpressedProfile p,
+						(##WDK_ID_SQL##) id
+						WHERE p.source_id = id.source_id
+
+						ORDER BY dataset_id, order_num
+				]]>
+			</sql>
+		</sqlQuery>
+
+
+		<!-- =================================================================== -->
+		<!-- Proteomics -->
+		<!-- =================================================================== -->
+
+		<sqlQuery name="MassSpecMod">
+			<column name="source_id"/>
+			<column name="experiment"/>
+			<column name="peptide"/>
+			<column name="protein_id"/>
+			<column name="modification_site"/>
+			<column name="modification_type"/>
+			<column name="molecular_weight"/>
+			<column name="charge"/>
+			<column name="mass_to_charge_ratio"/>
+			<sql>
+				<![CDATA[
+		 SELECT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 s.name AS experiment,
+		 gp.peptide,
+		 gp.protein_id,
+		 gp.modification_site,
+		 ot.name AS modification_type,
+		 scores->>'kD' AS molecular_weight,
+		 scores->>'Charge' AS charge,
+		 round((scores->>'Calc m/Z')::numeric, 2) AS mass_to_charge_ratio
+		 FROM
+		 ErythronDB.GenePeptide gp,
+		 Study.Study s,
+		 CBIL.GeneAttributes ga,
+		 SRes.OntologyTerm ot
+		 WHERE s.study_id = gp.study_id
+		 AND ga.gene_id = gp.gene_id
+		 AND ot.ontology_term_id = gp.modification_type_id
+	     AND NOT (@HIDE_PRIVATE_DATA@::boolean AND (s.approaches->>'public' IS NOT NULL AND (s.approaches->>'public')::boolean IS FALSE))
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="MassSpecComparison">
+			<column name="source_id"/>
+			<column name="comparison"/>
+			<column name="fold_change"/>
+			<column name="adj_fold_change"/>
+			<column name="alt_mean_intensity"/>
+			<column name="ref_mean_intensity"/>
+				<column name="peptide"/>
+			<column name="protein_id"/>
+			<sql>
+				<![CDATA[
+		 SELECT ga.source_id,
+		  gp.peptide,
+		 gp.protein_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 pan.name AS comparison,
+		 CASE WHEN pc.fold_change = 'NaN' THEN pc.fold_change
+		 ELSE round(pc.fold_change::numeric, 2)::float END AS fold_change,
+		 CASE WHEN pc.adj_fold_change = 'NaN' THEN pc.adj_fold_change
+		 ELSE round(pc.adj_fold_change::numeric, 2)::float END AS adj_fold_change,
+		 CASE WHEN api.intensity > 1000 THEN to_char(round(api.intensity::numeric), '9.99EEEE')
+		 ELSE round(api.intensity::numeric)::text END AS alt_mean_intensity,
+		 CASE WHEN rpi.intensity > 1000 THEN to_char(round(rpi.intensity::numeric), '9.99EEEE')
+		 ELSE round(rpi.intensity::numeric)::text END AS ref_mean_intensity
+		 FROM
+		 ErythronDB.PeptideComparison pc,
+		 ErythronDB.GenePeptide gp,
+		 ErythronDB.Comparison c,
+		 CBIL.GeneAttributes ga,
+		 ErythronDB.PeptideIntensity rpi,
+		 ErythronDB.PeptideIntensity api,
+		 Study.ProtocolAppNode pan,
+		 Study.StudyLink sl,
+		 Study.Study s
+		 WHERE c.comparison_id = pc.comparison_id
+		 AND gp.gene_peptide_id = pc.peptide_id
+		 AND pan.protocol_app_node_id = c.protocol_app_node_id
+		 AND gp.gene_id = ga.gene_id
+		 AND c.reference_condition_id = rpi.protocol_app_node_id
+		 AND rpi.peptide_id = gp.gene_peptide_id
+		 AND c.alternative_condition_id = api.protocol_app_node_id
+		 AND api.peptide_id = gp.gene_peptide_id
+		 AND pan.protocol_app_node_id = sl.protocol_app_node_id
+		 AND s.study_id = sl.study_id
+		 AND NOT (@HIDE_PRIVATE_DATA@::boolean AND (s.approaches->>'public' IS NOT NULL AND (s.approaches->>'public')::boolean IS FALSE))
+		 ORDER BY fold_change DESC
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<!-- =================================================================== -->
+		<!-- Functional Annotation -->
+		<!-- =================================================================== -->
+		<sqlQuery name="GO">
+			<column name="source_id"/>
+			<column name="go_term"/>
+			<column name="go_id"/>
+			<column name="ontology"/>
+			<column name="definition"/>
+			<column name="evidence_code"/>
+			<sql>
+				<![CDATA[
+		 SELECT goa.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 go_term,
+		 ot.definition,
+		 replace(go_term_id, '_', ':') AS go_id,
+		 evidence_code,
+		 ontology_abbrev AS ontology
+		 FROM CBIL.GoAssociation_TC goa,
+		 SRes.OntologyTerm ot
+		 WHERE evidence_code != 'closure'
+		 AND ot.ontology_term_id = goa.ontology_term_id
+		 ORDER BY ontology_abbrev, go_term
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<!-- =================================================================== -->
+		<!-- Link outs -->
+		<!-- =================================================================== -->
+
+		<sqlQuery name="DbRefs_Gene">
+			<column name="source_id"/>
+			<column name="external_links"/>
+			<column name="external_id"/>
+			<sql>
+				<![CDATA[
+		 SELECT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 a.external_id,
+		 string_agg('<a href="' || drl.url || a.external_id || '" class="wdk-toolitp" title="' || drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ') AS external_links
+		 FROM
+		 CBIL.DbRefLink drl,
+		 CBIL.GeneAttributes ga,
+		 LATERAL jsonb_each(annotation),
+		 LATERAL UNNEST(string_to_array(replace(value::text, '"',''), '|')) a(external_id)
+		 WHERE drl.dbref_id = key
+		 AND drl.resource_type = 'gene'
+		 GROUP BY ga.source_id, a.external_id, '@PROJECT_ID@'::text
+		 ORDER BY ga.source_id, a.external_id
+	]]>
+			</sql>
+
+		</sqlQuery>
+
+		<sqlQuery name="DbRefs_Clinical">
+			<column name="source_id"/>
+			<column name="external_links"/>
+			<column name="external_id"/>
+			<sql>
+				<![CDATA[
+		 SELECT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 a.external_id,
+		 string_agg('<a href="' || drl.url || a.external_id || '" class="wdk-toolitp" title="' || drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ') AS external_links
+		 FROM
+		 CBIL.DbRefLink drl,
+		 CBIL.GeneAttributes ga,
+		 LATERAL jsonb_each(annotation),
+		 LATERAL UNNEST(string_to_array(replace(value::text, '"',''), '|')) a(external_id)
+		 WHERE drl.dbref_id = key
+		 AND drl.resource_type = 'clinical'
+		 GROUP BY ga.source_id, a.external_id, '@PROJECT_ID@'::text
+		 ORDER BY ga.source_id, a.external_id
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="DbRefs_NSeq">
+			<column name="source_id"/>
+			<column name="external_links"/>
+			<column name="external_id"/>
+			<sql>
+				<![CDATA[
+		 SELECT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 a.external_id,
+		 string_agg('<a href="' || drl.url || a.external_id || '" class="wdk-toolitp" title="' || drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ') AS external_links
+		 FROM
+		 CBIL.DbRefLink drl,
+		 CBIL.GeneAttributes ga,
+		 LATERAL jsonb_each(annotation),
+		 LATERAL UNNEST(string_to_array(replace(value::text, '"',''), '|')) a(external_id)
+		 WHERE drl.dbref_id = key
+		 AND drl.resource_type = 'nucleotide sequences'
+		 GROUP BY ga.source_id, a.external_id, '@PROJECT_ID@'::text
+		 ORDER BY ga.source_id, a.external_id
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="DbRefs_Proteins">
+			<column name="source_id"/>
+			<column name="external_links"/>
+			<column name="external_id"/>
+			<sql>
+				<![CDATA[
+		 SELECT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 a.external_id,
+		 string_agg('<a href="' || drl.url || a.external_id || '" class="wdk-toolitp" title="' || drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', '  // ') AS external_links
+		 FROM
+		 CBIL.DbRefLink drl,
+		 CBIL.GeneAttributes ga,
+		 LATERAL jsonb_each(annotation),
+		 LATERAL UNNEST(string_to_array(replace(value::text, '"',''), '|')) a(external_id)
+		 WHERE drl.dbref_id = key
+		 AND drl.resource_type = 'protein'
+		 GROUP BY ga.source_id, a.external_id, '@PROJECT_ID@'::text
+		 ORDER BY ga.source_id, a.external_id
+	]]>
+			</sql>
+		</sqlQuery>
+	</querySet>
+</wdkModel>

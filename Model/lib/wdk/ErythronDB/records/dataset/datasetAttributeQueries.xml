@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+
+	<querySet name="DatasetAttributes" queryType="attribute" isCacheable="false">
+		<sqlQuery name="Basic">
+			<column name="dataset_id"/>
+			<column name="project_id"/>
+			<column name="organism"/>
+			<column name="data_type"/>
+			<column name="type"/>
+			<column name="subtype"/>
+			<column name="dataset_name"/>
+			<column name="long_display_name"/>
+			<column name="display_name"/>
+			<column name="full_description"/>
+			<column name="attribution"/>
+			<column name="caveat"/>
+			<column name="summary"/>
+			<column name="is_public"/>
+			<column name="study_access"/>
+			<column name="study_categories"/>
+			<column name="project_availability"/>
+			<column name="card_points"/>
+			<column name="eupath_release"/>
+			<column name="download_url"/>
+			<column name="accession"/>
+			<sql>
+				<![CDATA[
+		 SELECT s.source_id AS dataset_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 s.name AS dataset_name,
+		 s.description AS full_description,
+		 t.name AS type,
+		 st.name AS subtype,
+		 c.name /* AS category */ AS data_type,
+		 jsonb_build_array('@PROJECT_ID@'::text) AS project_availability,
+		 s.approaches->>'attribution' AS attribution,
+		 s.approaches->>'display_name' AS long_display_name,
+		 s.approaches->>'short_display_name' || ' (' || (s.approaches->>'taxon_abbrev')::text || ')' AS display_name,
+		 s.approaches->>'taxon_abbrev' AS organism,
+		 s.approaches->>'display_summary' AS summary,
+		 s.approaches->>'caveat' AS caveat,
+		 CASE WHEN s.other_read = 0 THEN FALSE ELSE TRUE END AS is_public,
+		 CASE WHEN s.other_read = 0 THEN 'private' ELSE 'public' END AS study_access,
+		 jsonb_build_array(c.name) AS study_categories,
+		 jsonb_build_array(s.approaches->>'display_summary') AS card_points,
+		 CASE WHEN approaches->>'accession_ref' = 'ArrayExpress' THEN '@ARRAY_EXPRESS_URL@' ELSE 'coming soon' END AS download_url,
+		 CASE WHEN approaches->>'accession' IS NULL THEN 'TBA' ELSE approaches->>'accession' END AS accession,
+		 1.0 AS eupath_release
+		 FROM Study.Study s,
+		 SRes.OntologyTerm t,
+		 SRes.OntologyTerm st,
+		 SRes.OntologyTerm c
+		 WHERE s.investigation_id IS NULL
+		 AND (s.approaches->>'type')::int = t.ontology_term_id
+		 AND (s.approaches->>'subtype')::int = st.ontology_term_id
+		 AND (s.approaches->>'category')::int = c.ontology_term_id
+               ]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="PrimaryContact">
+			<column name="dataset_id"/>
+			<column name="project_id"/>
+			<column name="primary_contact"/>
+			<sql>
+				<![CDATA[
+						SELECT DISTINCT i.source_id AS dataset_id, 
+						'@PROJECT_ID@'::text AS project_id,
+						c.name AS primary_contact
+						FROM Study.Study s,
+						Study.Study i,
+						Study.StudyContact sc,
+						SRes.Contact c
+						WHERE s.study_id = sc.study_id
+						AND c.contact_id = sc.contact_id
+						AND i.study_id = s.investigation_id
+						AND s.approaches->>'attribution' = c.last
+				]]>
+			</sql>
+		</sqlQuery>
+
+
+		<sqlQuery name="PrimaryPublication">
+			<column name="dataset_id"/>
+			<column name="project_id"/>
+			<column name="primary_publication"/>
+
+			<sql>
+				<![CDATA[
+							WITH b AS 
+							(SELECT r.study_id, b.*
+							FROM SRes.BibliographicReference b, Study.StudyBibRef r
+							WHERE r.bibliographic_reference_id = b.bibliographic_reference_id
+							AND b.bib_ref_type_id IS NOT NULL)
+							SELECT s.source_id AS dataset_id, b.bib_ref_type_id,
+							split_part(b.authors, ',', 1) || '<em> et al.</em> ' || b.year || '. ' || b.title || ' <em>' 
+							|| b.publication || '</em>. ' || volume || ':' || pages 
+							|| '. PMID: <a href="@PUBMED_URL@' || b.source_id || '">' || b.source_id || '</>'  AS primary_publication
+							FROM 
+							Study.Study s LEFT OUTER JOIN
+							b
+							ON s.study_id = b.study_id
+							WHERE s.investigation_id IS NULL
+				]]>
+			</sql>
+		</sqlQuery>
+	</querySet>
+</wdkModel>

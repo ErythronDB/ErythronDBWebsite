@@ -1,0 +1,246 @@
+<wdkModel>
+
+  <querySet name="GeneQueries" queryType="id" isCacheable="true">
+
+    <!-- =================================================================== -->
+    <!-- Identifiers/Text Search -->
+    <!-- =================================================================== -->
+
+    <sqlQuery name="Identifier">
+      <paramRef ref="geneParams.generic_gene_identifier" />
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <sql>
+        <![CDATA[
+		 SELECT ga.source_id, 
+		 '@PROJECT_ID@'::text AS project_id
+		 FROM CBIL.GeneIdentifiers gi, CBIL.GeneAttributes ga
+		 WHERE $$generic_gene_identifier$$ ILIKE external_id
+		 AND gi.gene_id = ga.gene_id
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="Text">
+      <paramRef ref="geneParams.text_expression" />
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <sql>
+        <![CDATA[
+		 WITH st AS (
+		 SELECT regexp_replace(replace('%' || replace($$text_expression$$, '*', '%') || '%', '%%', '%'), ' OR ', '%|%', 'i') as phrase
+		 )
+		 SELECT DISTINCT ga.source_id, 
+		 '@PROJECT_ID@'::text AS project_id
+		 FROM CBIL.GeneAttributes ga,
+		 st
+		 WHERE gene_symbol ILIKE st.phrase
+		 OR annotation->>'alias_symbol' ILIKE st.phrase
+		 OR (annotation->>'name' SIMILAR TO lower(st.phrase)
+		 OR annotation->>'name' SIMILAR TO upper(st.phrase))
+        ]]>
+      </sql>
+    </sqlQuery>
+
+
+    <sqlQuery name="Upload">
+      <paramRef ref="geneParams.ds_gene_identifiers" />
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <sql>
+        <![CDATA[
+		 SELECT DISTINCT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id
+		 FROM CBIL.GeneIdentifiers ids, 
+		 CBIL.GeneAttributes ga,
+		 (SELECT source_id AS identifier FROM ($$ds_gene_identifiers$$) ds) genes
+		 WHERE ids.external_id = genes.identifier
+		 AND ga.gene_id = ids.gene_id
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <!-- =================================================================== -->
+    <!-- Identifiers/Text Search -->
+    <!-- =================================================================== -->
+
+    <!-- <sqlQuery name="GenesByGenericFoldChange">   -->
+    <!--   <column name="source_id"/> -->
+    <!--   <column name="project_id"/> -->
+    <!--   <column name="matched_result" width="1"/> -->
+    <!--   <column name="fold_change"/> -->
+    <!--   <column name="reference_mean"/> -->
+    <!--   <column name="alternative_mean"/> -->
+    <!--   <sql></sql> -->
+    <!-- </sqlQuery> -->
+
+    <!--  <sqlQuery name="GenesByTranscriptomics_FC"> -->
+    <!--   <paramRef ref="geneParams.investigation"/> -->
+    <!--   <paramRef ref="geneParams.experiment"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.ref_condition"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.alt_condition"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.fold_change" default="1.5"/> -->
+    <!--   <column name="source_id"/> -->
+    <!--   <column name="project_id"/> -->
+    <!--   <column name="fold_change"/> -->
+    <!--   <column name="comparison"/> -->
+    <!--   <column name="confidence_interval"/> -->
+    <!--   <column name="reference_mean"/> -->
+    <!--   <column name="alternative_mean"/> -->
+    <!--   <sql> -->
+    <!-- 	<![CDATA[ -->
+    <!-- 		 SELECT ga.source_id, -->
+    <!-- 		 '@PROJECT_ID@'::text AS project_id, -->
+    <!-- 		 pan.name AS comparison, -->
+    <!-- 		 round(r.mean1::numeric, 2) AS reference_mean, -->
+    <!-- 		 round(r.mean2::numeric, 2) AS alternative_mean, -->
+    <!-- 		 round(fold_change::numeric, 2) AS fold_change, -->
+    <!-- 		 CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE') ELSE round(r.adj_p_value::numeric,4)::text END AS adj_p_value, -->
+    <!-- 		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval -->
+    <!-- 		 FROM Results.GeneDiffResult r, -->
+    <!-- 		 CBIL.GeneAttributes ga,  -->
+    <!-- 		 Study.ProtocolAppNode pan, -->
+    <!-- 		 ErythronDB.Comparison c -->
+    <!-- 		 WHERE ga.gene_id = r.gene_id -->
+    <!-- 		 AND pan.protocol_app_node_id = c.protocol_app_node_id -->
+    <!-- 		 AND c.reference_condition_id = $$ref_condition$$ -->
+    <!-- 		 AND c.alternative_condition_id = $$alt_condition$$ -->
+    <!-- 		 AND c.protocol_app_node_id = r.protocol_app_node_id -->
+    <!-- 		 AND adj_p_value <= 0.05 -->
+    <!-- 		 AND (('$$regulated_dir$$' = 'up-regulated' AND r.fold_change >= $$fold_change$$ ) -->
+    <!-- 		 OR ('$$regulated_dir$$' = 'down-regulated' AND r.fold_change <= -1 * $$fold_change$$) -->
+    <!-- 		 OR ('$$regulated_dir$$' = 'up or down regulated' AND abs(r.fold_change) >= $$fold_change$$)) -->
+    <!-- 	]]> -->
+    <!--   </sql> -->
+    <!-- </sqlQuery> -->
+
+
+    <!-- <sqlQuery name="GenesByTranscriptomics_Expression"> -->
+    <!--   <paramRef ref="geneParams.profile_type" visible="false" default="Gene expression profile"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.minimum_percentile" default="80"/> -->
+    <!--   <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.maximum_percentile" default="100"/> -->
+    <!--   <column name="source_id"/> -->
+    <!--   <column name="project_id"/> -->
+    <!--   <column name="percentile"/> -->
+    <!--   <column name="mean_expression"/> -->
+    <!--   <column name="standard_error"/> -->
+    <!--   <sql> -->
+    <!-- 	<![CDATA[ -->
+    <!-- 		 SELECT gene_source_id AS source_id, -->
+    <!-- 		 '@PROJECT_ID@'::text AS project_id, -->
+    <!-- 		 value AS mean_expression, -->
+    <!-- 		 standard_error,gene -->
+    <!-- 		 sample, -->
+    <!-- 		 round((percentile * 100)::numeric, 1) AS percentile FROM -->
+    <!-- 		 ErythronDB.AvgGeneExpressionDataTable dt, -->
+    <!-- 		 Study.Study s -->
+    <!-- 		 WHERE s.study_id = dt.dataset_id -->
+    <!-- 		 AND s.source_id = $$experiment$$ -->
+    <!-- 		 AND percentile * 100 BETWEEN 80 AND 100 -->
+    <!-- 	]]> -->
+    <!--   </sql> -->
+    <!-- </sqlQuery> -->
+
+    
+    <!-- <sqlQuery name="GenesByProteomicsFoldChange">
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.comparison"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.fold_change" default="1.5"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="fold_change"/>
+      <column name="reference_mean"/>
+      <column name="alternative_mean"/>
+      <sql>
+    	<![CDATA[
+    		 WITH fc AS (
+    		 SELECT ga.source_id,
+    		 round((CASE WHEN pc.adj_fold_change IS NOT NULL
+    		 THEN pc.adj_fold_change ELSE pc.fold_change END)::numeric,2) AS fold_change,
+    		 CASE WHEN ref.intensity = 'NaN' THEN NULL ELSE round(log(2.0, ref.intensity::numeric),1) END AS reference_mean,
+    		 CASE WHEN alt.intensity = 'NaN' THEN NULL ELSE round(log(2.0, alt.intensity::numeric),1) END AS alternative_mean
+    		 FROM
+    		 ErythronDB.Comparison c,
+    		 Study.ProtocolAppNode pan,
+    		 ErythronDB.PeptideIntensity ref,
+    		 ErythronDB.PeptideIntensity alt,
+    		 ErythronDB.PeptideComparison pc,
+    		 ErythronDB.GenePeptide gp,
+    		 CBIL.GeneAttributes ga
+    		 WHERE c.protocol_app_node_id = pan.protocol_app_node_id
+    		 AND pan.source_id = $$comparison$$
+    		 AND pc.comparison_id = c.comparison_id
+    		 AND pc.peptide_id = gp.gene_peptide_id
+    		 AND gp.gene_id = ga.gene_id
+    		 AND c.reference_condition_id = ref.protocol_app_node_id
+    		 AND ref.peptide_id = pc.peptide_id
+    		 AND c.alternative_condition_id = alt.protocol_app_node_id
+    		 AND alt.peptide_id = pc.peptide_id
+    		 AND (('$$regulated_dir$$' = 'up-regulated' AND ((pc.fold_change >= $$fold_change$$ AND pc.adj_fold_change IS NULL) OR pc.adj_fold_change >= $$fold_change$$))
+    		 OR ('$$regulated_dir$$' = 'down-regulated' AND ((pc.fold_change <= -1 * $$fold_change$$ AND pc.adj_fold_change IS NULL) OR pc.adj_fold_change <= -1 * $$fold_change$$))
+    		 OR ('$$regulated_dir$$' = 'up or down regulated' AND ((abs(pc.fold_change) >= $$fold_change$$ AND pc.adj_fold_change IS NULL) OR abs(pc.adj_fold_change) >= $$fold_change$$)))
+    		 )
+		 
+    		 SELECT DISTINCT ON (source_id)
+    		 source_id,
+    		 '@PROJECT_ID@'::text AS project_id,
+    		 first_value(fold_change) OVER wnd AS fold_change,
+    		 first_value(reference_mean) OVER wnd AS reference_mean,
+    		 first_value(alternative_mean) OVER wnd AS alternative_mean
+    		 FROM fc
+		 
+    		 WINDOW wnd AS (
+    		   PARTITION BY source_id ORDER BY fold_change DESC
+    		   ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    		 )
+    	]]>
+      </sql>
+    </sqlQuery> -->
+
+
+    <sqlQuery name="GenesByGoTerm">
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="go_terms"/>
+      <sql>
+	<![CDATA[
+		 SELECT source_id
+		 , '@PROJECT_ID@' AS project_id
+		 , string_agg(replace(go_term_id,'_', ':') || ' ' || go_term, '//') AS go_terms
+		 FROM CBIL.GoAssociation
+		 WHERE UPPER(go_term) SIMILAR TO upper(replace(array_to_string(ARRAY [$$go_typeahead$$], '|'), '*', '%'))
+		 OR go_term_id SIMILAR TO upper(replace(array_to_string(ARRAY [$$go_typeahead$$], '|'), '*', '%'))
+		 GROUP BY source_id
+		 , project_id
+	]]>
+      </sql>
+
+    </sqlQuery>
+
+    
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!-- Dont Care - fake query for internal use -->
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <sqlQuery name="DontCare" doNotTest="true" >
+      <column name="project_id"/>
+      <column name="source_id"/>
+      <column name="gene_source_id"/>
+      <column name="matched_result"/>
+      <sql>
+	<![CDATA[
+		 SELECT '@PROJECT_ID@'::text AS project_id,
+		 'ENSG00000187266'::text AS source_id,
+		 'Y'::text AS matched_result
+	]]>
+      </sql>
+    </sqlQuery>
+
+
+  </querySet>
+</wdkModel>

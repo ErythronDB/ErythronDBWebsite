@@ -1,0 +1,47 @@
+@import './variables';
+@import './mixins';
+@import './style';
+@import './wdk.scss';
+
+// Override default variables before the import
+//$body-bg: #000;
+
+$font-size-base: 0.75rem;
+
+$theme-colors: (
+  "primary": $primary-med,
+  "light": $primary-light,
+  "secondary": $secondary,
+  "dark": $primary-dark,
+  "info": $primary,
+  "warning": $nav-color,
+);
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+
+
+a {
+  &.btn-dark {
+    color: $primary-light !important;
+  }
+
+  &.btn-secondary {
+    color: white !important;
+  }
+
+  &.btn-primary {
+    color: $primary-light !important;
+  }
+
+  &.btn-light {
+    color: $primary-dark !important;
+  }
+  
+  &.btn-info {
+    color: $primary-dark !important;
+  }
+}
+
+
+@import '../js/client/components/Components.scss';

@@ -1,0 +1,316 @@
+<wdkModel>
+
+  <!-- This set of queries is isCacheable=false because during development, and possibly into a release, we might add a dataset -->
+
+  <querySet name="DatasetIds" queryType="id" isCacheable="false">
+
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <!-- Source id  -->
+    <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+    <sqlQuery name="AllDatasets">
+      <column name="dataset_id"/>
+      <sql>
+        <![CDATA[
+                 SELECT source_id AS dataset_id FROM Study.Study WHERE investigation_id IS NULL
+                 AND other_read = 1
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ByReferenceName">
+      <testParamValues>
+        <paramValue name="reference_name">GeneQuestions.GenesByTaxon</paramValue>
+        <paramValue name="record_class">GeneRecordClasses.GeneRecordClass</paramValue>
+        <paramValue name="taxon">any</paramValue>
+      </testParamValues>
+
+      <paramRef ref="datasetParams.reference_name"/>
+      <paramRef ref="datasetParams.record_class"/>        
+      <paramRef ref="datasetParams.taxon"/>        
+      <column name="dataset_id"/>
+      <sql>
+        <![CDATA[
+		 SELECT ref.dataset_id
+		 ref.target_name,
+		 ref.record_type
+		 s.approaches->>'taxon_abbrev' AS taxon
+		 FROM CBIL.DatasetModelRef ref,
+		 Study.Study s
+		 WHERE s.source_id = ref.dataset_id
+		 AND ref.target_name = $$reference_name$$
+		 AND ref.record_type = $$record_class$$
+		 AND ('any' = '$$taxon$$' OR (s.approaches->>'taxon_abbrev' IS NULL OR s.approaches->>'taxon_abbrev' = $$taxon$$))
+
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <!-- <sqlQuery name="ByReferenceNameNoTaxon"> -->
+    <!--   <testParamValues> -->
+    <!--     <paramValue name="reference_name">Reference</paramValue> -->
+    <!--     <paramValue name="record_class">PopsetRecordClasses.PopsetRecordClass</paramValue> -->
+    <!--   </testParamValues> -->
+
+    <!--   <paramRef ref="datasetParams.reference_name"/> -->
+    <!--   <paramRef ref="datasetParams.record_class"/>         -->
+    <!--   <column name="dataset_id"/> -->
+    <!--   <sql> -->
+    <!--     <![CDATA[ -->
+    <!-- 		 select distinct ref.dataset_presenter_id as dataset_id,  -->
+    <!--              ref.target_name, ref.record_type -->
+    <!-- 		 from apidbtuning.datasetmodelref ref, apidbtuning.datasetnametaxon dnt -->
+    <!-- 		 where ref.dataset_presenter_id = dnt.dataset_presenter_id  -->
+    <!-- 		 and ref.target_name = $$reference_name$$ -->
+    <!-- 		 and ref.record_type = $$record_class$$ -->
+    <!--     ]]> -->
+    <!--   </sql> -->
+    <!-- </sqlQuery> -->
+
+
+    <sqlQuery name="ById">
+      <testParamValues>
+        <paramValue name="dataset_id">dset004</paramValue>
+      </testParamValues>
+
+      <paramRef ref="datasetParams.dataset_id"/>
+      <column name="dataset_id"/>
+
+      <sql>
+        <![CDATA[
+		 SELECT source_id AS dataset_id
+		 FROM Study.Study WHERE source_id IN ($$dataset_id$$)
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    
+    <sqlQuery name="ByExternalDatabaseNames">
+      <testParamValues>
+        <paramValue name="dataset_name">taxonomy_RSRC</paramValue>
+      </testParamValues>
+
+      <paramRef ref="datasetParams.dataset_name"/>
+      <column name="dataset_id"/>
+      <sql>
+        <![CDATA[
+		 SELECT source_id AS dataset_id
+		 FROM Study.Study WHERE source_id IN ($$dataset_name$$)
+		 AND approaches->>'is_datasource'
+        ]]>
+      </sql>
+    </sqlQuery>
+
+
+    <sqlQuery name="ByQuestionName">
+      <testParamValues>
+        <paramValue name="question_name">GeneQuestions.GenesByTranscriptomics_FC</paramValue>
+      </testParamValues>     
+
+      <paramRef ref="datasetParams.question_name"/>
+      <column name="dataset_id"/>
+      <sql>
+        <![CDATA[
+		 SELECT s.source_id AS dataset_id
+		 FROM CBIL.DatasetModelRef ref,
+		 Study.Study s
+		 WHERE ref.target_name = $$question_name$$
+		 AND ref.target_type = 'question'
+		 AND s.study_id = ref.dataset_id
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ByQuestionNameAndType">
+      <testParamValues>
+        <paramValue name="question_name">GeneQuestions.GenesByTranscriptomics_FC</paramValue>
+      </testParamValues>     
+
+      <paramRef ref="datasetParams.question_name"/>
+      <paramRef ref="datasetParams.dataset_type" default="gene expression"/>
+      <paramRef ref="datasetParams.dataset_category" default="Transcriptomics"/>
+      <column name="dataset_id"/>
+      <sql>
+        <![CDATA[
+		 SELECT s.source_id AS dataset_id
+		 FROM CBIL.DatasetModelRef ref,
+		 Study.Study s,
+		 SRes.OntologyTerm a,
+		 SRes.OntologyTerm c
+		 WHERE ref.target_name = $$question_name$$
+		 AND ref.target_type = 'question'
+		 AND s.study_id = ref.dataset_id
+		 AND ref.analysis_type_id = a.ontology_term_id
+		 AND a.name = $$dataset_type$$
+		 AND ref.category_id = c.ontology_term_id
+		 AND c.name = $$dataset_category$$
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ByRecordClass">
+      <testParamValues>
+        <paramValue name="record_class">GeneRecordClasses.GeneRecordClass</paramValue>
+      </testParamValues>
+
+      <paramRef ref="datasetParams.record_class"/>
+      <column name="dataset_id"/>
+
+      <sql>
+        <![CDATA[
+		 SELECT DISTINCT ref.dataset_id
+		 FROM CBIL.DatasetModelRef ref
+		 AND ref.record_type = $$record_class$$
+		 AND ref.target_type IN ('table', 'attribute','profile_graph')
+        ]]>
+      </sql>
+
+    </sqlQuery>
+
+    <sqlQuery name="ByType">
+      <testParamValues>
+        <paramValue name="record_class">GeneRecordClasses.GeneRecordClass</paramValue>
+        <paramValue name="dataset_type">gene_expression</paramValue>
+      </testParamValues>
+
+      <paramRef ref="datasetParams.record_class"/>
+      <paramRef ref="datasetParams.dataset_type"/>
+      <column name="dataset_id"/>
+
+      <sql>
+        <![CDATA[
+		 SELECT DISTINCT ref.dataset_id
+		 FROM CBIL.DatasetModelRef ref,
+		 Study.Study s
+		 WHERE s.source_id = ref.dataset_id
+		 AND ref.record_type = $$record_class$$
+		 AND s.approaches->>'type' = $$dataset_type$$
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ByTypeAndSubtype">
+      <testParamValues>
+        <paramValue name="record_class">GeneRecordClasses.GeneRecordClass</paramValue>
+        <paramValue name="dataset_type">gene_expression</paramValue>
+        <paramValue name="dataset_subtype">array</paramValue>
+      </testParamValues>
+
+      <paramRef ref="datasetParams.record_class"/>
+      <paramRef ref="datasetParams.dataset_type"/>
+      <paramRef ref="datasetParams.dataset_subtype"/>
+      <column name="dataset_id"/>
+
+      <sql>
+        <![CDATA[
+		 SELECT DISTINCT ref.dataset_id
+		 FROM CBIL.DatasetModelRef ref,
+		 Study.Study s
+		 WHERE s.source_id = ref.dataset_id
+		 AND ref.record_type = $$record_class$$
+		 AND s.approaches->>'type' = $$dataset_type$$
+		 AND (s.approaches->>'subtype' = $$dataset_subtype$$
+		 OR s.approaches->>'category' = $$dataset_subtype$$)
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ByCategoryAndSubtype">
+      <testParamValues>
+        <paramValue name="dataset_category">transcript_expression</paramValue>
+        <paramValue name="dataset_subtype">array</paramValue>
+      </testParamValues>
+
+      <paramRef ref="datasetParams.dataset_category"/>
+      <paramRef ref="datasetParams.dataset_subtype"/>
+      <column name="dataset_id"/>
+
+      <sql>
+        <![CDATA[
+		 SELECT ref.dataset_id
+		 FROM CBIL.DatasetModelRef ref,
+		 Study.Study s
+		 WHERE s.source_id = ref.dataset_id
+		 AND ref.record_type = $$record_class$$
+		 AND lower(s.approaches->>'subtype') = lower($$dataset_subtype$$)
+		 AND s.approaches->>'category' = $$dataset_category$$
+        ]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ByKeyword">
+      <testParamValues>
+        <paramValue name="text_expression">GeneDB*</paramValue>
+      </testParamValues>
+
+      <paramRef ref="geneParams.text_expression"/>
+      <column name="dataset_id"/>
+
+      <sql>
+        <![CDATA[
+                 select DISTINCT dataset_presenter_id as dataset_id
+                 from apidbtuning.datasetdetail
+                 where contains(search_string,replace(lower($$text_expression$$),'*','%'),1)>0
+        ]]>
+      </sql>
+    </sqlQuery>
+    
+
+    <!-- <paramRef ref="datasetParams.orthologyFlag"/> -->
+    <!-- <paramRef ref="datasetParams.taxon"/> -->
+    <!-- <paramRef ref="datasetParams.threshold"/> -->
+    <sqlQuery name="ByGeneList">
+      <paramRef ref="geneParams.ds_gene_identifiers"/>
+
+
+      <column name="dataset_id"/>
+      <column name="hit_count"/>
+      <column name="percent_count"/>
+      <sql>
+        <![CDATA[
+		 WITH inList as (
+		 SELECT DISTINCT gi.gene,ga.organism,ga.orthomcl_name
+		 FROM apidbtuning.GeneId gi, apidbtuning.geneattributes ga,
+		 ($$ds_gene_ids$$)  ds
+		 WHERE LOWER(gi.id) = LOWER(ds.gene_source_id)
+		 AND ga.source_id = gi.gene
+		 )
+		 SELECT dsp.dataset_presenter_id  as dataset_id, 
+                 inTable.in_count as hit_count,
+                 (r.hit_count/inTable.in_count)*100 as percent_count
+		 FROM  apidbtuning.DatasetPresenter dsp,(SELECT organism,count(*) AS in_count from inList group by organism) inTable,                
+                 (SELECT  gl.organism, gl.dataset_name, COUNT(distinct gl.source_id) AS hit_count
+                 FROM ApidbTuning.DatasetGeneList gl, inList l
+                 WHERE l.gene = gl.source_id                 
+                 GROUP BY gl.organism,gl.dataset_name) R
+		 WHERE dsp.name = r.dataset_name
+		 AND R.organism = inTable.organism
+		 GROUP BY dsp.dataset_presenter_id, r.hit_count, inTable.in_count
+		 HAVING (r.hit_count/inTable.in_count)*100 >= $$threshold$$
+		 UNION
+		 SELECT dsp.dataset_presenter_id  as dataset_id, 
+                 orTable.in_count as hit_count,
+                 (r.hit_count/orTable.in_count)*100 as percent_count
+		 FROM  apidbtuning.DatasetPresenter dsp,
+                 (SELECT gac.organism,count(distinct gac.source_id) AS in_count from inList lc, apidbtuning.geneattributes gac 
+                 WHERE lc.orthomcl_name = gac.orthomcl_name
+                 AND gac.organism not in (select distinct organism from inList)
+                 group by gac.organism
+                 ) orTable,               
+                 (SELECT  gl.organism, gl.dataset_name, COUNT(distinct gl.source_id) AS hit_count
+                 FROM ApidbTuning.DatasetGeneList gl, inList l
+                 WHERE l.orthomcl_name = gl.orthomcl_name
+                 AND gl.organism not in (select distinct organism from inList)
+                 GROUP BY gl.organism,gl.dataset_name) R
+		 WHERE  $$orthologyFlag$$ = 'yes'
+		 AND dsp.name = r.dataset_name
+		 AND R.organism = orTable.organism
+		 GROUP BY dsp.dataset_presenter_id, r.hit_count, orTable.in_count
+		 HAVING (r.hit_count/orTable.in_count)*100 >= $$threshold$$
+        ]]>
+      </sql>
+    </sqlQuery>
+
+
+  </querySet>
+</wdkModel>

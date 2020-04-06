@@ -1,0 +1,139 @@
+<wdkModel>
+    <querySet name="study001_vq" queryType="vocab" isCacheable="true">
+        <sqlQuery name="Investigations">
+            <column name="internal"/>
+            <column name="display"/>
+            <column name="term"/>
+            <sql>
+                <![CDATA[
+		                SELECT  source_id AS term, source_id AS internal, name AS display FROM Study.Study WHERE source_id = 'study001'
+	            ]]>
+            </sql>
+        </sqlQuery>
+
+        <sqlQuery name="Experiments">
+            <column name="internal"/>
+            <column name="display"/>
+            <column name="term"/>
+            <sql>
+                <![CDATA[
+                        SELECT DISTINCT replace(s.name, ', ', ' - ') AS display, s.source_id AS internal,  s.source_id AS term
+                        FROM 
+                        Study.Study p,
+                        Study.Study s,
+                        Study.StudyLink sl,
+                        ErythronDB.Comparison c
+                        WHERE s.investigation_id = p.study_id
+                        AND p.source_id = 'study001'
+                        AND sl.study_id = s.study_id
+                        AND c.protocol_app_node_id = sl.protocol_app_node_id
+                        AND s.source_id != 'dset001_4'
+                        ORDER BY s.source_id
+                ]]>
+            </sql>
+        </sqlQuery>
+
+
+        <sqlQuery name="Experiments_All">
+			<column name="internal"/>
+			<column name="display"/>
+			<column name="term"/>
+			<sql>
+				<![CDATA[
+		 	 SELECT DISTINCT replace(s.name, ', ', ' - ') AS display, s.source_id AS internal,  s.source_id AS term
+			 FROM 
+			 Study.Study p,
+			 Study.Study s,
+			 Study.StudyLink sl,
+			 ErythronDB.Comparison c
+			 WHERE s.investigation_id = p.study_id
+			 AND p.source_id = 'study001'
+			 AND sl.study_id = s.study_id
+			 AND c.protocol_app_node_id = sl.protocol_app_node_id
+			 -- AND s.source_id != 'dset001_4'
+			 ORDER BY s.source_id
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Experiments_Cross">
+			<column name="internal"/>
+			<column name="display"/>
+			<column name="term"/>
+			<sql>
+				<![CDATA[
+		 	 SELECT DISTINCT replace(s.name, ', ', ' - ') AS display, s.source_id AS internal,  s.source_id AS term
+			 FROM 
+			 Study.Study p,
+			 Study.Study s,
+			 Study.StudyLink sl,
+			 ErythronDB.Comparison c
+			 WHERE s.investigation_id = p.study_id
+			 AND p.source_id = 'study001'
+			 AND sl.study_id = s.study_id
+			 AND c.protocol_app_node_id = sl.protocol_app_node_id
+			 AND s.source_id = 'dset001_4'
+			 ORDER BY s.source_id
+	]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="RefConditions">
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+		 SELECT DISTINCT ps.profile_series_id AS internal, ps.label AS term, ps.label AS display, ps.order_num
+		 FROM ErythronDB.Comparison c,
+		 Study.Study s,
+		 Study.StudyLink sl,
+		 ErythronDB.ProfileSeries ps
+		 WHERE s.source_id = $$experiment$$
+		 AND sl.study_id = s.study_id
+		 AND sl.protocol_app_node_id = c.protocol_app_node_id
+		 AND c.reference_condition_id = ps.profile_series_id
+		 ORDER BY order_num
+	  ]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="RefConditions_Cross">
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+		 SELECT DISTINCT ps.profile_series_id AS internal, ps.label AS term, ps.label AS display, ps.order_num
+		 FROM ErythronDB.Comparison c,
+		 Study.Study s,
+		 Study.StudyLink sl,
+		 ErythronDB.ProfileSeries ps
+		 WHERE s.source_id = 'dset001_4'
+		 AND sl.study_id = s.study_id
+		 AND sl.protocol_app_node_id = c.protocol_app_node_id
+		 AND c.reference_condition_id = ps.profile_series_id
+		 ORDER BY order_num
+	  ]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="AltConditions">
+			<paramRef ref="geneParams.ref_condition_indep"/>
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+    			  SELECT DISTINCT ps.profile_series_id AS internal, ps.label AS term, ps.label AS display, ps.order_num
+    			  FROM ErythronDB.Comparison c,
+    			  ErythronDB.ProfileSeries ps
+    			  WHERE  c.reference_condition_id = $$ref_condition_indep$$
+    			  AND c.alternative_condition_id = ps.profile_series_id
+    			  ORDER BY order_num
+    		 ]]>
+			</sql>
+		</sqlQuery>
+	</querySet>
+    </querySet>
+</wdkModel>

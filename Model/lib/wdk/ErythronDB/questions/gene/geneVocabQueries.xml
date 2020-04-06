@@ -1,0 +1,204 @@
+<wdkModel>
+	<querySet name="GeneVQ" queryType="vocab" isCacheable="false">
+		<sqlQuery name="regulatedDirection">
+			<column name="internal" />
+			<column name="term" />
+			<sql>
+				<![CDATA[
+					SELECT 'up or down regulated' AS term, 'abs' AS internal
+
+					UNION
+
+					SELECT 'down-regulated' AS term, 'down' AS internal
+
+					UNION
+
+					SELECT 'up-regulated' AS term, 'up' AS internal
+				]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="GoTerms">
+			<column name="term"/>
+			<column name="internal"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+					SELECT DISTINCT go_term_id AS internal
+					, go_term AS term
+					, replace(go_term_id, '_', ':') || ' - ' || go_term AS display
+					FROM CBIL.GoTerm
+					ORDER BY term ASC
+				]]>
+			</sql>
+		</sqlQuery>
+
+
+		<sqlQuery name="TranscriptomicsInvestigations">
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+					SELECT DISTINCT s.source_id AS internal,
+					s.source_id AS term,
+					replace(s.name, ', ', ' - ') AS display 
+					FROM 
+					Study.Study s,
+					ErythronDB.Dataset d
+					WHERE s.source_id = d.investigation_id
+					AND d.category = 'Transcriptomics'
+					ORDER BY s.source_id
+				]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="ProteomicsInvestigations">
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+					SELECT DISTINCT s.source_id AS internal,
+					s.source_id AS term,
+					replace(s.name, ', ', ' - ') AS display 
+					FROM 
+					Study.Study s,
+					ErythronDB.Dataset d
+					WHERE s.source_id = d.investigation_id
+					AND d.category = 'Proteomics'
+					ORDER BY s.source_id
+				]]>
+			</sql>
+		</sqlQuery>
+
+
+		<sqlQuery name="Experiments">
+			<paramRef ref="geneParams.investigation"/>
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+						SELECT DISTINCT replace(dataset_name, ', ', ' - ') AS display, 
+						dataset_id AS term,
+						dataset_id AS internal
+						FROM ErythronDB.Dataset
+						WHERE NOT (@HIDE_PRIVATE_DATA@::boolean AND NOT is_public)
+						AND NOT  is_comprehensive
+						AND $$investigation$$::text = investigation_id
+				]]>
+			</sql>
+		</sqlQuery>
+
+
+		<sqlQuery name="CompExperiments">
+			<paramRef ref="geneParams.investigation"/>
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+						SELECT DISTINCT replace(dataset_name, ', ', ' - ') AS display, 
+						dataset_id AS term,
+						dataset_id AS internal
+						FROM ErythronDB.Dataset
+						WHERE NOT (@HIDE_PRIVATE_DATA@::boolean AND NOT is_public)
+						AND is_comprehensive
+						AND $$investigation$$::text = investigation_id
+				]]>
+			</sql>
+		</sqlQuery>
+
+
+		<sqlQuery name="TranscriptomicsRefConditions">
+			<paramRef ref="geneParams.investigation"/>
+			<paramRef ref="geneParams.experiment"/>
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+                   SELECT DISTINCT ps.profile_series_id AS internal,
+					ps.label AS term,
+					ps.label AS display,
+					ps.order_num
+					FROM ErythronDB.Comparison c,
+					Study.Study s,
+					Study.StudyLink sl,
+					ErythronDB.ProfileSeries ps,
+					Study.Study i
+					WHERE s.source_id = $$experiment$$::text
+					AND i.source_id = $$investigation$$::text
+					AND s.investigation_id = i.study_id
+					AND sl.study_id = s.study_id
+					AND sl.protocol_app_node_id = c.protocol_app_node_id
+					AND c.reference_condition_id = ps.profile_series_id
+					ORDER BY order_num
+	            ]]>
+			</sql>
+		</sqlQuery>
+
+
+		<sqlQuery name="TranscriptomicsAltConditions">
+			<paramRef ref="geneParams.investigation"/>
+			<paramRef ref="geneParams.experiment"/>
+			<paramRef ref="geneParams.transcriptomics_ref_condition"/>
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+                   SELECT DISTINCT ps.profile_series_id AS internal,
+					ps.label AS term,
+					ps.label AS display,
+					ps.order_num
+					FROM ErythronDB.Comparison c,
+					Study.Study s,
+					Study.StudyLink sl,
+					ErythronDB.ProfileSeries ps,
+					Study.Study i
+					WHERE s.source_id = $$experiment$$::text
+					AND i.source_id = $$investigation$$::text
+					AND s.investigation_id = i.study_id
+					AND sl.study_id = s.study_id
+					AND sl.protocol_app_node_id = c.protocol_app_node_id
+					AND c.reference_condition_id = $$transcriptomics_ref_condition$$
+					AND c.alternative_condition_id = ps.profile_series_id
+					ORDER BY order_num
+	            ]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Sample">
+			<paramRef ref="geneParams.investigation"/>
+			<paramRef ref="geneParams.experiment"/>
+
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+ SELECT DISTINCT sample_description AS term, sample_description AS internal,
+         sample_description AS display, sample_id
+         FROM ErythronDB.AvgGeneExpressionDataTable dt,
+         Study.Study s
+         WHERE s.source_id = $$experiment$$
+         AND dt.dataset_id = s.study_id
+         ORDER BY dt.sample_id
+         ]]>
+			</sql>
+		</sqlQuery>
+		<sqlQuery name="ProteomicsComparisons">
+			<paramRef ref="geneParams.experiment"/>
+			<column name="internal"/>
+			<column name="display"/>
+			<column name="term"/>
+			<sql><![CDATA[select DISTINCT pan.source_id AS internal, pan.name AS display, pan.source_id AS term from study.study s, study.studylink sl, study.protocolappnode pan, erythrondb.peptidecomparison pc, erythrondb.comparison c
+where s.source_id = $$experiment$$
+and s.study_id = sl.study_id and sl.protocol_app_node_id = pan.protocol_app_node_id
+and pc.comparison_id = c.comparison_id
+and pan.protocol_app_node_id = c.protocol_app_node_id]]></sql>
+		</sqlQuery>
+	</querySet>
+</wdkModel>

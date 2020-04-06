@@ -1,0 +1,38 @@
+// ===================================== 
+// Colors 
+// ===================================== 
+
+$primary: #CEAFAA; // silver pink
+$secondary: #748386; // steel-grey
+$primary-grey: #706563; // granite-grey (pinkish grey)
+$primary-med: #6A3937; // wine
+$primary-dark: #3B0D11; // dark sienna
+$highlight: #F2AF29; //#F78F69;
+$nav-color: #8E635D;
+
+$base: $primary-dark;
+
+$primary-light: #FCF8F6;
+
+$base: $primary;
+$light-shade: $primary-light;
+
+$transcriptomics: white;
+$proteomics: $light-shade;
+
+$link: #1c91a8;
+
+// ===================================== 
+// Fonts
+// ===================================== 
+
+$font-family: Roboto,Arial,Helvetica,sans-serif; //'Open Sans',Arial,Helvetica,sans-serif;
+
+// ===================================== 
+// Media queries
+// ===================================== 
+
+// ===================================== 
+// Dimensions
+// ===================================== 
+$content-max-width: 1100px;

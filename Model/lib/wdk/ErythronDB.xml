@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+    <constant name="releaseDate" includeProjects="ErythronDB">12 March 2019 00:00</constant>
+    <constant name="releaseVersion" includeProjects="ErythronDB">2</constant>
+    <constant name="buildNumber" includeProjects="ErythronDB">2.0</constant>
+
+    <constant name="fullReporterDisplayName">Text: choose from columns and/or tables</constant>
+    <constant name="attributesReporterDisplayName">Search Result Table</constant>
+    <constant name="tableReporterDisplayName">Additional Tabular Data</constant>
+
+    <constant name="attributesReporterDescription">Choose columns from search result to download as a tab-delimited text or EXCEL file.</constant>
+    <constant name="tableReporterDescription">Choose tabular data not displayed in search results (e.g., proteomics, transcriptomics, functional annotation) to download as a tab-delimited text or EXCEL file.</constant>
+
+    <constant name="defaultGene">EPOR</constant>
+    <constant name="defaultTextExpression">cyto*</constant>
+
+    <constant name="goTermPageUrl">@AMIGO_TERM_URL@</constant>
+    <constant name="revigoBaseUrl">@REVIGO_BASE_URL@</constant>
+    
+    <modelName includeProjects="ErythronDB" displayName="ErythronDB" 
+      version="%%releaseVersion%%" releaseDate="%%releaseDate%%" buildNumber="%%buildNumber%%" />
+
+    <!-- ******************* -->
+    <!-- model introduction  -->
+    <!-- ******************* -->
+    <introduction>
+	<![CDATA[
+        Welcome to ErythronDB
+	]]>
+    </introduction>
+    
+    <exampleStratsAuthor name="ErythronDB Example"/>
+
+    <!-- <import file="ErythronDB/questions/gene/study001.xml"/>
+    <import file="ErythronDB/questions/gene/study002.xml"/>
+    <import file="ErythronDB/questions/gene/study003.xml"/>
+    <import file="ErythronDB/questions/gene/study005.xml"/> -->
+  
+    
+    <!-- import the dataset related pieces -->
+    <import file="ErythronDB/records/dataset/datasetRecord.xml" />
+    <import file="ErythronDB/records/dataset/datasetAttributeQueries.xml" />
+    <import file="ErythronDB/records/dataset/datasetTableQueries.xml" />
+    <import file="ErythronDB/questions/dataset/datasetQuestions.xml" />
+    <import file="ErythronDB/questions/dataset/datasetQueries.xml" />
+    <import file="ErythronDB/questions/dataset/datasetParams.xml" />
+
+    <!-- import the gene related pieces -->
+    <import file="ErythronDB/records/gene/geneRecord.xml" />
+    <import file="ErythronDB/records/gene/geneAttributeQueries.xml" />
+    <import file="ErythronDB/records/gene/geneTableQueries.xml" />
+    <import file="ErythronDB/questions/gene/geneQuestions.xml" />
+    <import file="ErythronDB/questions/gene/geneQueries.xml" />
+    <import file="ErythronDB/questions/gene/geneParams.xml" />
+    <import file="ErythronDB/questions/gene/geneVocabQueries.xml" /> 
+    <import file="ErythronDB/questions/gene/geneDatasetQuestions.xml"/>
+    <import file="ErythronDB/questions/gene/geneDatasetQueries.xml"/>
+
+    <!-- XML -->
+    <!-- <import file="ErythronDB/records/xmlRecords.xml"/> -->
+    <!-- <import file="ErythronDB/questions/xmlQuestions.xml"/> -->
+
+    <!-- import the helper related pieces -->
+    <!-- <import file="ErythronDB/records/helperRecord.xml" /> -->
+    <!-- <import file="ErythronDB/records/helperRecordQueries.xml" /> -->
+    <!-- <import file="ErythronDB/questions/helperQuestions.xml" /> -->
+    <!-- <import file="ErythronDB/questions/queries/helperIdQueries.xml" /> -->
+
+    <!-- import common pieces -->
+    <import file="ErythronDB/questions/parameterGroups.xml"/>
+    <import file="ErythronDB/questions/categories.xml"/> <!-- where ontologies are linked -->
+    
+    <!-- Step Analysis Plugins -->
+    <import file="ErythronDB/step_analysis/stepAnalysisPlugins.xml"/> 
+    <import file="ErythronDB/step_analysis/stepAnalysisParams.xml"/> 
+    <import file="ErythronDB/step_analysis/stepAnalysisVocabParams.xml"/> 
+
+    <stepAnalysisPlugins>
+      <executionConfig fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
+    </stepAnalysisPlugins>
+
+</wdkModel>

@@ -1,0 +1,28 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans|Oswald|Lato|Montserrat:400|Bowlby+One+SC|Catamaran|Roboto);
+
+//typography
+body, h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    padding: 0px;
+    font-family: $font-family !important;
+}
+
+.disabled {
+    color: grey !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+a {
+    color: $link; /*!important;*/
+    &:hover {
+        //color: $link-hover !important;
+    }
+    .btn {
+        color: white;
+    }
+}
+
+ul {
+    list-style-type: none;
+}

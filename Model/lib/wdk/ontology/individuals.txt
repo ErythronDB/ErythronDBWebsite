@@ -1,0 +1,105 @@
+ 			recordClassName	targetType	name	displayName	shortDisplayName	description	geneOrTranscript	displayOrder	scope	scope	scope
+			eupath/eupath.owl#recordClassName	eupath/eupath.owl#targetType	eupath/eupath.owl#name	EUPATH_0000052	eupath/eupath.owl#shortDisplayName	eupath/eupath.owl#description	eupath/eupath.owl#geneOrTranscript	EUPATH_0000274	eupath/eupath.owl#scope	eupath/eupath.owl#scope	eupath/eupath.owl#scope
+##  Custom Categories ##													
+													
+GenomicSequenceLocationCategory					GenomicSequenceLocationCategory	Genomic Location				6			
+TextCategory					TextCategory	Text				1			
+													
+## Gene Questions ##													
+													
+GeneRecordClasses.GeneRecordClass.GeneQuestions.GeneTextSearch	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GeneTextSearch						menu	webservice	
+GeneRecordClasses.GeneRecordClass.GeneQuestions.GeneByIdentifier	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GeneByIdentifier						menu	webservice	
+GeneRecordClasses.GeneRecordClass.GeneQuestions.GeneUpload	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GeneUpload						menu		
+GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByProteomics_QuantitativeMassSpec	http://edamontology.org/topic_0121	searchCategory-proteomics-fold-change	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByProteomics_QuantitativeMassSpec						menu		
+GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByTranscriptomics_FC	http://edamontology.org/topic_3308	searchCategory-transcriptomics-fold-change	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByTranscriptomics_FC						menu		
+GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByTranscriptomics_Expression	http://edamontology.org/topic_3308	searchCategory-transcriptomics-percentile	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByTranscriptomics_Expression						menu		
+GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByTranscriptomics	http://edamontology.org/topic_3308	searchCategory-transcriptomics	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByTranscriptomics								
+													
+													
+													
+													
+													
+## Gene Attributes ##													
+													
+GeneRecordClasses.GeneRecordClass.source_id	http://edamontology.org/topic_0219	annot and cur	GeneRecordClasses.GeneRecordClass	attribute	source_id				gene		record-internal		download
+GeneRecordClasses.GeneRecordClass.sequence_id	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.GeneRecordClass	attribute	sequence_id				gene		results	record-internal	download
+GeneRecordClasses.GeneRecordClass.chromosome	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.GeneRecordClass	attribute	chromosome				gene		results	record-internal	download
+GeneRecordClasses.GeneRecordClass.organism_full	http://edamontology.org/topic_0637	Taxonomy	GeneRecordClasses.GeneRecordClass	attribute	organism_full				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.organism_common	http://edamontology.org/topic_0637	Taxonomy	GeneRecordClasses.GeneRecordClass	attribute	organism_common				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.organism_abbrev	http://edamontology.org/topic_0637	Taxonomy	GeneRecordClasses.GeneRecordClass	attribute	organism_abbrev				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.product	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	attribute	product				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.gene_type	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	attribute	gene_type				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.location_text	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.GeneRecordClass	attribute	location_text				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.strand_plus_minus	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.GeneRecordClass	attribute	strand_plus_minus				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.start_min	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	attribute	start_min				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.end_max	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	attribute	end_max				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.symbol	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	attribute	symbol				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.exon_count	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	attribute	exon_count				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.is_pseudo	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	attribute	is_pseudo				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.transcript_count	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	attribute	transcript_count				gene		results	record	
+GeneRecordClasses.GeneRecordClass.ortholog_record_link	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.GeneRecordClass	attribute	ortholog_record_link				gene			record	
+GeneRecordClasses.GeneRecordClass.synonym	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	attribute	synonym				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.is_pseudo_display	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	attribute	is_pseudo_display				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.chromosomal_location	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.GeneRecordClass	attribute	chromosomal_location				gene		results	record	download
+GeneRecordClasses.GeneRecordClass.gene_family	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.GeneRecordClass	attribute	gene_family				gene		results	record-internal	download
+GeneRecordClasses.GeneRecordClass.gene_family_id	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.GeneRecordClass	attribute	gene_family				gene			record-internal	download
+GeneRecordClasses.GeneRecordClass.gene_family_link	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.GeneRecordClass	attribute	gene_family				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.Transcripts	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.GeneRecordClass	table	Transcripts				gene			record	download
+GeneRecordClasses.GeneRecordClass.GeneLinkOuts	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.GeneRecordClass	table	GeneLinkOuts				gene			record	download
+GeneRecordClasses.GeneRecordClass.ProteinLinkOuts	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.GeneRecordClass	table	ProteinLinkOuts				gene			record	download
+GeneRecordClasses.GeneRecordClass.ClinicalLinkOuts	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.GeneRecordClass	table	ClinicalLinkOuts				gene			record	download
+GeneRecordClasses.GeneRecordClass.SequenceLinkOuts	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.GeneRecordClass	table	SequenceLinkOuts				gene			record	download
+GeneRecordClasses.GeneRecordClass.GOTerms	http://edamontology.org/topic_1775	Function analysis	GeneRecordClasses.GeneRecordClass	table	GOTerms				gene			record	download
+GeneRecordClasses.GeneRecordClass.MassSpecMod	http://edamontology.org/topic_0121	Proteomics	GeneRecordClasses.GeneRecordClass	table	MassSpecMod				gene			record	download
+GeneRecordClasses.GeneRecordClass.MassSpecComparison	http://edamontology.org/topic_0121	Proteomics	GeneRecordClasses.GeneRecordClass	table	MassSpecComparison				gene			record	download
+GeneRecordClasses.GeneRecordClass.record_overview	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	attribute	record_overview				gene		record-internal		
+GeneRecordClasses.GeneRecordClass.chromosomal_location_overview	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.GeneRecordClass	attribute	chromosomal_location_overview				gene			record-internal	
+GeneRecordClasses.GeneRecordClass.MicroarrayComparison	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	table	MicroarrayComparison				gene			record	download
+GeneRecordClasses.GeneRecordClass.ExpressionProfile	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	table	ExpressionProfile				gene			record	
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
+## Search Categories ##													
+searchCategory-association-to-genomic-segments	http://edamontology.org/topic_3298	Phenomics			association-to-genomic-segments	Association to Genomic Segments	AGS	Search for genes which are associated to genomic segments by eQTL			internal		
+searchCategory-similarity-of-association	http://edamontology.org/topic_3298	Phenomics			similarity-of-association	Similarity of Association	SA	Search for genes by similarity of association.			internal		
+searchCategory-T-test-2-sample-unequal-variance	http://edamontology.org/topic_0804	"immunoproteins,genes,antigens"			T-test 2 sample unequal variance	T-Test (unequal variance)	TSTU	Search for genes based on P-Values calulated by a 2-sample T-Test assuming unequal variance			internal		
+searchCategory-putative-function	http://edamontology.org/topic_3298	Phenomics			putative-function	Putative Function	PF	Search for genes based on comparisons of RNAi target sequencing coverage.			internal		
+searchCategory-eqtl-similarity	http://edamontology.org/topic_3298	Phenomics			eqtl-similarity	Similarity	S	Search for genes which have a similar profile for an experiment.			internal		
+searchCategory-similarity	http://edamontology.org/topic_3308	Transcriptomics			similarity	Similarity	S	Search for genes which have a similar profile for an experiment.			internal		
+searchCategory-proteomics-quantitative-ratio	http://edamontology.org/topic_0121	Proteomics			proteomics-quantitative-ratio	Quantitative Ratio	QR	Search for genes which are differentiated by log2 ratio of heavy to light to determine confidence Log2(H/L).			internal		
+searchCategory-proteomics-direct-comparison	http://edamontology.org/topic_0121	Proteomics			proteomics-direct-comparison	Direct Comparison	DC	Search for genes which are differentially expressed in a 2 state direct comparison.			internal		
+searchCategory-proteomics-direct-conf-comparison	http://edamontology.org/topic_0121	Proteomics			proteomics-direct-conf-comparison	Direct Confidence Comparison	DCC	Search for genes which are differentially expressed in a 2 state direct comparison with confidence.			internal		
+searchCategory-transcriptomics-direct-comparison	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics-direct-comparison	Direct Comparison	DC	Search for genes which are differentially expressed in a 2 state direct comparison.			internal		
+searchCategory-splice-site-loc	http://edamontology.org/topic_3308	Transcriptomics			splice-site-loc	Splice Site Loc	SSL	Search for genes near experimental splice site locations.			internal		
+searchCategory-proteomics-percentile	http://edamontology.org/topic_0121	Proteomics			proteomics-percentile	Percentile	P	Search for genes based on the rank of expression w/in an experiment.			internal		
+searchCategory-transcriptomics-percentile	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics-percentile	Percentile	P	Search for genes based on the rank of expression w/in an experiment.			internal		
+searchCategory-proteomics-fold-change	http://edamontology.org/topic_0121	Proteomics			proteomics-fold-change	Fold Change	FC	Search for genes which are differentially expressed between two sets of samples.			internal		
+searchCategory-transcriptomics-fold-change	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics-fold-change	Fold Change	FC	Search for genes which are differentially expressed between two sets of samples.			internal		
+searchCategory-proteomics-fold-difference	http://edamontology.org/topic_0121	Proteomicss			proteomics-fold-difference	Fold Difference	FD	Search for genes which are different between two sets of samples.			internal		
+searchCategory-transcriptomics-fold-difference	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics-fold-difference	Fold Difference	FD	Search for genes which are different between two sets of samples.			internal		
+searchCategory-fold-change-with-pvalue	http://edamontology.org/topic_3308	Transcriptomics			fold-change-with-pvalue	Fold Change with pValue	FCpV	Search for genes which are differentially expressed between 2 samples.  Fishers Exact Test p values for each gene/sample comparison were precomputed.			internal		
+searchCategory-proteomics-fold-change-with-confidence	http://edamontology.org/topic_0121	Proteomics			proteomics-fold-change-with-confidence	Fold Change with Confidence	FCC	Search for genes which are differentially expressed between 2 samples.  PaGE Confidence values for each gene/sample comparison were precomputed using all biological replicates.			internal		
+searchCategory-transcriptomics-fold-change-with-confidence	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics-fold-change-with-confidence	Fold Change with Confidence	FCC	Search for genes which are differentially expressed between 2 samples.  PaGE Confidence values for each gene/sample comparison were precomputed using all biological replicates.			internal		
+searchCategory-proteomics-fold-change-with-fdr	http://edamontology.org/topic_0121	Proteomics			proteomics-fold-change-with-fdr	Fold Change with FDR	FCF	Search for genes which are differentially expressed between 2 samples.  False Discovery Rates for each gene/sample comparison were precomputed using all biological replicates.			internal		
+searchCategory-transcriptomics-differential-expression	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics-differential_expression	Differential Expression	DE	Search for genes which are differentially expressed between 2 samples.  Adjusted p-values for each gene/sample were pre-computed using DESeq.			internal		
+searchCategory-transcriptomics-fold-change-with-fdr	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics-fold-change-with-fdr	Fold Change with FDR	FCF	Search for genes which are differentially expressed between 2 samples.  False Discovery Rates for each gene/sample comparison were precomputed using all biological replicates.			internal		
+searchCategory-transcriptomics	http://edamontology.org/topic_3308	Transcriptomics			transcriptomics	Gene Expresssion Analysis	GEA	Search for genes based on analysis of expression data.			internal		
+													
+## Dataset Questions ##													
+													
+## Dataset Attributes ##													
+DatasetRecordClasses.DatasetRecordClass.Datasets	http://edamontology.org/data_0916	Datasets	DatasetRecordClasses.DatasetRecordClass	table	Datasets						results	record	download
+DatasetRecordClasses.DatasetRecordClass.primary_contact	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_contact						results	record	download
+DatasetRecordClasses.DatasetRecordClass.primary_publication	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_publication						results	record	download
+DatasetRecordClasses.DatasetRecordClass.bulk_download_url	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	bulk_download_url						results	record	
+DatasetRecordClasses.DatasetRecordClass.organism	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	organism						results	record	download
+DatasetRecordClasses.DatasetRecordClass.full_description	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	full_description						results	record	download
+DatasetRecordClasses.DatasetRecordClass.data_type	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	data_type						results	record	download

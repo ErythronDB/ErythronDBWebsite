@@ -1,0 +1,36 @@
+<wdkModel>
+
+  <ontology name="Categories" pluginClass="org.eupathdb.common.model.ontology.EuPathDbOwlParserWdkPlugin" useAsWdkCategories="true">
+    <property name="owlFilePath">lib/wdk/ontology/categories_merged.owl</property>
+  </ontology>
+
+  <ontology name="SiteMap" pluginClass="org.eupathdb.common.model.ontology.SiteMapOntologyPlugin2">
+    <property name="owlFilePath">lib/wdk/ontology/categories_merged.owl</property>
+  </ontology>
+
+
+  <ontology name="test" pluginClass="org.gusdb.wdk.model.ontology.TestOntologyPlugin"/>
+
+ <searchCategory name="GeneRecordClasses.GeneRecordClass" displayName="Search for Genes" />
+  
+  <searchCategory name="geneIds" displayName="Identifier"
+    		  parentRef="GeneRecordClasses.GeneRecordClass">
+    <questionRef>GeneQuestions.GeneUpload</questionRef>
+    <questionRef>GeneQuestions.GeneTextSearch</questionRef>
+  </searchCategory>
+
+  <searchCategory name="transcriptomicsFC" displayName="Transcriptomics"
+    parentRef="GeneRecordClasses.GeneRecordClass">
+    <questionRef>GeneDataset.DifferentialExpression</questionRef>
+    <questionRef>GeneDataset.RankedExpression</questionRef>
+    <questionRef>GeneDataset.Pattern</questionRef>
+</searchCategory>
+
+  
+
+  <searchCategory name="proteomicsFC" displayName="Proteomics (Hs)"
+    parentRef="GeneRecordClasses.GeneRecordClass">
+    <questionRef>GeneDataset.GenesByProteomicsComparison</questionRef>
+  </searchCategory>
+  
+</wdkModel>

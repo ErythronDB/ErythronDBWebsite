@@ -1,0 +1,114 @@
+<wdkModel>
+  <stepAnalysisPlugins>
+
+    <viewConfig prefix="/wdkCustomization/jsp/analysis/" 
+      suffix=".jsp"/>
+    <executionConfig threadPoolSize="25" 
+      fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
+
+    <stepAnalysisPlugin name="gene-network" 
+      displayName="STRING Gene Network" 
+      customThumbnail="images/string-network-analysis-logo.png" 
+      releaseVersion="22" 
+      formViewName="geneNetworkForm" 
+      analysisViewName="geneNetworkResult" 
+      analyzerClass="org.cbil.erythrondb.model.stepanalysis.GeneNetworkPlugin">
+      <paramRef ref="stepAnalysisParams.answerIdSql"/>
+      <paramRef ref="geneNetworkAnalysisParams.organism"/>
+
+      <shortDescription>
+        <![CDATA[Generate a STRINGdb interaction network from the genes in the search result.]]>
+      </shortDescription>
+      <description>
+        <![CDATA[
+        <p>This tool queries against the STRING database to produce an interactive visualization of <br/>
+        potential interactions among genes in your search result.</p>
+        <p>For display purposes, this analysis can only be run for gene lists containing no more than 50 genes.</p>
+        <p>Click on the STRING logo in the image to analyze this network further on the <a href="@STRING_URL@" target="_blank">STRING</a> website.</p>
+        ]]>
+      </description>
+    </stepAnalysisPlugin>
+
+    <stepAnalysisPlugin name="gene-expression-heatmap" 
+      displayName="Gene Expression Heatmap" 
+      customThumbnail="images/heatmap-analysis-logo.png" 
+      releaseVersion="22" 
+      formViewName="heatmapForm" 
+      analysisViewName="heatmapResult" 
+      analyzerClass="org.cbil.erythrondb.model.stepanalysis.HeatmapPlugin">
+      <paramRef ref="stepAnalysisParams.answerIdSql"/>
+      <paramRef ref="stepAnalysisParams.stepParamValuesSql"/>
+      <paramRef ref="stepAnalysisParams.organism"/>
+      <paramRef ref="heatmapAnalysisParams.recommended_experiment"/>
+      <paramRef ref="heatmapAnalysisParams.experiment"/>
+      <paramRef ref="heatmapAnalysisParams.value_type"/>
+      <paramRef ref="heatmapAnalysisParams.color"/>
+      <paramRef ref="heatmapAnalysisParams.boolean_cluster_samples"/>
+      <shortDescription>
+        <![CDATA[Profile gene expression during erythropoeisis or after EPO challenge]]>
+      </shortDescription>
+      <description>
+        <![CDATA[
+        <p>This tool allows you to compare expression profiles of the genes in your search result in any of the ErythronDB Transcriptomic studies.</p>
+        <p>If the search result was obtained by querying a specific study, it will be selected for you by default</p>
+        <p>Datasets marked by an asterisk (*) are comprehensive, and include all conditions examined in the study.</p>
+        ]]>
+
+      </description>
+    </stepAnalysisPlugin>
+
+    <stepAnalysisPlugin name="custom-go-enrichment" 
+      displayName="Gene Ontology Enrichment" 
+      customThumbnail="images/go-analysis-logo.png"
+      releaseVersion="22" 
+      formViewName="goEnrichmentForm" 
+      analysisViewName="goEnrichmentResult" 
+      analyzerClass="org.cbil.erythrondb.model.stepanalysis.enrichment.GoEnrichmentPlugin">
+
+      <paramRef ref="stepAnalysisParams.answerIdSql"/>
+      <paramRef ref="stepAnalysisParams.organism"/>
+      <paramRef ref="enrichmentAnalysisParams.ontology"/>
+      <paramRef ref="enrichmentAnalysisParams.pvalue_threshold"/>
+      <shortDescription>
+        <![CDATA[
+          Find Gene Ontology terms that are enriched in your gene result.
+        ]]>
+      </shortDescription>
+      <description>
+        <![CDATA[
+		 <p>The Gene Ontology (GO) is a public resource that develops organism 
+		 independent ontologies (structured controlled vocabularies) that describe 
+		 gene function.</p>
+<p>GO terms are classified according to three aspects:</p>
+
+<ol>
+<li><strong>Molecular Function</strong>: molecular activities of gene products</li>
+<li><strong>Cellular Component</strong>: where gene products are active</li>
+<li><strong>Biological Process</strong>: processes (incl. pathways) dependent on the activity of multiple gene products</li>
+</ol>
+<p>This tool identifies GO terms that are over-represented (enriched) in the annotations of the genes in your result, providing
+		  insight into shared gene function.</p>
+        ]]>
+      </description>
+      <property name="goTermPageUrl"><![CDATA[%%goTermPageUrl%%]]></property>
+      <property name="revigoBaseUrl"><![CDATA[%%revigoBaseUrl%%]]></property>
+    </stepAnalysisPlugin>
+
+    <!-- <stepAnalysisPlugin -->
+    <!-- name="pathway-enrichment" displayName="Metabolic Pathway Enrichment" -->
+    <!-- customThumbnail="images/pathway-analysis-logo2.png" -->
+    <!-- releaseVersion="22" -->
+    <!-- formViewName="pathwayEnrichmentForm" -->
+    <!-- analysisViewName="pathwayEnrichmentResult" -->
+    <!-- analyzerClass="org.apidb.apicommon.model.stepanalysis.PathwaysEnrichmentPlugin"> -->
+    <!--   <shortDescription> -->
+    <!--     <![CDATA[ -->
+    <!--       Find Metabolic Pathways that are enriched in your Genes result. -->
+    <!--     ]]> -->
+    <!--   </shortDescription> -->
+    <!--   <description/> -->
+    <!--   <property name="pathwayPageUrl"><![CDATA[@WEBAPP_BASE_URL@/record/pathway/]]></property> -->
+    <!-- </stepAnalysisPlugin> -->
+
+  </stepAnalysisPlugins>
+</wdkModel>

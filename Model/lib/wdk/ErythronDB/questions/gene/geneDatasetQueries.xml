@@ -1,0 +1,148 @@
+<wdkModel>
+
+	<querySet name="GeneDatasets" queryType="id" isCacheable="true">
+		<sqlQuery name="DifferentialExpression">
+			<paramRef ref="geneParams.investigation"/>
+			<paramRef ref="geneParams.experiment"/>
+			<paramRef ref="geneParams.transcriptomics_ref_condition"/>
+			<paramRef ref="geneParams.transcriptomics_alt_condition"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.fold_change" default="1.5"/>
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="fold_change"/>
+			<column name="cell_or_lineage"/>
+			<column name="ref_condition"/>
+			<column name="alt_condition"/>
+			<column name="confidence_interval"/>
+			<column name="adj_p_value"/>
+			<column name="reference_mean"/>
+			<column name="alternative_mean"/>
+			<column name="log2_fold_change"/>
+			<column name="log2_reference_mean"/>
+			<column name="log2_alternative_mean"/>
+
+			<sql>
+				<![CDATA[
+						SELECT ga.source_id,
+						'@PROJECT_ID@'::text AS project_id,
+						pan.name AS comparison,
+						split_part(pan.name, ': ', 2) AS cell_or_lineage,
+						split_part(split_part(pan.name, ': ', 1), ' v ', 1) AS alt_condition,
+						split_part(split_part(pan.name, ': ', 1), ' v ', 2) AS ref_condition,
+						round(r.mean1::numeric, 2) AS log2_reference_mean,
+						round(r.mean2::numeric, 2) AS log2_alternative_mean,
+						round(fold_change::numeric, 2) AS log2_fold_change,
+						round(power(2, r.mean1::numeric), 2) AS reference_mean,
+						round(power(2, r.mean2::numeric), 2) AS alternative_mean,
+						r.raw_fold_change AS fold_change,
+						CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE') ELSE round(r.adj_p_value::numeric,4)::text END AS adj_p_value,
+						'[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval
+						FROM Results.GeneDiffResult r,
+						CBIL.GeneAttributes ga, 
+						Study.ProtocolAppNode pan,
+						ErythronDB.Comparison c
+						WHERE ga.gene_id = r.gene_id
+						AND pan.protocol_app_node_id = c.protocol_app_node_id
+						AND c.reference_condition_id = $$transcriptomics_ref_condition$$
+						AND c.alternative_condition_id = $$transcriptomics_alt_condition$$
+						AND c.protocol_app_node_id = r.protocol_app_node_id
+						AND adj_p_value <= 0.05
+						AND (('$$regulated_dir$$' = 'up-regulated' AND r.raw_fold_change >= $$fold_change$$ )
+						OR ('$$regulated_dir$$' = 'down-regulated' AND r.raw_fold_change <= -1 * $$fold_change$$)
+						OR ('$$regulated_dir$$' = 'up or down regulated' AND abs(r.raw_fold_change) >= $$fold_change$$))
+				]]>
+			</sql>
+		</sqlQuery>
+
+
+		<sqlQuery name="ProteomicsFC">
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" queryRef="GeneVQ.ProteomicsInvestigations" />
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.comparison"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.fold_change" default="1.5"/>
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="fold_change"/>
+			<column name="reference_mean"/>
+			<column name="alternative_mean"/>
+
+			<sql>
+				<![CDATA[
+	 WITH fc AS (
+    		 SELECT ga.source_id,
+    		 round((CASE WHEN pc.adj_fold_change IS NOT NULL
+    		 THEN pc.adj_fold_change ELSE pc.fold_change END)::numeric,2) AS fold_change,
+    		 CASE WHEN ref.intensity = 'NaN' THEN NULL ELSE round(log(2.0, ref.intensity::numeric),1) END AS reference_mean,
+    		 CASE WHEN alt.intensity = 'NaN' THEN NULL ELSE round(log(2.0, alt.intensity::numeric),1) END AS alternative_mean
+    		 FROM
+    		 ErythronDB.Comparison c,
+    		 Study.ProtocolAppNode pan,
+    		 ErythronDB.PeptideIntensity ref,
+    		 ErythronDB.PeptideIntensity alt,
+    		 ErythronDB.PeptideComparison pc,
+    		 ErythronDB.GenePeptide gp,
+    		 CBIL.GeneAttributes ga
+    		 WHERE c.protocol_app_node_id = pan.protocol_app_node_id
+    		 AND pan.source_id = $$comparison$$
+    		 AND pc.comparison_id = c.comparison_id
+    		 AND pc.peptide_id = gp.gene_peptide_id
+    		 AND gp.gene_id = ga.gene_id
+    		 AND c.reference_condition_id = ref.protocol_app_node_id
+    		 AND ref.peptide_id = pc.peptide_id
+    		 AND c.alternative_condition_id = alt.protocol_app_node_id
+    		 AND alt.peptide_id = pc.peptide_id
+    		 AND (('$$regulated_dir$$' = 'up-regulated' AND ((pc.fold_change >= $$fold_change$$ AND pc.adj_fold_change IS NULL) OR pc.adj_fold_change >= $$fold_change$$))
+    		 OR ('$$regulated_dir$$' = 'down-regulated' AND ((pc.fold_change <= -1 * $$fold_change$$ AND pc.adj_fold_change IS NULL) OR pc.adj_fold_change <= -1 * $$fold_change$$))
+    		 OR ('$$regulated_dir$$' = 'up or down regulated' AND ((abs(pc.fold_change) >= $$fold_change$$ AND pc.adj_fold_change IS NULL) OR abs(pc.adj_fold_change) >= $$fold_change$$)))
+    		 )
+		 
+    		 SELECT DISTINCT ON (source_id)
+    		 source_id,
+    		 '@PROJECT_ID@'::text AS project_id,
+    		 first_value(fold_change) OVER wnd AS fold_change,
+    		 first_value(reference_mean) OVER wnd AS reference_mean,
+    		 first_value(alternative_mean) OVER wnd AS alternative_mean
+    		 FROM fc
+		 
+    		 WINDOW wnd AS (
+    		   PARTITION BY source_id ORDER BY fold_change DESC
+    		   ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    		 )
+	]]>
+			</sql>
+		</sqlQuery>
+		<sqlQuery name="RankedExpression">
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.sample"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.minimum_percentile" default="80"/>
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.maximum_percentile" default="100"/>
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="percentile"/>
+			<column name="mean_expression"/>
+			<column name="standard_error"/>
+			<column name="sample"/>
+			<sql>
+				<![CDATA[
+		  SELECT DISTINCT gene_source_id AS source_id,
+		 'ErythronDB'::text AS project_id,
+		 first_value(sample_description) OVER (w_exp) AS sample,
+		 first_value(value) OVER (w_exp) AS mean_expression,
+		 first_value(standard_error) OVER (w_exp) AS standard_error,
+		 first_value(round((percentile * 100)::numeric, 1)) OVER (w_exp) AS percentile
+		 FROM
+		 ErythronDB.AvgGeneExpressionDataTable dt,
+		 Study.Study s
+		 WHERE s.study_id = dt.dataset_id
+		 AND s.source_id = $$experiment$$
+		 AND percentile * 100 BETWEEN $$minimum_percentile$$ AND $$maximum_percentile$$
+		 AND sample_description IN ($$sample$$)
+		 WINDOW w_exp AS (PARTITION BY gene_source_id ORDER BY value DESC)
+	]]>
+			</sql>
+		</sqlQuery>
+	</querySet>
+</wdkModel>

@@ -1,0 +1,25 @@
+$title-color: $primary-med;
+$plus-minus-color: $primary;
+
+.study-card {
+  &.card {
+    width: 18rem;
+
+    .card-body {
+      //font-size: 1.2em;
+      .card-subtitle {
+        &.attribution {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .card-text {
+    //font-size: 1.2em;
+  }
+
+  .card-title {
+    font-size: 1.5em;
+  }
+}

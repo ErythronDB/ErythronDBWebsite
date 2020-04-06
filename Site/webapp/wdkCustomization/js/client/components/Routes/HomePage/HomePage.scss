@@ -1,0 +1,42 @@
+// welcome
+
+$title-color: $primary-dark;
+$subtitle-color: $primary-grey;
+$button-hover-color: $highlight;
+$study-section-title-color: $primary-med;
+
+.welcome-panel {
+    background-size: 100% !important;
+
+    h1 {
+        color: $title-color;
+        font-size: 6em;
+    }
+
+    h3 {
+        color: $subtitle-color;
+        font-size: 2em;
+    }
+
+    .btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .btn-group:not(:last-child) > .btn {
+        border-radius: 0.3rem;
+        margin-bottom: 10px;
+    }
+
+    .btn-group-vertical > .btn:not(:first-child), .btn-group-vertical > .btn-group:not(:first-child) > .btn {
+        border-radius: 0.3rem;
+    }
+
+    .btn-dark {
+        a {
+            &:hover {
+                background-color: $button-hover-color;
+            }
+        }
+    }
+}
+
+
+.study-section-title {
+    color: $study-section-title-color;
+}

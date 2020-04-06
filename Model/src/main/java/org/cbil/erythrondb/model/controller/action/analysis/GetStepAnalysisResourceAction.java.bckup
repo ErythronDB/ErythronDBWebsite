@@ -1,0 +1,67 @@
+package org.cbil.erythrondb.model.controller.action.analysis;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.nio.file.Path;
+import java.util.Map;
+
+import org.gusdb.fgputil.MapBuilder;
+import org.gusdb.fgputil.IoUtil;
+import org.gusdb.wdk.controller.WdkValidationException;
+import org.gusdb.wdk.controller.action.analysis.AbstractStepAnalysisIdAction;
+import org.gusdb.wdk.controller.actionutil.ActionResult;
+import org.gusdb.wdk.controller.actionutil.ParamDef;
+import org.gusdb.wdk.controller.actionutil.ParamDef.Required;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.gusdb.wdk.controller.actionutil.ParamGroup;
+import org.gusdb.wdk.controller.actionutil.ResponseType;
+
+public class GetStepAnalysisResourceAction extends AbstractStepAnalysisIdAction {
+
+  public static final String RESOURCE_PATH_KEY = "path";
+  public static final String RESPONSE_TYPE_KEY = "format";
+
+  private static final Map<String,ParamDef> EXTRA_PARAMS = new MapBuilder<String, ParamDef>()
+      .put(RESOURCE_PATH_KEY, new ParamDef(Required.REQUIRED))
+      .put(RESPONSE_TYPE_KEY, new ParamDef(Required.OPTIONAL)).toMap();
+  
+  @Override
+  protected Map<String, ParamDef> getAdditionalParams() {
+    return EXTRA_PARAMS;
+  }
+  
+  @Override
+  public void performAdditionalValidation(ParamGroup params) throws WdkValidationException {
+    String path = params.getValue(RESOURCE_PATH_KEY);
+    if (path.contains("..")) throw new WdkValidationException("Illegal path: cannot contain '..'.");
+  }
+  
+  /**
+   * customized from WDK version to return result in json if &type=json param in request
+   * allenem
+   */
+  @Override
+  protected ActionResult handleRequest(ParamGroup params) throws Exception {
+    Path resourcePath = getAnalysisMgr().getResourcePath(
+        getContextFromPassedId(), params.getValue(RESOURCE_PATH_KEY));
+    File resourceFile = resourcePath.toFile();
+    if (resourceFile.exists() && resourceFile.isFile() && resourceFile.canRead()) {
+      if (params.getValueOrEmpty(RESPONSE_TYPE_KEY).equals("json")) {
+          JSONParser parser = new JSONParser();
+          FileReader reader = new FileReader(resourceFile);
+			    Object obj = parser.parse(reader);
+			    JSONObject result = (JSONObject) obj;
+
+          return new ActionResult(ResponseType.json).setStream(IoUtil.getStreamFromString(result.toJSONString()));
+      }
+      else {
+        return new ActionResult(ResponseType.resolveType(resourcePath))
+            .setStream(new BufferedInputStream(new FileInputStream(resourceFile)));
+      }
+    }
+    return new ActionResult().setHttpResponseStatus(404);
+  }
+}

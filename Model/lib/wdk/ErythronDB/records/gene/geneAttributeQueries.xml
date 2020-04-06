@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+    <querySet name="GeneAttributes" queryType="attribute" isCacheable="false">
+	
+	<sqlQuery name="Basic">
+	    <column name="source_id"/>
+	    <column name="project_id"/>
+	    <column name="project"/>
+	    <column name="symbol"/>
+	    <column name="gene_type"/>
+	    <column name="sequence_id"/>
+	    <column name="chromosome"/>
+	    <column name="start_min"/>
+	    <column name="start_min_text"/>
+	    <column name="end_max"/>
+	    <column name="end_max_text"/>
+	    <column name="strand_plus_minus"/>
+	    <column name="organism_common"/>
+	    <column name="organism_full"/>
+	    <column name="organism_abbrev"/>
+	    <column name="ncbi_tax_id"/>
+	    <column name="transcript_count"/>
+	    <column name="exon_count"/>
+	    <column name="product"/>
+	    <column name="is_pseudo"/>
+	    <column name="is_pseudo_check"/>
+	    <column name="chromosomal_location"/>
+	    <column name="chromosomal_location_overview"/>
+	    <column name="gene_family"/>
+	    <column name="gene_family_id"/>
+	    <sql>
+	      <![CDATA[
+		       SELECT source_id,
+		       '@PROJECT_ID@'::text AS project_id,
+		       '@PROJECT_ID@'::text AS project,
+		       gene_symbol AS symbol,
+		       gene_type,
+		       sequence_id,
+		       chromosome,
+		       start_min,
+		       start_min::text AS start_min_text,
+		       end_max,
+		       end_max::text AS end_max_text,
+		       CASE WHEN is_reversed THEN '-' ELSE '+' END AS strand_plus_minus,
+		       genus_species AS organism_full,
+		       organism AS organism_common,
+		       CASE WHEN organism = 'Human' THEN 'Hs' ELSE 'Mm' END AS organism_abbrev,
+		       ncbi_tax_id,
+		       transcript_count,
+		       exon_count,
+		       annotation->>'name' AS product,
+		       annotation->>'location' AS chromosomal_location,
+		       CASE WHEN annotation->>'location' IS NOT NULL THEN
+		       '<div class="eupathdb-RecordOverviewItem" data-label="Chromosomal Location">' || (annotation->>'location')::text || '</div>'
+		       ELSE '' END AS chromosomal_location_overview,
+		       annotation->>'gene_family' AS gene_family,
+		       annotation->>'gene_family_id' AS gene_family_id,
+		       CASE WHEN gene_type ILIKE '%pseudo%' THEN true ELSE NULL END AS is_pseudo,
+		       CASE WHEN gene_type ILIKE '%pseudo%' THEN '<i class="fa fa-check"></i>' ELSE NULL END AS is_pseudo_check
+		       FROM CBIL.GeneAttributes
+	      ]]>
+	    </sql>
+	</sqlQuery>
+
+	<sqlQuery name="Synonyms">
+	  <column name="source_id"/>
+	  <column name="project_id"/>
+	  <column name="synonym"/>
+	  <sql>
+	    <![CDATA[
+		     SELECT ga.source_id, '@PROJECT_ID@'::text AS project_id, 
+		     string_agg(gi.external_id, ', ' ORDER BY dbref_id DESC) AS synonym
+		     FROM
+		     CBIL.GeneAttributes ga LEFT OUTER JOIN CBIL.GeneIdentifiers gi
+		     ON ga.gene_id = gi.gene_id
+		     AND gi.dbref_id IN ('prev_symbol', 'alias_symbol')
+		     GROUP BY gi.gene_id, ga.source_id
+	    ]]>
+	  </sql>
+	</sqlQuery>
+	
+	<sqlQuery name="Ortholog">
+	  <column name="source_id"/>
+	  <column name="project_id"/>
+	  <column name="ortholog_taxon"/>
+	  <column name="ortholog_source_id"/>
+	  <column name="ortholog_symbol"/>
+	  <sql>
+	    <![CDATA[
+		     WITH Human AS (	     
+		     SELECT gene_id, source_id, gene_symbol, annotation->>'mgd_id' AS mgi_id 
+		     FROM CBIL.GeneAttributes 
+		     WHERE organism = 'Human' and annotation->>'mgd_id' IS NOT NULL),
+		     Orthology AS (
+		     SELECT h.source_id AS human_source_id, h.gene_symbol AS human_gene_symbol,
+		     ga.source_id AS mouse_source_id, ga.gene_symbol AS mouse_gene_symbol, h.mgi_id AS mapping_mgi_id
+		     FROM CBIL.GeneAttributes ga,
+		     Human h
+		     WHERE annotation->>'mgi_id' = h.mgi_id),
+		     MappedOrthology AS (
+		     SELECT DISTINCT ga.source_id,
+		     CASE WHEN organism = 'Human' THEN mouse_source_id ELSE human_source_id END AS ortholog_source_id,
+		     CASE WHEN organism = 'Human' THEN mouse_gene_symbol ELSE human_gene_symbol END AS ortholog_symbol,
+		     CASE WHEN organism = 'Human' THEN 'Mm' ELSE 'Hs' END AS ortholog_taxon
+		     FROM 
+		     CBIL.GeneAttributes ga, 
+		     Orthology o
+		     WHERE o.human_source_id = ga.source_id
+		     OR o.mouse_source_id = ga.source_id)
+		     SELECT id.source_id, m.ortholog_source_id, m.ortholog_symbol, m.ortholog_taxon,
+		     '@PROJECT_ID@'::text AS project_id
+		     FROM (##WDK_ID_SQL##) id
+		     LEFT OUTER JOIN 
+		     MappedOrthology m
+		     ON id.source_id = m.source_id
+	    ]]>
+		     
+	  </sql>
+	</sqlQuery>
+
+	
+	<!-- =================================================================== -->
+	<!-- Alias -->
+	<!-- for now just for current gene symbol  -->
+	<!-- =================================================================== -->
+	<sqlQuery name="GeneAlias" doNotTest="true">
+            <column name="source_id"/>
+            <column name="project_id"/>
+	    <column name="old_source_id"/>
+            <sql>
+	      <![CDATA[
+		       SELECT source_id,
+		       '@PROJECT_ID@'::text AS project_id,
+		       gene_symbol AS old_source_id
+		       FROM CBIL.GeneAttributes
+		       UNION
+		       SELECT source_id,
+		       '@PROJECT_ID@'::text AS project_id,
+		       source_id AS old_source_id
+		       FROM CBIL.GeneAttributes
+		  ]]>
+            </sql>
+        </sqlQuery>
+    </querySet>
+</wdkModel>

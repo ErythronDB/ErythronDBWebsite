@@ -1,0 +1,283 @@
+#!/usr/bin/env python
+# pylint: disable=invalid-name
+# pylint: disable=line-too-long
+# pylint: disable=too-many-arguments
+"""
+This module computes an enrichment score for each of a set of terms.
+
+It uses the Fisher's Exact Test (as implemented in scipy.stats)
+
+EXAMPLES
+========
+
+    cat kinases.txt | enrichmentAnalysis -p 0.05 -r 75 -b 1252 -o results.txt
+
+    enrichmentAnalysis -h
+
+INPUT FILE
+==========
+
+    Input data can be piped from stdin or
+    a file name specified using the -i (--input) option.
+
+    Input data should be tab-delimited with a minimum of three columns:
+        - term id: column contains a unique identifier for each term
+        - background count: column contains the number of
+        entities annotated by the term in the background
+        - result count: column contains the number of
+        number of entities annotated by the term in the gene list
+
+    Any additional trailing columns in the input file are passed through
+    as trailing columns in the output.
+
+    No header should be specified.
+
+OUTPUT FILE
+===========
+
+     Writes output to stdout unless a file name is specified
+     using the -o (--output) option.
+
+     The output file contains the following columns (in order):
+         - Fold Enrichment, a ratio of two proportions:
+         the fraction of genes annotated by the term in result set (odds ratio)
+         to the fraction of annotated genes in the background
+         - percent: percentage of genes annotated by this term in the result set,
+         out of all annotated genes in the result set
+         - p-value: pvalue from fisher's exact test
+         - Benjamini: Benjamini-Hochberg FDR
+         - Bonferroni: Bonferroni adjusted p-value
+         - columns from input: termID, backgroundCount, resultCount, <trailing columns>
+
+"""
+
+from __future__ import print_function
+
+import sys
+import traceback
+import argparse
+
+import statsmodels.stats.multitest as sm  # statistical models package for python; contains multiple hypothesis testing
+import pandas as pd
+
+from math import log10
+from scipy import stats
+from wordcloud import WordCloud, STOPWORDS as WC_STOPWORDS
+
+# from decimal import *
+
+class ColorMap():
+    ''' color map for word cloud'''
+    def __init__(self, pvalues, cutoff):
+        self.pvalues = pvalues
+        self.scale = None
+        self.__generate_scale()
+        
+    def __generate_scale(self):
+        ''' get exponent, and then rank such that the smallest exponent ends up red '''
+        nlog10p = {word : -1 * log10(p) for word, p in self.pvalues.iteritems()}
+        self.scale = {word: rank for rank, word in enumerate(sorted(nlog10p, key=nlog10p.get, reverse=True), 1)}
+        
+    def __call__(self, word, font_size, position,
+                 orientation, random_state=None, **kwargs):
+        # return "hsl(%d, 80%%, 50%%)" % (120 * self.scale[word] / len(self.scale))
+        return "hsl(0, 0%%, %d%%)" % (90 * self.scale[word] / len(self.scale))
+
+
+def warning(*objs):
+    """A wrapper for printing to stderr"""
+    print(*objs, file=sys.stderr)
+
+
+def restricted_float(x):
+    """ Define and validate restricted_float argument type, with range restricted to [0.0, 1.0]
+
+       @param x: float, value of argument
+       @raise argparse.ArgumentTypeError: value is outside of the range [0.0, 1.0]
+    """
+    x = float(x)
+    if x < 0.0 or x > 1.0:
+        raise argparse.ArgumentTypeError("%r not in range [0.0, 1.0]"%(x,))
+    return x
+
+
+def toNum(s):
+    """ Convert string to numeric value, returning int or float as appropriate."""
+    try:
+        return int(s)
+    except ValueError:
+        return float(s)
+
+
+def fishersExactTest(data):
+    """ Determine Fisher's Exact over-representation statistic for each term (row) in the input data.
+
+    @param data: data frame containing terms and annotated entity counts
+    @returns: data frame indexed on termID, containing the test statistics (p-value, odds ratio)
+        the percent annotated entities
+
+    """
+
+    results = {}
+    bTotal = args.backgroundTotal
+    rTotal = args.resultTotal
+
+    for idx, row in data.iterrows():
+        raCount = row.COUNT_INCL_CLOSURE # result annotated
+        baCount = row.BACKGROUND_COUNT # background annotated
+        bNotAnnotated = bTotal - baCount # background, not annotated
+        rNotAnnotated = rTotal - raCount # result, not annotated
+        rFreqAnnotated = float(raCount) / float(rTotal)
+        bFreqAnnotated = float(baCount) / float(bTotal)
+
+        oddsRatio, pValue = stats.fisher_exact([[raCount, baCount], [rNotAnnotated, bNotAnnotated]],
+                                               alternative='greater') # looking for over-enrichment
+
+        oddsRatio = rFreqAnnotated / bFreqAnnotated # should be same as odds ratio but fisher_exact returns an 'inf' when rFreqAnnotated = 1
+
+
+        results[idx] = {'P_VALUE' : pValue,
+                        'RESULT_PERCENT' : '{0:.2f}'.format(rFreqAnnotated * 100),
+                        'BACKGROUND_PERCENT' : '{0:.2f}'.format(bFreqAnnotated * 100),
+                        'RESULT_RATIO' : str(int(raCount)) + '/' + str(rTotal),
+                        'BACKGROUND_RATIO' : str(int(baCount)) + '/' + str(bTotal),
+                        'FOLD_ENRICHMENT' : "{0:.2f}".format(oddsRatio)}
+
+    return pd.DataFrame.from_dict(results, orient='index') # dtype=float)
+
+
+def colormap(pvalues):
+    """ Generate color map from p-values """
+
+
+def generate_term_word_cloud(terms, counts, pvalues):
+    """ Generate word cloud from adj p filtered
+        results (terms, colored by pvalue)
+    """
+    stopwords = set(WC_STOPWORDS)
+    stopwords.add('biological_process')
+    stopwords.add('molecular_function')
+    stopwords.add('cellular_component')
+
+    wCloud = WordCloud(width=800, height=500, max_words=5000, background_color='white', min_font_size=7,
+                       relative_scaling=0.5, random_state=15, stopwords=stopwords,
+                       margin=10)
+
+    words = dict(zip(terms, counts))
+    wPvalues = dict(zip(terms, pvalues))
+    wCloud.generate_from_frequencies(words)
+    wCloud.recolor(color_func=ColorMap(wPvalues, args.pValueCutoff))
+    wCloud.to_file(args.outputFilePrefix + "_term_wordcloud.png")
+
+
+def generate_word_cloud(terms):
+    """ Generate a word cloud from adj p filtered
+        results (woods in terms)
+    """
+
+    stopwords = set(WC_STOPWORDS)
+    stopwords.add('biological_process')
+    stopwords.add('molecular_function')
+    stopwords.add('cellular_component')
+    stopwords.add('positive regulation')
+    stopwords.add('negative regulation')
+    stopwords.add('negative')
+    stopwords.add('positive')
+    stopwords.add('process')
+    stopwords.add('involved')
+    stopwords.add('via')
+    stopwords.add('type')
+
+    wCloud = WordCloud(width=800, height=500, max_words=5000, background_color='white', min_font_size=7,
+                       relative_scaling=0.5, random_state=15, stopwords=stopwords, # prefer_horizontal=1.0, 
+                       margin=10)
+
+    words = wCloud.process_text(' '.join(terms))
+    wCloud.generate_from_frequencies(words)
+    wCloud.to_file(args.outputFilePrefix + "_wordcloud.png")
+
+    
+def enrichmentAnalysis():
+    """ Perform the enrichment analysis,
+        followed by multiple hypothesis testing and outputing results.
+    """
+
+    data = None
+    try:
+        headerRow = 0 if args.header else None
+        data = pd.read_csv(args.input, header=headerRow, index_col=0, sep='\t')
+
+        # Fisher Exact Test
+        fisherResults = fishersExactTest(data)
+
+        fields = ['ID', 'TERM', 'COUNT', 'COUNT_INCL_CLOSURE', 'RESULT_PERCENT', 'BACKGROUND_COUNT', 
+                  'BACKGROUND_PERCENT', 'FOLD_ENRICHMENT', 'P_VALUE', 'ADJ_P', 'FDR']
+
+        if not fisherResults.empty:
+            # Multiple Hypothesis Testing
+            bonferroni = sm.multipletests(fisherResults['P_VALUE'], method='bonferroni')
+            benjamini = sm.multipletests(fisherResults['P_VALUE'], method='fdr_bh')
+
+            adjustedStats = pd.DataFrame({'ADJ_P' : bonferroni[1], # second element of the tuple is the pvalues_corrected array
+                                          'FDR' : benjamini[1]}, index=fisherResults.index)
+
+            # combine DataFrames based on indexes
+            adjustedResults = pd.merge(fisherResults, adjustedStats, how="left", left_index=True, right_index=True)
+            results = pd.merge(adjustedResults, data, how="left", left_index=True, right_index=True)
+
+            # sort on p-value ascending
+            results.sort_values(by='ADJ_P', ascending=True, inplace=True)
+
+            # and filter
+            pvFilter = results['ADJ_P'] <= args.pValueCutoff
+            results = results[pvFilter]
+
+            # add column from index in so that we can print it w/column header
+            results['ID'] = results.index
+
+            # internal version expect the following columns:
+            genes =  ['GENES_display', 'GENES_INCL_CLOSURE_display']
+            results[fields + genes].to_csv(args.outputFilePrefix + '_internal.txt', sep="\t", header=args.header, index=False)
+
+            # downloadable version
+            genes =  ['GENES', 'GENES_INCL_CLOSURE']
+            results[fields + genes].to_csv(args.outputFilePrefix + '_result.txt', sep="\t", header=args.header, index=False)
+
+            # generate word cloud
+            generate_word_cloud(results.TERM)
+            generate_term_word_cloud(results.TERM, results.COUNT_INCL_CLOSURE, results.ADJ_P)
+            
+        else: # handle case when no terms meet the enrichment cutoff
+            genes =  ['GENES_display', 'GENES_INCL_CLOSURE_display']
+
+            header = '\t'.join((fields + genes)) if args.header else ''
+            with open(args.outputFilePrefix + '_internal.txt', 'w') as f:
+                f.write(header)
+    except:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        errorMessage = traceback.format_exception(exc_type, exc_value, exc_traceback)
+        warning('ERROR: '.join(line for line in errorMessage))
+        
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--pValueCutoff', type=restricted_float, required=True,
+                        help="the p-value cutoff for the enrichment analysis, must be in the range [0, 1.0]")
+    parser.add_argument('-i', '--input',
+                        help="input file path", required=True)
+    parser.add_argument('-o', '--outputFilePrefix',
+                        help="output file path and file prefix", required=True)
+    parser.add_argument('--ontology',
+                        help="ontology abbreviation", required=True)
+    parser.add_argument('-r', '--resultTotal', required=True, type=int,
+                        help='total number of annotated genes in result set (trans closure)')
+    parser.add_argument('-b', '--backgroundTotal', required=True, type=int,
+                        help='total number of annotated genes in the background set')
+    parser.add_argument('--header', action="store_true",
+                        help="input file has header?")
+
+    args = parser.parse_args()
+
+
+    enrichmentAnalysis()

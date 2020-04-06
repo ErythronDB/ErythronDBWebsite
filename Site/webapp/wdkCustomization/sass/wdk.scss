@@ -1,0 +1,28 @@
+// overrides of WDK formatting
+
+
+.wdk-RecordSidebar {
+    box-sizing: content-box;
+ }
+ 
+ 
+.HelpTrigger .fa {
+    cursor: default;
+    color: $base !important;
+    font-size: 1rem;
+}
+
+a:link {
+    color: $link;
+}
+
+
+// impact of removing padding from .wdk-PageContent
+
+.wdk-PageContent {
+ // padding: 0px;
+}
+
+.wdk-RecordSidebar {
+ //   left: -300px;
+}

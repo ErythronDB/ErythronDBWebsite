@@ -1,0 +1,89 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+
+/* ===================================== */
+/* Coloring
+/* ===================================== */
+
+.base {
+  color: $base;
+}
+
+.background-base {
+  background-color: $base;
+}
+
+.background-base-important {
+  background-color: $base !important;
+}
+
+@mixin base {
+  color: $base;
+}
+
+@mixin background-base {
+  background-color: $base;
+}
+
+@mixin background-base-important {
+  background-color: $base !important;
+}
+
+@mixin shaded {
+  background-color: $primary-light;
+}
+
+.shaded {
+  background-color: $primary-light;
+}
+
+@mixin shaded-important {
+  background-color: $primary-light !important;
+}
+
+.transcriptomics {
+  background-color: $transcriptomics;
+  //color: $base;
+}
+
+.proteomics {
+  background-color: $proteomics;
+  //color: $light-shade;
+}
+
+/* ===================================== */
+/* Display
+/* ===================================== */
+
+.hidden {
+  visibility: hidden;
+  display: none;
+}
+
+.full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+@mixin full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
