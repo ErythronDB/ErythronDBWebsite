@@ -3,11 +3,15 @@ package org.cbil.erythrondb.model.stepanalysis;
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.WdkUserException;
 import org.gusdb.wdk.model.analysis.AbstractSimpleProcessAnalyzer;
-import org.gusdb.wdk.model.analysis.ValidationErrors;
+
 import org.gusdb.wdk.model.answer.AnswerValue;
 import org.gusdb.wdk.model.user.analysis.IllegalAnswerValueException;
 
 import static org.gusdb.fgputil.FormatUtil.NL;
+
+import org.gusdb.fgputil.validation.ValidationBundle;
+import org.gusdb.fgputil.validation.ValidationBundle.ValidationBundleBuilder;
+import org.gusdb.fgputil.validation.ValidationLevel;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -110,11 +114,9 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 	private JSONArray retrieveJSONExpressionData() throws WdkModelException {
 
 		String idSql = "";
-		try {
-			idSql = getAnswerValue().getIdSql();
-		} catch (WdkUserException e) {
-			throw new WdkModelException(e);
-		}
+
+		idSql = getAnswerValue().getIdSql();
+
 		String profileId = getFormParams().get(PROFILE_PARAM_KEY)[0];
 		String valueType = getFormParams().get(VALUE_PARAM_KEY)[0];
 
@@ -243,11 +245,6 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 		return Paths.get(getStorageDirectory().toString(), file).toString() + extension;
 	}
 
-	@Override
-	public JSONObject getFormViewModelJson() throws WdkModelException {
-		// This is now declared as parameters in the model xml
-		return null;
-	}
 
 	@Override
 	public org.json.JSONObject getResultViewModelJson() throws WdkModelException {
@@ -284,12 +281,12 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 		}
 	}
 
-	public ValidationErrors validateFormParams(Map<String, String[]> formParams)
+	public ValidationBundle validateFormParams(Map<String, String[]> formParams)
 			throws WdkModelException, WdkUserException {
 
-		ValidationErrors errors = new ValidationErrors();
+		ValidationBundleBuilder errors = ValidationBundle.builder(ValidationLevel.SEMANTIC);
 
-		return errors;
+		return errors.build();
 	}
 
 	/**
@@ -302,7 +299,7 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 	 */
 	@Override
 	public void validateAnswerValue(AnswerValue answerValue)
-			throws IllegalAnswerValueException, WdkModelException, WdkUserException {
+			throws IllegalAnswerValueException, WdkModelException {
 		logger.info("entering validate answer value");
 
 		String idSql = answerValue.getIdSql();
@@ -312,19 +309,22 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 			+ "WHERE ga.source_id = r.source_id)" + NL
 			+ "SELECT CASE WHEN 'Human' IN (SELECT organism FROM orgs) AND 'Mouse' IN (SELECT organism FROM orgs) THEN 2" + NL
  			+ "WHEN 'Human' IN (SELECT organism FROM orgs) AND 'Mouse' NOT IN (SELECT organism FROM orgs) THEN 1" + NL
- 			+ "ELSE 0 END";
+ 			+ "ELSE 0 END AS taxon_choice";
 
 		DataSource ds = getWdkModel().getAppDb().getDataSource();
-		SingleLongResultSetHandler result = new SQLRunner(ds, sql, "validate-organism-sql")
-				.executeQuery(new SingleLongResultSetHandler());
+		BasicResultSetHandler handler = new BasicResultSetHandler();
+		new SQLRunner(ds, sql).executeQuery(handler);
 
+		Map<String, Object> result = handler.getResults().get(0);
+
+		Long count = (Long) result.get("taxon_choice");
 		// check for human
-		if (result.getRetrievedValue() == 2) {
-			throw new WdkUserException(
+		if (count.intValue() == 2) {
+			throw new IllegalAnswerValueException(
 					"Heatmaps arecurrently only available for murine gene expression datasets. Please filter your search result for mouse (Mm) genes and try again.");
 		}
-		if (result.getRetrievedValue() == 1) {
-			throw new WdkUserException(
+		if (count.intValue() == 1) {
+			throw new IllegalAnswerValueException(
 					"Heatmaps arecurrently only available for murine gene expression datasets. To continue, transform your search result into ortholog mouse (Mm) genes and try again.");
 		}
 		

@@ -1,6 +1,4 @@
-<project name="ErythronDBWebsite" 
-  default="Installation" 
-  basedir=".">
+<project name="ErythronDBWebsite" default="Installation" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
@@ -13,86 +11,76 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="ErythronDBWebsite-Installation" 
-    depends="
+  <target name="ErythronDBWebsite-Installation" depends="
                 EbrcModelCommon-Installation,
                 EbrcWebSvcCommon-Installation,
   	           ErythronDBWebsite-MavenInstallation,
 						   ErythronDBWebsite/Model-Installation,
-						   ErythronDBWebsite/View-Installation,
+               ErythronDBWebsite/Service-Installation,
 						   ErythronDBWebsite/Site-Installation">
     <ant target="defaultProjectInstall">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
+      <property name="project" value="ErythronDBWebsite" />
     </ant>
   </target>
 
   <target name="ErythronDBWebsite-MavenInstallation">
     <ant target="mavenBuildProject">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
+      <property name="project" value="ErythronDBWebsite" />
     </ant>
-    <property name="alreadyBuilt" 
-      value="true"/>
+    <property name="alreadyBuilt" value="true" />
   </target>
 
   <!-- Added START-->
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
   <target name="ErythronDBWebsite/Model-Installation">
     <ant target="defaultComponentInstall">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
-      <property name="component" 
-        value="Model"/>
+      <property name="project" value="ErythronDBWebsite" />
+      <property name="component" value="Model" />
     </ant>
 
     <!-- the following four commands generate the website ontology -->
-    <java failonerror="true" 
-      classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
-      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'"/>
+    <java failonerror="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'" />
       <classpath>
-        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
-        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar"/>
-        <pathelement location="${targetDir}/config/"/>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
 
-    <java failonerror="true" 
-      classname="org.eupathdb.common.model.ontology.EuPathAnnotPropAdder">
-      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'"/>
+    <java failonerror="true" classname="org.eupathdb.common.model.ontology.EuPathAnnotPropAdder">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'" />
       <classpath>
-        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
-        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar"/>
-        <pathelement location="${targetDir}/config/"/>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
 
 
-    <java failonerror="true" 
-      classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
-      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename commonIndividuals.txt -outputFilename commonIndividuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/commonIndividuals.owl'"/>
+    <java failonerror="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename commonIndividuals.txt -outputFilename commonIndividuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/commonIndividuals.owl'" />
       <classpath>
-        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
-        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar"/>
-        <pathelement location="${targetDir}/config/"/>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
 
-    <java failonerror="true" 
-      classname="org.eupathdb.common.model.ontology.OntologyMerger">
-      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl"/>
+    <java failonerror="true" classname="org.eupathdb.common.model.ontology.OntologyMerger">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl" />
       <classpath>
-        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar"/>
-        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar"/>
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar"/>
-        <pathelement location="${targetDir}/config/"/>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
 
@@ -101,21 +89,18 @@
 
   <target name="ErythronDBWebsite/Site-Installation">
     <ant target="defaultComponentInstall">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
-      <property name="component" 
-        value="Site"/>
+      <property name="project" value="ErythronDBWebsite" />
+      <property name="component" value="Site" />
     </ant>
   </target>
 
-  <target name="ErythronDBWebsite/View-Installation">
+  <target name="ErythronDBWebsite/Service-Installation">
     <ant target="defaultComponentInstall">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
-      <property name="component" 
-        value="View"/>
+      <property name="project" value="ErythronDBWebsite" />
+      <property name="component" value="Service" />
     </ant>
   </target>
+
 
   <!-- <target name="ErythronDBWebsite/WSFPlugin-Installation"> -->
   <!--   <ant target="defaultComponentInstall"> -->
@@ -129,64 +114,37 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooo  Web Installation  oooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <target name="ErythronDBWebsite-WebInstallation" 
-    depends="ErythronDB-WDKModel-Patch,
-                                                      EbrcWebSvcCommon-WebInstallation,
+  <target name="ErythronDBWebsite-WebInstallation" depends="EbrcWebSvcCommon-WebInstallation,
                                                       ErythronDBWebsite-Installation,
-                                                      ErythronDBWebsite/View-WebInstallation,
-                                                      ErythronDBWebsite/Site-WebInstallation">
-
-  </target>
+                                                      ErythronDBWebsite/Site-WebInstallation"></target>
 
   <target name="ErythronDB-WDKModel-Patch">
-    <echo message="Patching: WDK/Model"/>
-    <property name="patch-full-path-wdkmodel" 
-      location="${projectsDir}/${project}/patches/patch_WDKModel.bash"/>
-    <exec executable="${patch-full-path-wdkmodel}"/>
+    <echo message="Patching: WDK/Model" />
+    <property name="patch-full-path-wdkmodel" location="${projectsDir}/${project}/patches/patch_WDKModel.bash" />
+    <exec executable="${patch-full-path-wdkmodel}" />
   </target>
 
   <target name="ErythronDB-Website-Patch">
-    <echo message="Applying patches from ${projectsDir}/${project}/patches"/>
-    <echo message="Patching: EbrcWebsiteCommon"/>
-    <property name="patch-full-path-ebrc" 
-      location="${projectsDir}/${project}/patches/patch_EbrcWebsiteCommon.bash"/>
-    <exec executable="${patch-full-path-ebrc}"/>
-    <echo message="Patching: WDKClient"/>
-    <property name="patch-full-path-wdkclient" 
-      location="${projectsDir}/${project}/patches/patch_WDKClient.bash"/>
-    <exec executable="${patch-full-path-wdkclient}"/>
+    <echo message="Applying patches from ${projectsDir}/${project}/patches" />
+    <echo message="Patching: EbrcWebsiteCommon" />
+    <property name="patch-full-path-ebrc" location="${projectsDir}/${project}/patches/patch_EbrcWebsiteCommon.bash" />
+    <exec executable="${patch-full-path-ebrc}" />
+    <echo message="Patching: WDKClient" />
+    <property name="patch-full-path-wdkclient" location="${projectsDir}/${project}/patches/patch_WDKClient.bash" />
+    <exec executable="${patch-full-path-wdkclient}" />
   </target>
 
 
   <!-- patch WDKWebsite/View, rebuild, and then build ErythronDBWebsite/Site -->
-  <target name="ErythronDBWebsite/Site-WebInstallation" 
-    depends="ErythronDB-Website-Patch">
-
+  <target name="ErythronDBWebsite/Site-WebInstallation"> <!-- depends="ErythronDB-Website-Patch"> -->
     <ant target="eupathWebComponentInstall">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
-      <property name="component" 
-        value="Site"/>
+      <property name="project" value="ErythronDBWebsite" />
+      <property name="component" value="Site" />
     </ant>
   </target>
 
-  <target name="ErythronDBWebsite/View-WebInstallation">
 
-    <ant target="defaultComponentInstall">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
-      <property name="component" 
-        value="View"/>
-    </ant>
 
-    <ant target="defaultWebComponentInstall">
-      <property name="project" 
-        value="ErythronDBWebsite"/>
-      <property name="component" 
-        value="View"/>
-    </ant>
-
-  </target>
 
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
@@ -195,8 +153,7 @@
 
   <target name="ErythronDBWebsite-Release">
     <ant target="defaultProjectRelease">
-      <property name="cvsroot" 
-        value=":ext:cvs.sanger.ac.uk:/cvsroot/GUS"/>
+      <property name="cvsroot" value=":ext:cvs.sanger.ac.uk:/cvsroot/GUS" />
     </ant>
   </target>
 
@@ -214,4 +171,3 @@
   </target>
 
 </project>
-

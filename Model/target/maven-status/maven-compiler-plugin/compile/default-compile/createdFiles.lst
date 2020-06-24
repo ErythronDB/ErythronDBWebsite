@@ -1,0 +1,9 @@
+org/cbil/erythrondb/model/stepanalysis/enrichment/EnrichmentPluginUtil.class
+org/cbil/erythrondb/model/stepanalysis/enrichment/GoEnrichmentPlugin$ResultRow.class
+org/cbil/erythrondb/model/stepanalysis/enrichment/GoEnrichmentPlugin$ResultViewModel.class
+org/cbil/erythrondb/model/stepanalysis/enrichment/GoEnrichmentPlugin.class
+org/cbil/erythrondb/controller/ApplicationInitListener.class
+org/cbil/erythrondb/model/stepanalysis/GeneNetworkPlugin.class
+org/cbil/erythrondb/model/stepanalysis/HeatmapPlugin.class
+org/cbil/erythrondb/model/stepanalysis/HeatmapPlugin$ResultViewModel.class
+org/cbil/erythrondb/model/stepanalysis/enrichment/GoEnrichmentPlugin$Columns.class

@@ -36,47 +36,32 @@ public class GeneNetworkPlugin extends AbstractSimpleProcessAnalyzer {
         return cmd;
     }
 
-    @Override
-    public JSONObject getFormViewModelJson() throws WdkModelException {
-        // This is now declared as parameters in the model xml
-        return null;
-    }
 
     @Override
     public org.json.JSONObject getResultViewModelJson() throws WdkModelException {
         JSONObject resultViewModel = new JSONObject();
         
-        try {
-            String organism = getFormParams().get(ORGANISM_PARAM_KEY)[0];
-            resultViewModel.put("organism", organism);
+        String organism = getFormParams().get(ORGANISM_PARAM_KEY)[0];
+        resultViewModel.put("organism", organism);
 
-            String idSql = getAnswerValue().getIdSql();
-            String sql = "SELECT count(ga.source_id) AS num_genes," + NL
-                + "jsonb_agg(ga.source_id)::text AS genes" + NL
-                + "FROM CBIL.GeneAttributes ga," + NL
-                + "(" + idSql + " ) ids" + NL
-                + "WHERE ids.source_id = ga.source_id" + NL
-                + "AND ga.ncbi_tax_id = ?::numeric";
+        String idSql = getAnswerValue().getIdSql();
+        String sql = "SELECT count(ga.source_id) AS num_genes," + NL + "jsonb_agg(ga.source_id)::text AS genes" + NL
+                + "FROM CBIL.GeneAttributes ga," + NL + "(" + idSql + " ) ids" + NL
+                + "WHERE ids.source_id = ga.source_id" + NL + "AND ga.ncbi_tax_id = ?::numeric";
 
-            
-            DataSource ds = getWdkModel().getAppDb().getDataSource();
-            BasicResultSetHandler result = new SQLRunner(ds, sql, "fetch-ensembl-id-sql")
-                        .executeQuery(new Object[] { organism }, new Integer[] { Types.VARCHAR }, new BasicResultSetHandler());
+        DataSource ds = getWdkModel().getAppDb().getDataSource();
+        BasicResultSetHandler result = new SQLRunner(ds, sql, "fetch-ensembl-id-sql")
+                .executeQuery(new Object[] { organism }, new Integer[] { Types.VARCHAR }, new BasicResultSetHandler());
 
-            Long nGenes = (Long) result.getResults().get(0).get("num_genes");
-            if (nGenes > GENE_LIST_SIZE_LIMIT) {
-                resultViewModel.put("exceedsLimit", true);
-            } 
-            else {
-                resultViewModel.put("exceedsLimit", false);
-                String geneList = (String) result.getResults().get(0).get("genes");
-                resultViewModel.put("genes", new JSONArray(geneList.toString()));
-            }
-
-        } 
-        catch (WdkUserException ex) {
-            throw new WdkModelException(ex);
+        Long nGenes = (Long) result.getResults().get(0).get("num_genes");
+        if (nGenes > GENE_LIST_SIZE_LIMIT) {
+            resultViewModel.put("exceedsLimit", true);
+        } else {
+            resultViewModel.put("exceedsLimit", false);
+            String geneList = (String) result.getResults().get(0).get("genes");
+            resultViewModel.put("genes", new JSONArray(geneList.toString()));
         }
+
         return resultViewModel;
     }
 }

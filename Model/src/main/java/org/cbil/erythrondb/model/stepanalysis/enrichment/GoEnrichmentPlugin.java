@@ -32,17 +32,28 @@ import javax.sql.DataSource;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+
 import org.apache.log4j.Logger;
+
+
 import org.gusdb.fgputil.FormatUtil;
+
 import org.gusdb.fgputil.db.runner.BasicResultSetHandler;
 import org.gusdb.fgputil.db.runner.SQLRunner;
 import org.gusdb.fgputil.db.runner.SingleLongResultSetHandler;
 import org.gusdb.fgputil.db.runner.SingleLongResultSetHandler.Status;
+
 import org.gusdb.fgputil.runtime.GusHome;
+
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.WdkUserException;
+
+import org.gusdb.fgputil.validation.ValidationBundle;
+import org.gusdb.fgputil.validation.ValidationBundle.ValidationBundleBuilder;
+import org.gusdb.fgputil.validation.ValidationLevel;
+
 import org.gusdb.wdk.model.analysis.AbstractSimpleProcessAnalyzer;
-import org.gusdb.wdk.model.analysis.ValidationErrors;
+
 import org.gusdb.wdk.model.answer.AnswerValue;
 import org.gusdb.wdk.model.user.analysis.IllegalAnswerValueException;
 
@@ -53,7 +64,6 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	private static final String GOA_TRANSITIVE_CLOSURE_TABLE = "CBIL.GOAssociation_TC";
 	private static final String GOA_TABLE = "CBIL.GOAssociation";
 	private static final String GO_TERM_BACKGROUND_COUNTS_TRANSITIVE_CLOSURE_TABLE = "CBIL.GoTerm_TC";
-	private static final String GO_TERM_BACKGROUND_COUNTS_TABLE = "CBIL.GoTerm";
 	private static final String GOA_TOTALS_TABLE = "CBIL.GeneOntologyTotals";
 	private static final String GENE_ATTRIBUTE_TABLE = "CBIL.GeneAttributes";
 
@@ -68,21 +78,26 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	private static final String DOWNLOAD_IMAGE_RESULT_FILE_NAME = RESULT_FILE_PREFIX + "_wordcloud.png";
 	private static final String INPUT_FILE_PREFIX = "goa_counts";
 
-	public ValidationErrors validateFormParams(Map<String, String[]> formParams)
-			throws WdkModelException, WdkUserException {
 
-		ValidationErrors errors = new ValidationErrors();
+	public ValidationBundle validateFormParams(Map<String, String[]> formParams) throws WdkModelException {
 
+		ValidationBundleBuilder errors = ValidationBundle.builder(ValidationLevel.SEMANTIC);
+
+		// validate pValueCutoff
+		EnrichmentPluginUtil.validatePValue(formParams, errors);
+
+		// validate ontology
 		String ontology = EnrichmentPluginUtil.getSingleAllowableValueParam(GO_ASSOC_ONTOLOGY_PARAM_KEY, formParams,
 				errors);
 
 		// only validate further if the above pass
-		if (errors.isEmpty()) {
+		if (!errors.hasErrors()) {
 			validateFilteredGoTerms(ontology, errors);
 		}
 
-		return errors;
+		return errors.build();
 	}
+
 
 	/**
 	 * Retrieve total number of genes annotated by a GO term in the background for
@@ -221,27 +236,25 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		return countFile.toString();
 	}
 
-	private void validateFilteredGoTerms(String ontology, ValidationErrors errors)
-			throws WdkModelException, WdkUserException {
+	
+	private void validateFilteredGoTerms(String ontology, ValidationBundleBuilder errors) throws WdkModelException {
 
 		String idSql = EnrichmentPluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
 		// check against direct annotations
 		String sql = "SELECT COUNT(distinct goa.go_term_id) AS counts" + NL + "FROM " + GOA_TABLE + " goa," + NL + "("
-				+ idSql + ") r" + NL + "WHERE goa.source_id = r.source_id" + NL + "AND goa.ontology_abbrev='" + ontology + "'"
-				+ NL;
+				+ idSql + ") r" + NL + "WHERE goa.source_id = r.source_id" + NL + "AND goa.ontology_abbrev='" + ontology
+				+ "'" + NL;
 
 		logger.debug("filtered GO terms SQL: " + sql);
 
 		DataSource ds = getWdkModel().getAppDb().getDataSource();
-		SingleLongResultSetHandler result = new SQLRunner(ds, sql, "count-filtered-go-terms")
-				.executeQuery(new SingleLongResultSetHandler());
 
-		if (!Status.NON_NULL_VALUE.equals(result.getStatus())) {
-			throw new WdkModelException("No result found in count query: " + sql);
-		}
+		long result = new SQLRunner(ds, sql, "count-filtered-go-terms").executeQuery(new SingleLongResultSetHandler())
+				.orElseThrow(() -> new WdkModelException("No result found in count query: " + sql));
 
-		if (result.getRetrievedValue() < 1) {
-			errors.addMessage(
+
+		if (result < 1) {
+			errors.addError(
 					"Your result has no GO annotated genes in the selected ontology.  Please try adjusting the parameters.");
 		}
 
@@ -287,7 +300,7 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	 */
 	@Override
 	public void validateAnswerValue(AnswerValue answerValue)
-			throws IllegalAnswerValueException, WdkModelException, WdkUserException {
+			throws IllegalAnswerValueException, WdkModelException {
 		logger.info("entering validate answer value");
 
 		String countColumn = "num_genes";
@@ -321,10 +334,6 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		}
 	}
 
-	@Override
-	public JSONObject getFormViewModelJson() throws WdkModelException {
-		return null; // declared as a parameters in the XML
-	}
 
 	@Override
 	public JSONObject getResultViewModelJson() throws WdkModelException {
