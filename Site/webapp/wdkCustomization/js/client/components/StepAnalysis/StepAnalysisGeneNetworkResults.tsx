@@ -1,4 +1,4 @@
-import { StepAnalysisResultPluginProps } from 'wdk-client/StepAnalysisResultsPane';
+import { StepAnalysisResultPluginProps } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisResultsPane';
 import React, { useState, useEffect, Fragment } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';

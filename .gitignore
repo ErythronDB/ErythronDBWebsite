@@ -9,13 +9,13 @@
 .classpath
 .vscode
 
-
 # Build directories
 /build/
 /out/
 /target/
 /*/target/
 */dist/
+/*/target/*
 
 # Dependencies
 node_modules/

@@ -1,9 +1,9 @@
-import { scientificCellFactory, decimalCellFactory, integerCell } from 'wdk-client/StepAnalysisResults';
-import { StepAnalysisResultPluginProps } from 'wdk-client/StepAnalysisResultsPane';
-import { ColumnSettings, StepAnalysisEnrichmentResultTable } from 'wdk-client/StepAnalysisEnrichmentResultTable';
+import { scientificCellFactory, decimalCellFactory, integerCell } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/Utils/StepAnalysisResults';
+import { StepAnalysisResultPluginProps } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisResultsPane';
+import { ColumnSettings, StepAnalysisEnrichmentResultTable } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisEnrichmentResultTable';
 import React, { Fragment, useState } from 'react';
 import { StepAnalysisButtonArray } from './StepAnalysisButtonArray';
-import { WordCloudModal } from 'wdk-client/StepAnalysisWordCloudModal';
+import { WordCloudModal } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisWordCloudModal';
 import Button from 'react-bootstrap/Button';
 
 // import './StepAnalysisEnrichmentResult.scss';

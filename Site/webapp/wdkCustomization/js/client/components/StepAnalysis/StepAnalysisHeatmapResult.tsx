@@ -1,5 +1,5 @@
-import { scientificCellFactory, decimalCellFactory, integerCell } from 'wdk-client/StepAnalysisResults';
-import { StepAnalysisResultPluginProps } from 'wdk-client/StepAnalysisResultsPane';
+import { scientificCellFactory, decimalCellFactory, integerCell } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/Utils/StepAnalysisResults';
+import { StepAnalysisResultPluginProps } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisResultsPane';
 import React, { useEffect, Fragment, useState } from 'react';
 import { StepAnalysisButtonArray } from './StepAnalysisButtonArray';
 import Button from 'react-bootstrap/Button';
