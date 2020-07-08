@@ -6,7 +6,7 @@
     <!-- Identifiers -->
     <!-- =================================================================== -->
 
-    <question name="Identifier" displayName="Identifier" shortDisplayName="Gene" fullAnswer="true" queryRef="GeneQueries.Identifier" recordClassRef="GeneRecordClasses.GeneRecordClass" noSummaryOnSingleRecord="true">
+    <question name="id" displayName="Identifier" shortDisplayName="Gene" fullAnswer="true" queryRef="GeneQueries.Identifier" recordClassRef="GeneRecordClasses.GeneRecordClass" noSummaryOnSingleRecord="true">
       <description>
         <![CDATA[<p>Find a gene by gene symbol, Entrez Gene, or Ensembl Gene ID.</p><p>Searches on gene symbol are <em>case-sensitive</em> and against official symbols only (no synonyms).</p>]]>
       </description>
@@ -16,7 +16,7 @@
     </question>
 
 
-    <question name="GeneUpload" displayName="Upload" shortDisplayName="List" fullAnswer="true" queryRef="GeneQueries.Upload" recordClassRef="GeneRecordClasses.GeneRecordClass" noSummaryOnSingleRecord="false">
+    <question name="upload" displayName="Upload" shortDisplayName="List" fullAnswer="true" queryRef="GeneQueries.Upload" recordClassRef="GeneRecordClasses.GeneRecordClass" noSummaryOnSingleRecord="false">
       <description>
         <![CDATA[<p>Upload a list of genes.</p><p>Accepted identifiers: Entrez (NCBI) Gene, Ensembl, MGI, HGNC, UCSC, or <strong>official</strong> gene symbol (case-sensitive).</p>]]>
       </description>
@@ -26,7 +26,7 @@
     </question>
 
 
-    <question name="GeneTextSearch" displayName="Text (product, symbols, etc.)" shortDisplayName="Text" fullAnswer="true" queryRef="GeneQueries.Text" recordClassRef="GeneRecordClasses.GeneRecordClass" noSummaryOnSingleRecord="true">
+    <question name="keyword" displayName="Text (product, symbols, etc.)" shortDisplayName="Text" fullAnswer="true" queryRef="GeneQueries.Text" recordClassRef="GeneRecordClasses.GeneRecordClass" noSummaryOnSingleRecord="true">
       <description>
             <![CDATA[
                   <p>Find a gene by free text search against gene symbols, synonyms, and products.</p>
@@ -48,7 +48,7 @@
 
 
 
-    <question name="GenesByGoTerm" displayName="GO Term or ID" shortDisplayName="GO" queryRef="GeneQueries.GenesByGoTerm" noSummaryOnSingleRecord="true" recordClassRef="GeneRecordClasses.GeneRecordClass">
+    <question name="go" displayName="GO Term or ID" shortDisplayName="GO" queryRef="GeneQueries.GenesByGoTerm" noSummaryOnSingleRecord="true" recordClassRef="GeneRecordClasses.GeneRecordClass">
       <description>
         <![CDATA[
               Retrieve a list of one or more genes annotated by the

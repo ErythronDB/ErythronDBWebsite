@@ -1,8 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import {pure} from 'wdk-client/ComponentUtils';
-import DatasetGraph from 'ebrc-client/components/DatasetGraph';
+
 
 // Use Element.innerText to strip XML
 function stripXML(str) {
@@ -101,55 +98,7 @@ export function RecordHeading(props) {
   );
 }
 
-const DatasetGraphTable = pure(function DatasetGraphTable(props) {
-  return (
-    <props.DefaultComponent
-      {...props}
-      childRow={childProps =>
-        <DatasetGraph rowData={props.value[childProps.rowIndex]}/>}
-    />
-  );
-});
-
-function References(props) {
-  let {questions, recordClasses, siteConfig} = props;
-  if (questions == null || recordClasses == null || siteConfig == null) {
-    return null;
-  }
-  let value = props.value
-  .filter(row => row.target_type === 'question')
-  .map(row => {
-    let name = row.target_name;
-    let question = questions.find(q => q.name === name);
-
-    if (question == null) return null;
-
-    let recordClass = recordClasses.find(r => r.name === question.recordClassName);
-    let searchName = `Identify ${recordClass.displayNamePlural} by ${question.displayName}`;
-    return (
-      <li key={name}>
-        <a href={`${siteConfig.webAppUrl}/showQuestion.do?questionFullName=${name}`}>{searchName}</a>
-      </li>
-    );
-  });
-  return value.length === 0 ? <em>No data available</em> : <ul>{value}</ul>;
-}
-
-const ConnectedReferences = connect(
-  state => ({
-    questions: state.globalData.questions,
-    recordClasses: state.globalData.recordClasses,
-    siteConfig: state.globalData.siteConfig
-  }),
-  null
-)(References);
 
 export function RecordTable(props) {
-  if (props.table.name === 'References') {
-    return <ConnectedReferences {...props}/>;
-  }
-  if (props.table.name === 'ExampleGraphs') {
-    return <DatasetGraphTable {...props}/>;
-  }
   return <props.DefaultComponent {...props}/>;
 }

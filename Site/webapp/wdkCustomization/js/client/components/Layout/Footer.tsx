@@ -11,31 +11,27 @@ export default function Footer() {
 
     return (
 
-        <div className="Footer">
-            <Container fluid={true}></Container>
-            <Row>
-                <Col>
-                    <div>
-                        <span>
-                            <a href={`//${location.hostname}`}>ErythronDB</a>                 
-                        </span>
-                        <br />
+        <footer className="Footer">
+            <Container fluid={true}>
+                <Row>
+                    <Col xs={12}>
+                        <div>ErythronDB ©{new Date().getFullYear()} University of Pennsylvania Perelman School of Medicine</div>
+                        <div>
+                            Please <NewWindowLink href={webAppUrl + '/app/contact-us'}>Contact Us</NewWindowLink> with any questions or comments
                     </div>
-                    <div>ErythronDB ©{new Date().getFullYear()} University of Pennsylvania Perelman School of Medicine</div>
-                </Col>
-                <Col></Col>
-                <Col>
-                    <div>
-                        <a href={_WDK_GITHUB_URL}>
-                            <img width="120" src={webAppUrl + '/wdk/images/stratWDKlogo.png'} />
-                        </a>
-                    </div>
-                    <div>
-                        Please <NewWindowLink href={webAppUrl + '/app/contact-us'}>Contact Us</NewWindowLink> with any questions or comments
-                    </div>
-                </Col>
-            </Row>
-        </div>
+                    </Col>
+
+                    <Col xs={3}>
+                        <div>
+                            <a href={_WDK_GITHUB_URL}>
+                                <img width="120" src={webAppUrl + '/wdk/images/stratWDKlogo.png'} />
+                            </a>
+                        </div>
+
+                    </Col>
+                </Row>
+            </Container>
+        </footer>
     )
 }
 

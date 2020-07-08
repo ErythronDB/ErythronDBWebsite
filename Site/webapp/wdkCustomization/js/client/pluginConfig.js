@@ -6,6 +6,9 @@ import {
   import { StepAnalysisGoEnrichmentResults } from './components/StepAnalysis/StepAnalysisGoEnrichmentResults';
   import { StepAnalysisHeatmapResult } from './components/StepAnalysis/StepAnalysisHeatmapResult';
   import { StepAnalysisGeneNetworkResults } from './components/StepAnalysis/StepAnalysisGeneNetworkResults';
+
+  import DefaultQuestionForm from "wdk-client/Views/Question/DefaultQuestionForm";
+
   export default [
 
    /* {
@@ -19,6 +22,11 @@ import {
       component: MatchedTranscriptsFilterPlugin
     },*/
    
+    {
+      type: "questionForm",
+      component: DefaultQuestionForm,
+    },
+
     { type: 'stepAnalysisResult',
       name: 'gene-network',
       component: StepAnalysisGeneNetworkResults

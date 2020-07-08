@@ -1,5 +1,5 @@
 var _ARRAY_EXPRESS_ACCESSION_URL = "https://www.ebi.ac.uk/arrayexpress/experiments/";
-var _WDK_GITHUB_URL = "https://github.com/EuPathDB/WDK";
+var _WDK_GITHUB_URL = "https://github.com/VEuPathDB/WDK";
 
 
 interface DatasetSearchProps {
