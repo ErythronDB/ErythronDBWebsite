@@ -14,10 +14,10 @@
   <target name="ErythronDBWebsite-Installation" depends="
                 EbrcModelCommon-Installation,
                 EbrcWebSvcCommon-Installation,
-  	           ErythronDBWebsite-MavenInstallation,
-						   ErythronDBWebsite/Model-Installation,
-               ErythronDBWebsite/Service-Installation,
-						   ErythronDBWebsite/Site-Installation">
+  	            ErythronDBWebsite-MavenInstallation,
+						    ErythronDBWebsite/Model-Installation,
+                ErythronDBWebsite/Service-Installation,
+						    ErythronDBWebsite/Site-Installation">
     <ant target="defaultProjectInstall">
       <property name="project" value="ErythronDBWebsite" />
     </ant>
@@ -32,7 +32,16 @@
 
   <!-- Added START-->
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
-  <target name="ErythronDBWebsite/Model-Installation">
+
+
+  <target name="ErythronDB-WDKModel-Patch">
+    <echo message="Patching: WDK/Model" />
+    <property name="patch-full-path-wdkmodel" location="${projectsDir}/${project}/patches/patch_WDKModel.bash" />
+    <exec executable="${patch-full-path-wdkmodel}" />
+  </target>
+
+
+  <target name="ErythronDBWebsite/Model-Installation" >
     <ant target="defaultComponentInstall">
       <property name="project" value="ErythronDBWebsite" />
       <property name="component" value="Model" />
@@ -115,15 +124,10 @@
   <!-- oooooooooooooooooooooooo  Web Installation  oooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <target name="ErythronDBWebsite-WebInstallation" depends="EbrcWebSvcCommon-WebInstallation,
-                                                      ErythronDBWebsite-Installation,
+                                                      ErythronDBWebsite-Installation,                                                      
                                                       ErythronDBWebsite/Site-WebInstallation"></target>
 
-  <target name="ErythronDB-WDKModel-Patch">
-    <echo message="Patching: WDK/Model" />
-    <property name="patch-full-path-wdkmodel" location="${projectsDir}/${project}/patches/patch_WDKModel.bash" />
-    <exec executable="${patch-full-path-wdkmodel}" />
-  </target>
-
+ 
   <target name="ErythronDB-Website-Patch">
     <echo message="Applying patches from ${projectsDir}/${project}/patches" />
     <echo message="Patching: EbrcWebsiteCommon" />
@@ -136,7 +140,7 @@
 
 
   <!-- patch WDKWebsite/View, rebuild, and then build ErythronDBWebsite/Site -->
-  <target name="ErythronDBWebsite/Site-WebInstallation"> <!-- depends="ErythronDB-Website-Patch"> -->
+  <target name="ErythronDBWebsite/Site-WebInstallation" depends="ErythronDB-Website-Patch"> 
     <ant target="eupathWebComponentInstall">
       <property name="project" value="ErythronDBWebsite" />
       <property name="component" value="Site" />
