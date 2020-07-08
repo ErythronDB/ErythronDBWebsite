@@ -1,6 +1,6 @@
 <wdkModel>
   <questionSet name="GeneDataset" displayName="Search for Genes by Dataset">
-    <question name="DifferentialExpression" urlName="diffexp" displayName="Differential Expression" shortDisplayName="FC" queryRef="GeneDatasets.DifferentialExpression" recordClassRef="GeneRecordClasses.GeneRecordClass">
+    <question name="DifferentialExpression" displayName="Differential Expression" shortDisplayName="FC" queryRef="GeneDatasets.DifferentialExpression" recordClassRef="GeneRecordClasses.GeneRecordClass">
 
       <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study001" queryRef="GeneVQ.TranscriptomicsInvestigations"/>
       <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="GeneVQ.Experiments"/>
@@ -41,7 +41,7 @@
 
     </question>
 
-    <question name="GenesByProteomicsComparison" urlName="FC003" displayName="Differential Intensity" shortDisplayName="Proteomics FC" queryRef="GeneDatasets.ProteomicsFC" recordClassRef="GeneRecordClasses.GeneRecordClass" iconName="fa fa-exchange fa-rotate-90" newBuild="2">
+    <question name="GenesByProteomicsComparison" displayName="Differential Intensity" shortDisplayName="Proteomics FC" queryRef="GeneDatasets.ProteomicsFC" recordClassRef="GeneRecordClasses.GeneRecordClass" iconName="fa fa-exchange fa-rotate-90" newBuild="2">
 
       <attributesList summary="product,fold_change,reference_mean,alternative_mean" sorting="fold_change desc" />
 
@@ -78,7 +78,7 @@
     </question>
 
 
-    <question name="RankedExpression" urlName="rank" displayName="Ranked Expression Level" shortDisplayName="Gene Exp" queryRef="GeneDatasets.RankedExpression" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2" iconName="fa fa-sort-amount-desc">
+    <question name="RankedExpression"  displayName="Ranked Expression Level" shortDisplayName="Gene Exp" queryRef="GeneDatasets.RankedExpression" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2" iconName="fa fa-sort-amount-desc">
 
       <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study001" queryRef="GeneVQ.TranscriptomicsInvestigations"/>
       <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="GeneVQ.Experiments"/>

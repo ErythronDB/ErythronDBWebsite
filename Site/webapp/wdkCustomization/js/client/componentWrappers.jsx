@@ -12,7 +12,7 @@ import ErythronDBHeader from './components/Layout/Header';
 import newFeatureImage from 'wdk-client/Core/Style/images/new-feature.png';
 
 export const SiteHeader = () => ErythronDBHeader;
-export const Footer = () => ErythronDBFooter;
+export const Footer = () => ErythronDBFooter; 
 
 const stopPropagation = event => event.stopPropagation();
 

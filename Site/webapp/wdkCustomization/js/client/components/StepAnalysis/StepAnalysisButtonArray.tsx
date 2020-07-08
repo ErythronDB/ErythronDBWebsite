@@ -18,7 +18,7 @@ export const StepAnalysisButtonArray: React.SFC<StepAnalysisButtonArrayProps> = 
 type StepAnalysisButtonConfig = StepAnalysisButtonProps & { key: string; };
 
 interface StepAnalysisButtonProps {
-  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   customButton?: ReactNode;
   href?: string;
   iconClassName?: string;
@@ -35,7 +35,7 @@ const StepAnalysisButton: React.SFC<StepAnalysisButtonProps> = ({
   <div style={{ display: 'inline-block', margin: '5px'}}>
     {
       customButton || (
-          <Button variant="info" href={href} onClick={onClick && onClick.bind(this)}>
+          <Button variant="info" href={href} onClick={onClick}>
             <i className={`${iconClassName} text-white mr-2`}> </i>
             {contents}
           </Button>

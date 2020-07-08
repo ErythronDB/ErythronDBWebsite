@@ -1,48 +1,30 @@
 import React from 'react';
-import { _studies } from '../../data/studies';
-import { _workspace, _about } from '../../data/menu';
 import { connect } from 'react-redux';
-import { Link, HelpIcon, Icon } from 'wdk-client/Components';
-import Button from 'react-bootstrap/Button';
-import { UserSessionActions } from 'wdk-client/Actions';
 import { get } from 'lodash';
 
-export interface User {
-    isGuest: boolean;
-    id: number;
-    email: string;
-    properties: {
-        firstName: string;
-        lastName: string;
-        organization: string;
-        middleName: string;
-        group: string;
+import { _studies } from '../../data/studies';
+import { _workspace, _about } from '../../data/menu';
+import { StateProps } from './Header';
+
+import { Link, HelpIcon, Icon } from 'wdk-client/Components';
+
+import { showLoginForm, showLogoutWarning } from 'wdk-client/Actions/UserSessionActions';
+import { DispatchAction } from 'wdk-client/Core/CommonTypes';
+import { User } from 'wdk-client/Utils/WdkUser';
+
+import Button from 'react-bootstrap/Button';
+
+
+interface DispatchProps {
+    actions?: {
+        showLoginForm: (url?: string) => void,
+        showLogoutWarning: () => void
     }
-}
+};
 
-interface StateProps {
-    isPartOfEuPathDB: boolean;
-    location: any;
-    user: User;
-    siteConfig: {
-        announcements: any;
-        buildNumber: string;
-        projectId: string;
-        releaseDate: string;
-        webAppUrl: string;
-    };
-}
+type MenuProps = DispatchProps & StateProps;
 
-interface MenuProps {
-    webAppUrl?: string;
-    projectId?: string;
-    showLoginForm?: any;
-    showLoginWarning?: any;
-    showLogoutWarning?: any;
-    isGuest?: boolean;
-}
-
-interface MenuItemProps extends MenuProps {
+interface MenuItemProps extends StateProps {
     id?: string;
     text?: string;
     tooltip?: string;
@@ -51,18 +33,15 @@ interface MenuItemProps extends MenuProps {
 }
 
 interface StudyMenuItemProps {
-
     menu_text: string,
     description: string,
     dataset_id: string,
-
 }
 
-interface DropDownMenuProps {
+interface DropDownMenuProps extends StateProps {
     text: string;
     items?: MenuItemProps[];
     studyItems?: StudyMenuItemProps[];
-    webAppUrl?: string;
     type?: string;
 }
 
@@ -105,7 +84,7 @@ const DropDownMenuItem: React.ComponentClass<MenuItemProps> = class extends Reac
             tooltip,
             text,
             route,
-            webAppUrl,
+            webAppUrl
         } = this.props;
 
         return (
@@ -181,8 +160,8 @@ const DropDownStudyMenu: React.ComponentClass<DropDownMenuProps> = class extends
         const {
             text,
             studyItems,
-            webAppUrl,
-            type
+            type,
+            webAppUrl
         } = this.props
 
         return (
@@ -225,20 +204,23 @@ const MenuSearch: React.FC<{ webAppUrl: string }> = (props: { webAppUrl: string 
 }
 
 
-const Menu: React.ComponentClass<MenuProps> = class extends React.Component<StateProps & MenuProps> {
-    constructor(props: MenuProps & StateProps) {
+const Menu: React.ComponentClass<MenuProps> = class extends React.Component<MenuProps> {
+    constructor(props: MenuProps) {
         super(props)
     }
 
     render() {
         const {
-            webAppUrl,
             projectId,
-            showLoginWarning,
-            showLogoutWarning,
-            showLoginForm,
-            user
+            user,
+            actions,
+            webAppUrl
         } = this.props;
+
+        const {
+            showLoginForm,
+            showLogoutWarning
+        } = actions;
 
         // const isGuest = get(user, 'isGuest', false);
         const isGuest = user && user.isGuest ? true : false;
@@ -259,8 +241,10 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Stat
                     </ul>
                     <MenuSearch webAppUrl={webAppUrl} />
                 </div>
-                <Button variant="info" href={`${webAppUrl}/showQuestion.do?questionFullName=GeneQuestions.GeneUpload`} id="menu-upload-button" title="Upload a list of genes."><i className="fa fa-upload"></i></Button>
-                {isGuest && <Button variant="link" onClick={() => showLoginForm()}>Sign In</Button>}
+                <Button variant="info" href={`${webAppUrl}/showQuestion.do?questionFullName=GeneQuestions.GeneUpload`} id="menu-upload-button" title="Upload a list of genes.">
+                    <i className="fa fa-upload"></i>
+                </Button>
+                {isGuest && <Button variant="link" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
                 {isGuest && <Button variant="outline-warning" href={`${webAppUrl}/app/user/registration`}>Sign Up</Button>}
 
                 {!isGuest && <Button variant="link" onClick={() => showLogoutWarning()}>Logout</Button>}
@@ -269,7 +253,11 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Stat
     }
 }
 
-export default connect(
-    (state: any) => state.globalData,
-    { ...UserSessionActions }
-)(Menu);
+const mapDispatchToProps = (dispatch: DispatchAction): DispatchProps => ({
+    actions: {
+        showLoginForm: (url?:string) => dispatch(showLoginForm(url)),
+        showLogoutWarning: () => dispatch(showLogoutWarning())
+    }
+});
+
+export default connect(mapDispatchToProps)(Menu);

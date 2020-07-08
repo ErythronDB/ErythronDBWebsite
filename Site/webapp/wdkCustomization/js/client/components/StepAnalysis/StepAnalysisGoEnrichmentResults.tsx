@@ -2,7 +2,7 @@ import { scientificCellFactory, decimalCellFactory, integerCell } from 'wdk-clie
 import { StepAnalysisResultPluginProps } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisResultsPane';
 import { ColumnSettings, StepAnalysisEnrichmentResultTable } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisEnrichmentResultTable';
 import React, { Fragment, useState } from 'react';
-import { StepAnalysisButtonArray } from './StepAnalysisButtonArray';
+import { StepAnalysisButtonArray } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisButtonArray';
 import { WordCloudModal } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisWordCloudModal';
 import Button from 'react-bootstrap/Button';
 

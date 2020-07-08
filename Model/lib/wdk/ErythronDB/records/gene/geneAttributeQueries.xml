@@ -80,11 +80,11 @@
 	</sqlQuery>
 	
 	<sqlQuery name="Ortholog">
-	  <column name="source_id"/>
-	  <column name="project_id"/>
-	  <column name="ortholog_taxon"/>
-	  <column name="ortholog_source_id"/>
-	  <column name="ortholog_symbol"/>
+	  <column name="source_id" columnType="string"/>
+	  <column name="project_id" columnType="string"/>
+	  <column name="ortholog_taxon" columnType="string"/>
+	  <column name="ortholog_source_id" columnType="string"/>
+	  <column name="ortholog_symbol" columnType="string"/>
 	  <sql>
 	    <![CDATA[
 		     WITH Human AS (	     

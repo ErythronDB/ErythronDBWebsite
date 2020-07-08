@@ -1,74 +1,44 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { UserActions } from 'wdk-client/Actions';
 import Menu from './Menu';
 
-export interface User {
-    isGuest: boolean;
-    id: number;
-    email: string;
-    properties: {
-        firstName: string;
-        lastName: string;
-        organization: string;
-        middleName: string;
-        group: string;
-    }
-}
+import { User } from 'wdk-client/Utils/WdkUser';
+import { RootState } from 'wdk-client/Core/State/Types';
 
-interface StateProps {
-    isPartOfEuPathDB: boolean;
-    location: any;
-    user: User;
-    siteConfig: {
-        announcements: any;
-        buildNumber: string;
-        projectId: string;
-        releaseDate: string;
-        webAppUrl: string;
-    };
-}
-
-interface HeaderProps {
-    showLoginWarning: any;
-    showLoginForm: any;
-    showLogoutWarning: any;
-    loadBasketCounts: any;
-    makeMainMenuItems: any;
-}
+export interface StateProps {
+    user?: User,
+    webAppUrl?: string,
+    projectId?: string
+};
 
 
-const Header: React.ComponentClass<HeaderProps> = class extends React.Component<HeaderProps & StateProps> {
-    constructor(props: HeaderProps & StateProps) {
+const Header: React.ComponentClass<StateProps> = class extends React.Component<StateProps> {
+    constructor(props: StateProps) {
         super(props);
     }
 
     render() {
         const {
-            siteConfig,
             user,
-            showLoginWarning,
-            showLoginForm,
-            isPartOfEuPathDB = false,
+            webAppUrl,
+            projectId
         } = this.props;
 
-        const {
-            announcements,
-            projectId,
-            webAppUrl
-        } = siteConfig;
-
- 
         return (
             <div id="header">
-                <Menu webAppUrl={webAppUrl} projectId={projectId} />
+                <Menu webAppUrl={webAppUrl} projectId={projectId} user={user} />
             </div>
         )
     }
 }
 
 
-export default connect<StateProps, any, HeaderProps>(
-    (state: any) => state.globalData,
-    { ...UserActions }
-)(Header);
+const mapStateToProps = (state: RootState): StateProps => ({
+    user: state.globalData.user,
+    webAppUrl: state.globalData.siteConfig.webAppUrl,
+    projectId: state.globalData.siteConfig.projectId
+});
+
+
+
+export default connect(mapStateToProps)(Header);

@@ -13,7 +13,7 @@
 # cp $PROJECT_HOME/ErythronDBWebsite/patches/tsconfig.json $PROJECT_HOME/WDKView/tsconfig.json
 
 echo "parameterHandlers.jsx - fix radioBox depended params"
-cp $PROJECT_HOME/ErythronDBWebsite/patches/parameterHandlers.jsx $PROJECT_HOME/WDKWebsite/View/webapp/wdk/js/components/parameterHandlers.jsx
+# cp $PROJECT_HOME/ErythronDBWebsite/patches/parameterHandlers.jsx $PROJECT_HOME/WDKWebsite/View/webapp/wdk/js/components/parameterHandlers.jsx
 
 #echo "Page.tsx - remove padding on home page"
 #cp $PROJECT_HOME/ErythronDBWebsite/patches/Page.tsx $PROJECT_HOME/WDKClient/Client/src/Components/Layout/Page.tsx

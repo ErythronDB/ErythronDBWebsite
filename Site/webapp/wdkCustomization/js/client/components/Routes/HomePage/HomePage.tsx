@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { User } from '../../Layout/Header';
+import { User } from 'wdk-client/Utils/WdkUser';
 import { _studies } from '../../../data/studies';
 import StudyCard from '../../Components/StudyCard';
 import Container from 'react-bootstrap/Container';

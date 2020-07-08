@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'wdk-client/Components';
 import NewWindowLink from 'ebrc-client/components/NewWindowLink';
-import { formatReleaseDate } from 'ebrc-client/util/formatters';
-import { buildNumber, releaseDate, displayName, webAppUrl } from 'ebrc-client/config';
+import { webAppUrl } from 'ebrc-client/config';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -18,8 +17,7 @@ export default function Footer() {
                 <Col>
                     <div>
                         <span>
-                            <a href={`//${location.hostname}`}>{displayName}</a>
-                            <span> {buildNumber} &nbsp;&nbsp; {formatReleaseDate(releaseDate)}</span>
+                            <a href={`//${location.hostname}`}>ErythronDB</a>                 
                         </span>
                         <br />
                     </div>
