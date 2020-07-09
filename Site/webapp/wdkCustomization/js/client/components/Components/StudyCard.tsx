@@ -14,6 +14,7 @@ import { StringifyOptions } from 'querystring';
 
 interface DatasetItemProps {
     comparison_tooltip: string;
+    default_experiment: string;
     title?: string[];
     search: string[];
 }
@@ -40,6 +41,7 @@ interface StudyCardProps {
 
 interface SearchButtonProps {
     study_id: string;
+    defaultExperiment: string;
     searchKey: string;
     popoverText?: string;
     webAppUrl?: string;
@@ -51,7 +53,7 @@ interface SearchButtonGroupProps {
 }
 
 const SearchButton: React.SFC<SearchButtonProps> = props => {
-    const { webAppUrl, study_id, popoverText, searchKey } = props;
+    const { webAppUrl, study_id, popoverText, searchKey, defaultExperiment } = props;
 
  
     function isKeyOf<T extends object>(obj: T, possibleKey: keyof any): possibleKey is keyof T {
@@ -71,7 +73,8 @@ const SearchButton: React.SFC<SearchButtonProps> = props => {
                     </Popover>
                 }>
 
-                <Button id={`${study_id}_${search_type.internal}`} variant="secondary" className="card-search" href={`${webAppUrl}/${search_type.url}${study_id}`}>
+                <Button id={`${study_id}_${search_type.internal}`} variant="secondary" className="card-search" 
+                        href={`${webAppUrl}/app/search/gene/${search_type.name}?param.investigation=${study_id}&param.experimet=${defaultExperiment}`}>
                     <i className={`fa ${search_type.icon}`}></i>
                 </Button>
             </OverlayTrigger>
@@ -86,8 +89,12 @@ const SearchButtonGroup: React.SFC<SearchButtonGroupProps> = props => {
         <ButtonToolbar className="justify-content-md-center">
             {study.individual_datasets && study.individual_datasets.search.map((item: string, index: any) => {
                 return (item === 'dexp' || item === 'mdexp'
-                    ? <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id} popoverText={study.individual_datasets.comparison_tooltip}></SearchButton>
-                    : <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id}></SearchButton>)
+                    ? <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id} 
+                        popoverText={study.individual_datasets.comparison_tooltip}
+                        defaultExperiment={study.individual_datasets.default_experiment}>
+                        </SearchButton>
+                    : <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id}
+                        defaultExperiment={study.individual_datasets.default_experiment}></SearchButton>)
             })
             }
         </ButtonToolbar>
@@ -116,15 +123,6 @@ const StudyCard: React.SFC<StudyCardProps> = props => {
 
             <Card.Footer className="bg-white text-primary">
                 <SearchButtonGroup webAppUrl={webAppUrl} study={study} ></SearchButtonGroup>
-
-                {/*   {study.comprehensive_dataset &&
-                    <Card.Text className="lead mt-3">
-                        {study.comprehensive_dataset.description}
-                    </Card.Text>
-                }
-                {study.comprehensive_dataset &&
-                    <SearchButtonGroup webAppUrl={webAppUrl} searches={study.comprehensive_dataset.search} study_id={study.dataset_id}></SearchButtonGroup>
-                } */}
             </Card.Footer>
         </Card >
 

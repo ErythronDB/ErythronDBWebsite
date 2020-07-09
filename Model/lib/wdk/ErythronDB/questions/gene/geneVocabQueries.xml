@@ -87,6 +87,7 @@
 						WHERE NOT (@HIDE_PRIVATE_DATA@::boolean AND NOT is_public)
 						AND NOT  is_comprehensive
 						AND $$investigation$$::text = investigation_id
+						ORDER BY term
 				]]>
 			</sql>
 		</sqlQuery>

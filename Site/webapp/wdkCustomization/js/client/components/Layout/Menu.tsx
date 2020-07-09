@@ -260,4 +260,4 @@ const mapDispatchToProps = (dispatch: DispatchAction): DispatchProps => ({
     }
 });
 
-export default connect(mapDispatchToProps)(Menu);
+export default connect(null, mapDispatchToProps)(Menu);

@@ -23,6 +23,7 @@ const _studies =
 				comparison_tooltip: "Discover molecular signatures of erythropoeisis by comparing developmental cell stages within a specific erythroid lineage or equivalent cell stages across Primitive and Definitive lineages.",
 				title: ["Primitive Erythropoiesis", "Fetal Definitive Erythropoiesis", "Adult Definitive Erythropoiesis"],
 				search: ["dexp", "rank", "pattern"],
+				default_experiment: "dset001_1"
 			}
 
 		},
@@ -45,7 +46,8 @@ const _studies =
 			individual_datasets: {
 				comparison_tooltip: "Identify candidate EPO targets by comparing EPO-challenged to control cells or identify changes in gene expression across developmental stages within the treated or the control stress lineage.",
 				title: ["E1 (CFU-e) erythroid progenitors", "E2 (proerythroblasts) erythroid progenitors", "E3 cells (maturing erythroblasts)"],
-				search: ["dexp", "rank"]
+				search: ["dexp", "rank"],
+				default_experiment: "dset002_1"
 			}
 		},
 
@@ -66,7 +68,8 @@ const _studies =
 			individual_datasets: {
 				comparison_tooltip: "Find downstream targets of EPO signaling by comparing EPO-challenged to control cells within each EpoR genotype or compare across genotypes to identify differences in gene expression within treated or control cells.",
 				title: ["Wild Type E1 (CFU-e) erythroid progenitors", "EpoR-H E1 (CFU-e) erythroid progenitors"],
-				search: ["dexp", "rank"]
+				search: ["dexp", "rank"],
+				default_experiment: "dset005_01"
 			}
 		},
 		{
@@ -85,7 +88,8 @@ const _studies =
 			individual_datasets: {
 				comparison_tooltip: "Find PTM targets of EPO by comparing EPO-Challenged to control cells.",
 				title: ["one", "two", "three", "four"],
-				search: ["mdexp"]
+				search: ["mdexp"],
+				default_experiment: "dset003_01"
 			}
 		}
 	]

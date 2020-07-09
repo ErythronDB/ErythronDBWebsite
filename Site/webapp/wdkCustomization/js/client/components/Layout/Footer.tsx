@@ -14,14 +14,14 @@ export default function Footer() {
         <footer className="Footer">
             <Container fluid={true}>
                 <Row>
-                    <Col xs={12}>
+                    <Col xs={10}>
                         <div>ErythronDB ©{new Date().getFullYear()} University of Pennsylvania Perelman School of Medicine</div>
                         <div>
                             Please <NewWindowLink href={webAppUrl + '/app/contact-us'}>Contact Us</NewWindowLink> with any questions or comments
                     </div>
                     </Col>
 
-                    <Col xs={3}>
+                    <Col>
                         <div>
                             <a href={_WDK_GITHUB_URL}>
                                 <img width="120" src={webAppUrl + '/wdk/images/stratWDKlogo.png'} />

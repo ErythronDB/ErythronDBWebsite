@@ -317,13 +317,13 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 
 		Map<String, Object> result = handler.getResults().get(0);
 
-		Long count = (Long) result.get("taxon_choice");
+		Integer count = (Integer) result.get("taxon_choice");
 		// check for human
-		if (count.intValue() == 2) {
+		if (count == 2) {
 			throw new IllegalAnswerValueException(
 					"Heatmaps arecurrently only available for murine gene expression datasets. Please filter your search result for mouse (Mm) genes and try again.");
 		}
-		if (count.intValue() == 1) {
+		if (count == 1) {
 			throw new IllegalAnswerValueException(
 					"Heatmaps arecurrently only available for murine gene expression datasets. To continue, transform your search result into ortholog mouse (Mm) genes and try again.");
 		}

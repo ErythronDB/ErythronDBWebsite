@@ -6,7 +6,7 @@ interface DatasetSearchProps {
     title: string;
     icon: string;
     internal: string;
-    url: string;
+    name: string;
     description?: string;
 }
 
@@ -17,7 +17,7 @@ var _SEARCH_TYPE_MAP =
         title: "Differential Expression (Fold Change)",
         icon: "fa-exchange fa-rotate-90",
         internal: "dexp",
-        url: "showQuestion.do?questionFullName=GeneDataset.DifferentialExpression&investigation=",
+        name: "transcriptomics_comparison",
         description: "Find differentially expressed genes by fold change."
     },
 
@@ -26,7 +26,7 @@ var _SEARCH_TYPE_MAP =
         title: "Ranked mRNA Expression",
         icon:  "fa-sort-amount-desc",
         internal: "rank",
-        url: "showQuestion.do?questionFullName=GeneDataset.RankedExpression&investigation=",
+        name: "transcriptomics_expression",
         description: "Find top-expressed genes within a sample (cell or treatment) or across a set of samples in the study."
     },
 
@@ -35,7 +35,7 @@ var _SEARCH_TYPE_MAP =
         title: "Expression Signature",
         icon: "fa fa-bar-chart",
         internal: "pattern",
-        url: "showQuestion.do?questionFullName=GeneDataset.Pattern&investigation=",
+        name: "transcriptomics_profiles",
         description: "Find genes exhibiting similar expression signatures within an erythroid lineage."
     },
 
@@ -44,7 +44,7 @@ var _SEARCH_TYPE_MAP =
         title: "Differential Intensity",
         icon: "fa-exchange fa-rotate-90",
         internal: "mdexp",
-        url: "showQuestion.do?questionFullName=GeneDataset.GenesByProteomicsComparison&investigation=",
+        name: "proteomics_comparison",
         description: "Find phosphorylation target proteins by fold change."
     }
 };
