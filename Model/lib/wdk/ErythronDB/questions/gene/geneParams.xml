@@ -30,7 +30,7 @@
     </datasetParam>
 
 
-    <flatVocabParam name="go_typeahead" queryRef="GeneVQ.GoTerms" prompt="Term" multiPick="false" displayType="typeAhead">
+    <flatVocabParam name="go_typeahead" queryRef="GeneVQ.GoTerms" prompt="Term" multiPick="true" displayType="typeAhead">
 
       <suggest selectMode="none" allowEmpty="false"/>
       <help>
@@ -83,8 +83,15 @@
       <help>The selected dataset.</help>
     </flatVocabParam>
 
+  <flatVocabParam name="investigation_p" queryRef="GeneVQ.ProteomicsInvestigations" prompt="Dataset" readonly="true" multiPick="false">
+      <help>The selected dataset.</help>
+    </flatVocabParam>
 
     <flatVocabParam name="experiment" queryRef="GeneVQ.Experiments" dependedParamRef="geneParams.investigation" prompt="Experiment" multiPick="false">
+      <help>Select an experiment from this dataset.  Datasets marked with an asterisk (*) are comprehensive and include all samples analyzed in the study.  Select the *-dataset to compare equivalent cell stages across lineages or treatments.</help>
+    </flatVocabParam>
+
+    <flatVocabParam name="experiment_p" queryRef="GeneVQ.ProteomicsExperiments" prompt="Experiment" multiPick="false">
       <help>Select an experiment from this dataset.  Datasets marked with an asterisk (*) are comprehensive and include all samples analyzed in the study.  Select the *-dataset to compare equivalent cell stages across lineages or treatments.</help>
     </flatVocabParam>
 
@@ -104,7 +111,7 @@
       <help>Select one or more samples. If multiple samples are selected, will return the greatest level of expression among the selected samples.</help>
     </flatVocabParam>
 
-    <flatVocabParam name="comparison" queryRef="GeneVQ.ProteomicsComparisons" prompt="Comparisons" dependedParamRef="geneParams.experiment" multiPick="false">
+    <flatVocabParam name="comparison" queryRef="GeneVQ.ProteomicsComparisons" prompt="Comparisons" dependedParamRef="geneParams.experiment_p" multiPick="false">
       <help>Select a comparison.</help>
     </flatVocabParam>
 

@@ -57,8 +57,7 @@
 
 
 		<sqlQuery name="ProteomicsFC">
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" />
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment"/>
+			<paramRef  ref="geneParams.experiment_p"/>
 			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.comparison"/>
 			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/>
 			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.fold_change" default="1.5"/>
@@ -70,7 +69,7 @@
 
 			<sql>
 				<![CDATA[
-	 WITH fc AS (
+	 WITH fc AS ( 
     		 SELECT ga.source_id,
     		 round((CASE WHEN pc.adj_fold_change IS NOT NULL
     		 THEN pc.adj_fold_change ELSE pc.fold_change END)::numeric,2) AS fold_change,

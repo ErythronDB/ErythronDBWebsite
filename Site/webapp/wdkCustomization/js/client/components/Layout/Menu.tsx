@@ -12,8 +12,17 @@ import { showLoginForm, showLogoutWarning } from 'wdk-client/Actions/UserSession
 import { DispatchAction } from 'wdk-client/Core/CommonTypes';
 import { User } from 'wdk-client/Utils/WdkUser';
 
+import {
+    SubmissionMetadata,
+    submitQuestion,
+    updateParamValue,
+    updateActiveQuestion
+  } from "wdk-client/Actions/QuestionActions";
+  import { QuestionState } from "wdk-client/StoreModules/QuestionStoreModule";
+
 import Button from 'react-bootstrap/Button';
 
+  
 
 interface DispatchProps {
     actions?: {
@@ -184,9 +193,8 @@ const DropDownStudyMenu: React.ComponentClass<DropDownMenuProps> = class extends
 
 const MenuSearch: React.FC<{ webAppUrl: string }> = (props: { webAppUrl: string }) => {
     return (
-        <form className="form-inline my-2 my-lg-0" method="post" action={`${props.webAppUrl}/processQuestionSetsFlat.do`}>
-            <input type="hidden" name="questionSubmit" value="Get Answer" />
-            <input type="hidden" name="questionFullName" value="GeneQuestions.Identifier" />
+        <form className="form-inline my-2 my-lg-0" method="GET" action={`${props.webAppUrl}/app/search/gene/id`}>
+                <input type="hidden" name="autoRun"/>
             <label htmlFor="menu-search-input" className="mr-3">
                 <HelpIcon>
                     <div>
@@ -197,7 +205,7 @@ const MenuSearch: React.FC<{ webAppUrl: string }> = (props: { webAppUrl: string 
                 </HelpIcon>
             </label>
 
-            <input id="menu-search-input" className="form-control" type="text" placeholder="Search for a gene..." name="value(generic_gene_identifier)" aria-label="GeneSearch" />
+            <input id="menu-search-input" className="form-control" type="text" placeholder="Search for a gene..." name="param.generic_gene_identifier" aria-label="GeneSearch" />
             <button type="submit" id="menu-search-submit" className="btn btn-info text-white"><i className="fa fa-search"></i></button>
         </form>
     )
@@ -241,7 +249,7 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Menu
                     </ul>
                     <MenuSearch webAppUrl={webAppUrl} />
                 </div>
-                <Button variant="info" href={`${webAppUrl}/showQuestion.do?questionFullName=GeneQuestions.GeneUpload`} id="menu-upload-button" title="Upload a list of genes.">
+                <Button variant="info" href={`${webAppUrl}/search/gene/id`} id="menu-upload-button" title="Upload a list of genes.">
                     <i className="fa fa-upload"></i>
                 </Button>
                 {isGuest && <Button variant="link" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
@@ -259,5 +267,7 @@ const mapDispatchToProps = (dispatch: DispatchAction): DispatchProps => ({
         showLogoutWarning: () => dispatch(showLogoutWarning())
     }
 });
+
+
 
 export default connect(null, mapDispatchToProps)(Menu);

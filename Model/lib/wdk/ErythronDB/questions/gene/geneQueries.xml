@@ -204,6 +204,7 @@
 
 
     <sqlQuery name="GenesByGoTerm">
+      <paramRef ref="geneParams.go_typeahead"/>
       <column name="source_id"/>
       <column name="project_id"/>
       <column name="go_terms"/>

@@ -7,17 +7,17 @@ TextCategory					TextCategory	Text				1
 													
 ## Gene Questions ##													
 													
-GeneRecordClasses.GeneRecordClass.GeneQuestions.GeneTextSearch	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GeneTextSearch						menu	webservice	
-GeneRecordClasses.GeneRecordClass.GeneQuestions.GeneByIdentifier	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GeneByIdentifier						menu	webservice	
-GeneRecordClasses.GeneRecordClass.GeneQuestions.GeneUpload	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GeneUpload						menu		
-GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByProteomics_QuantitativeMassSpec	http://edamontology.org/topic_0121	searchCategory-proteomics-fold-change	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByProteomics_QuantitativeMassSpec						menu		
-GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByTranscriptomics_FC	http://edamontology.org/topic_3308	searchCategory-transcriptomics-fold-change	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByTranscriptomics_FC						menu		
-GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByTranscriptomics_Expression	http://edamontology.org/topic_3308	searchCategory-transcriptomics-percentile	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByTranscriptomics_Expression						menu		
-GeneRecordClasses.GeneRecordClass.GeneQuestions.GenesByTranscriptomics	http://edamontology.org/topic_3308	searchCategory-transcriptomics	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.GenesByTranscriptomics								
-													
-													
-													
-													
+GeneRecordClasses.GeneRecordClass.GeneQuestions.keyword	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.keyword						menu	webservice	
+GeneRecordClasses.GeneRecordClass.GeneQuestions.id	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.id						menu	webservice	
+GeneRecordClasses.GeneRecordClass.GeneQuestions.upload	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.upload						menu		
+GeneRecordClasses.GeneRecordClass.GeneQuestions.go	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.GeneRecordClass	search	GeneQuestions.go						menu		
+GeneRecordClasses.GeneRecordClass.GeneDataset.proteomics_comparison	http://edamontology.org/topic_0121	Proteomics	GeneRecordClasses.GeneRecordClass	search	GeneDataset.proteomics_comparison						menu		
+GeneRecordClasses.GeneRecordClass.Study001.study001_comparison	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	search	Study001.study001_comparison					1	menu		
+GeneRecordClasses.GeneRecordClass.Study001.study001_expression	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	search	Study001.study001_expression					2	menu		
+GeneRecordClasses.GeneRecordClass.Study001.study002_comparison	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	search	Study002.study002_comparison					3	menu		
+GeneRecordClasses.GeneRecordClass.Study001.study002_expression	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	search	Study002.study002_expression					4	menu		
+GeneRecordClasses.GeneRecordClass.Study005.study005_comparison	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	search	Study005.study005_comparison					5	menu		
+GeneRecordClasses.GeneRecordClass.Study005.study005_expression	http://edamontology.org/topic_3308	Transcriptomics	GeneRecordClasses.GeneRecordClass	search	Study005.study005_expression					6	menu		
 													
 ## Gene Attributes ##													
 													
@@ -97,7 +97,7 @@ searchCategory-transcriptomics	http://edamontology.org/topic_3308	Transcriptomic
 													
 ## Dataset Attributes ##													
 DatasetRecordClasses.DatasetRecordClass.Datasets	http://edamontology.org/data_0916	Datasets	DatasetRecordClasses.DatasetRecordClass	table	Datasets						results	record	download
-DatasetRecordClasses.DatasetRecordClass.Searches	http://edamontology.org/data_0916	Searches	DatasetRecordClasses.DatasetRecordClass	table	Searches						results	record	download
+DatasetRecordClasses.DatasetRecordClass.Searches	http://edamontology.org/data_0916	Searches	DatasetRecordClasses.DatasetRecordClass	table	Searches							record	
 DatasetRecordClasses.DatasetRecordClass.primary_contact	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_contact						results	record	download
 DatasetRecordClasses.DatasetRecordClass.primary_publication	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_publication						results	record	download
 DatasetRecordClasses.DatasetRecordClass.bulk_download_url	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	bulk_download_url						results	record	

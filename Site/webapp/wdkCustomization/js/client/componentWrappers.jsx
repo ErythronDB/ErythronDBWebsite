@@ -15,4 +15,3 @@ export const SiteHeader = () => ErythronDBHeader;
 export const Footer = () => ErythronDBFooter; 
 
 const stopPropagation = event => event.stopPropagation();
-

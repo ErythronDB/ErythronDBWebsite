@@ -91,6 +91,25 @@
 			</sql>
 		</sqlQuery>
 
+	
+	
+		<sqlQuery name="ProteomicsExperiments">
+			<column name="internal"/>
+			<column name="term"/>
+			<column name="display"/>
+			<sql>
+				<![CDATA[
+						SELECT DISTINCT replace(dataset_name, ', ', ' - ') AS display, 
+						dataset_id AS term,
+						dataset_id AS internal
+						FROM ErythronDB.Dataset
+						WHERE NOT (@HIDE_PRIVATE_DATA@::boolean AND NOT is_public)
+						AND 'study003'::text = investigation_id
+						ORDER BY term
+				]]>
+			</sql>
+		</sqlQuery>
+
 
 		<sqlQuery name="CompExperiments">
 			<paramRef ref="geneParams.investigation"/>
@@ -189,13 +208,15 @@
          ]]>
 			</sql>
 		</sqlQuery>
+
 		<sqlQuery name="ProteomicsComparisons">
-			<paramRef ref="geneParams.experiment"/>
+			<paramRef ref="geneParams.experiment_p"/>
 			<column name="internal"/>
 			<column name="display"/>
 			<column name="term"/>
-			<sql><![CDATA[select DISTINCT pan.source_id AS internal, pan.name AS display, pan.source_id AS term from study.study s, study.studylink sl, study.protocolappnode pan, erythrondb.peptidecomparison pc, erythrondb.comparison c
-where s.source_id = $$experiment$$
+			<sql><![CDATA[select DISTINCT pan.source_id AS internal, pan.name AS display, pan.source_id AS term from study.study s, study.studylink sl, 
+			study.protocolappnode pan, erythrondb.peptidecomparison pc, erythrondb.comparison c
+where s.source_id = $$experiment_p$$
 and s.study_id = sl.study_id and sl.protocol_app_node_id = pan.protocol_app_node_id
 and pc.comparison_id = c.comparison_id
 and pan.protocol_app_node_id = c.protocol_app_node_id]]></sql>

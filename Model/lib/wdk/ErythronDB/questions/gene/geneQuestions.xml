@@ -80,7 +80,7 @@
         <![CDATA[
               Retrieve a list of one or more genes annotated by the
               selected Gene Ontology (GO) terms.
-              <p class="param-summary">Start typing to view and select from a list of suggestions or enter an asterisk (*) to perform a keyword search (e.g., transcription factor*).</p>
+              <p class="param-summary">Start typing to view and select from a list of suggestions</p>
             ]]>
       </description>
       <summary>
