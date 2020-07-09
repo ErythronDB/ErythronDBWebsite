@@ -249,7 +249,7 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Menu
                     </ul>
                     <MenuSearch webAppUrl={webAppUrl} />
                 </div>
-                <Button variant="info" href={`${webAppUrl}/search/gene/id`} id="menu-upload-button" title="Upload a list of genes.">
+                <Button variant="info" href={`${webAppUrl}/app/search/gene/upload`} id="menu-upload-button" title="Upload a list of genes.">
                     <i className="fa fa-upload"></i>
                 </Button>
                 {isGuest && <Button variant="link" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
