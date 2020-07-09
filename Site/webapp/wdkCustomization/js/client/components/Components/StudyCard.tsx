@@ -41,7 +41,6 @@ interface StudyCardProps {
 
 interface SearchButtonProps {
     study_id: string;
-    defaultExperiment: string;
     searchKey: string;
     popoverText?: string;
     webAppUrl?: string;
@@ -53,7 +52,7 @@ interface SearchButtonGroupProps {
 }
 
 const SearchButton: React.SFC<SearchButtonProps> = props => {
-    const { webAppUrl, study_id, popoverText, searchKey, defaultExperiment } = props;
+    const { webAppUrl, study_id, popoverText, searchKey } = props;
 
  
     function isKeyOf<T extends object>(obj: T, possibleKey: keyof any): possibleKey is keyof T {
@@ -61,6 +60,10 @@ const SearchButton: React.SFC<SearchButtonProps> = props => {
     }
 
     const search_type = (isKeyOf(_SEARCH_TYPE_MAP, searchKey)) ? _SEARCH_TYPE_MAP[searchKey] : _SEARCH_TYPE_MAP.dexp;
+
+    const search_url = (search_type.name.includes('proteomics')) ? 
+        `${webAppUrl}/app/search/gene/${search_type.name}`
+        : `${webAppUrl}/app/search/gene/${study_id}${search_type.name}`;
 
     return (
         <ButtonGroup className="mr-2">
@@ -72,9 +75,9 @@ const SearchButton: React.SFC<SearchButtonProps> = props => {
                         : <Popover.Content>{search_type.description}</Popover.Content>}
                     </Popover>
                 }>
-
+     
                 <Button id={`${study_id}_${search_type.internal}`} variant="secondary" className="card-search" 
-                        href={`${webAppUrl}/app/search/gene/${search_type.name}?param.investigation=${study_id}&param.experimet=${defaultExperiment}`}>
+                        href={search_url}>
                     <i className={`fa ${search_type.icon}`}></i>
                 </Button>
             </OverlayTrigger>
@@ -90,11 +93,9 @@ const SearchButtonGroup: React.SFC<SearchButtonGroupProps> = props => {
             {study.individual_datasets && study.individual_datasets.search.map((item: string, index: any) => {
                 return (item === 'dexp' || item === 'mdexp'
                     ? <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id} 
-                        popoverText={study.individual_datasets.comparison_tooltip}
-                        defaultExperiment={study.individual_datasets.default_experiment}>
+                        popoverText={study.individual_datasets.comparison_tooltip}>
                         </SearchButton>
-                    : <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id}
-                        defaultExperiment={study.individual_datasets.default_experiment}></SearchButton>)
+                    : <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id}></SearchButton>)
             })
             }
         </ButtonToolbar>

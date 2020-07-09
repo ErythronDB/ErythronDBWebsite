@@ -56,7 +56,9 @@
     <import file="ErythronDB/questions/gene/geneDatasetQuestions.xml"/>
     <import file="ErythronDB/questions/gene/geneDatasetQueries.xml"/>
 
-    <!-- <import file="ErythronDB/questions/gene/study001.xml"/> -->
+    <import file="ErythronDB/questions/gene/study001.xml"/>
+    <import file="ErythronDB/questions/gene/study002.xml"/>
+    <import file="ErythronDB/questions/gene/study005.xml"/>
 
     <!-- XML -->
     <!-- <import file="ErythronDB/records/xmlRecords.xml"/> -->

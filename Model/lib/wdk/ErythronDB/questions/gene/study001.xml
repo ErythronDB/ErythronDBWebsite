@@ -1,45 +1,74 @@
 <wdkModel>
-	<questionSet name="Study001" displayName="Search for Genes">
-		<question name="study001_fc" displayName="Ontogeny of Erythropoiesis: Within Lineages" shortDisplayName="Gene FC" queryRef="GeneDatasets.DifferentialExpression" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2">
+  <questionSet name="Study001" displayName="Search for Genes">
+    <question name="study001_comparison" displayName="Ontogeny of Erythropoiesis: Cell-Stage Comparisons" shortDisplayName="Gene FC" queryRef="GeneDatasets.DifferentialExpression" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2">
 
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study001" queryRef="GeneVQ.TranscriptomicsInvestigations"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="GeneVQ.Experiments"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.transcriptomics_ref_condition" />
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.transcriptomics_alt_condition" />
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study001" queryRef="GeneVQ.TranscriptomicsInvestigations"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="GeneVQ.Experiments"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.transcriptomics_ref_condition" />
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.transcriptomics_alt_condition" />
 
-			<attributesList summary="product,fold_change,confidence_interval,adj_p_value,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
+      <attributesList summary="product,fold_change,confidence_interval,adj_p_value,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
 
 
-			<summary>
-				<![CDATA[Find genes which are differentially expressed in a Transcriptomics experiment.]]>
-			</summary>
+      <summary>
+	<![CDATA[Find genes which are differentially expressed in a Transcriptomics experiment.]]>
+      </summary>
 
-			<description>
-				<![CDATA[
-			   			<p>Find genes which are differentially expressed in a transcriptomics experiment.  First choose an experiment
-						    as the available comparisons may change.  
-						   If only one "Experiment" is available, this field will be selected for you.</p>
-<p>Choose the directionality and the magnitude of the difference.  </br>
-                 		For example, selecting up-regulated with a fold difference of 2 will only show results where the intensity 
-						 of the comparator is twice that of the reference. </p>
-       			]]>
-			</description>
+      <description>
+	<![CDATA[
+		 <p>Find genes which are differentially expressed the during Primitive or Definitive erythropoiesis or compare equivalent cell types across lineages.  These data come from the <a href="../../record/dataset/study001" target="blank">Ontogeny of Erythropoeisis </a> study.</p>
+		 <p>First choose an experiment (erythroid lineage)
+		 as the available comparisons may change.  </p>
+		 <p>Choose the directionality and the magnitude of the difference.  </br>
+                 For example, selecting up-regulated with a fold difference of 2 will only show results where the intensity 
+		 of the comparator is twice that of the reference. </p>
 
-			<dynamicAttributes>
-				<columnAttribute name="cell_or_lineage" displayName="Dataset" />
-				<columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
-				<columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
-				<columnAttribute name="log2_fold_change" displayName="Log2 FC" align="center" inReportMaker="false" help="log2 fold change"/>
-				<columnAttribute name="log2_reference_mean" displayName="Log2 Ref Mean" help="mean log2 mRNA expression level for the reference condition" align="center"/>
-				<columnAttribute name="log2_alternative_mean" displayName="Log2 Alt Mean" help="mean log2 mRNA expression level for the alternate, comparison condition" align="center"/>
-				<columnAttribute name="fold_change" displayName="Raw FC" align="center" inReportMaker="false" help="fold change based on raw mRNA expression levels"/>
-				<columnAttribute name="reference_mean" displayName="Ref Mean" help="mean mRNA expression level for the reference condition" align="center"/>
-				<columnAttribute name="alternative_mean" displayName="Alt Mean" help="mean mRNA expression level for the alternate, comparison condition" align="center"/>
-				<columnAttribute name="confidence_interval" align="center" displayName="Conf. Interval" help="[log2 lower, log2 upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
-				<columnAttribute name="adj_p_value" align="center" displayName="Adj. p-value" help="BH-adjusted p-value (q-value)"/>
-			</dynamicAttributes>
+       	]]>
+      </description>
 
-		</question>
+      <dynamicAttributes>
+	<columnAttribute name="cell_or_lineage" displayName="Dataset" />
+	<columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+	<columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+	<columnAttribute name="log2_fold_change" displayName="Log2 FC" align="center" inReportMaker="false" help="log2 fold change"/>
+	<columnAttribute name="log2_reference_mean" displayName="Log2 Ref Mean" help="mean log2 mRNA expression level for the reference condition" align="center"/>
+	<columnAttribute name="log2_alternative_mean" displayName="Log2 Alt Mean" help="mean log2 mRNA expression level for the alternate, comparison condition" align="center"/>
+	<columnAttribute name="fold_change" displayName="Raw FC" align="center" inReportMaker="false" help="fold change based on raw mRNA expression levels"/>
+	<columnAttribute name="reference_mean" displayName="Ref Mean" help="mean mRNA expression level for the reference condition" align="center"/>
+	<columnAttribute name="alternative_mean" displayName="Alt Mean" help="mean mRNA expression level for the alternate, comparison condition" align="center"/>
+	<columnAttribute name="confidence_interval" align="center" displayName="Conf. Interval" help="[log2 lower, log2 upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+	<columnAttribute name="adj_p_value" align="center" displayName="Adj. p-value" help="BH-adjusted p-value (q-value)"/>
+      </dynamicAttributes>
 
-	</questionSet>
+    </question>
+
+    <question name="study001_expression"  displayName="Ontogeny of Erythropoiesis: Ranked Expression" shortDisplayName="Gene Exp" queryRef="GeneDatasets.RankedExpression" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2" iconName="fa fa-sort-amount-desc">
+
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study001" queryRef="GeneVQ.TranscriptomicsInvestigations"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="GeneVQ.Experiments"/>
+
+      <attributesList summary="product,percentile,mean_expression,standard_error" sorting="mean_expression desc"/>
+
+      <summary>
+        <![CDATA[
+    		 Find expressed genes in a transcriptomics dataset.
+    	]]>
+      </summary>
+      <description>
+        <![CDATA[[
+		 <p>Find genes by ranked expression levels in the <a href="../../record/dataset/study001" target="blank">Ontogeny of Erythropoeisis Dataset</a>.</p>
+		 <p>First choose an experiment (erythroid lineage) as the available cells may change.  </p>
+    	]]>
+      </description>
+
+      <dynamicAttributes>
+        <columnAttribute name="sample" displayName="Sample" align="center" inReportMaker="false" help="sample associated with top-ranked expression (out of selected samples in search)"/>
+        <columnAttribute name="percentile" displayName="Percentile" align="center" inReportMaker="false" help="ranked percentile across all genes expressed in this condition for the experiment"/>
+        <columnAttribute name="mean_expression" displayName="Log2 Mean Expression" help="mean log2 mRNA expression level  for the selected condition" align="center"/>
+        <columnAttribute name="standard_error" displayName="Std Error" help="standard error on the mean log2 expression" align="center"/>
+
+      </dynamicAttributes>
+    </question>
+</questionSet>
+
 </wdkModel>

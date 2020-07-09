@@ -17,6 +17,8 @@
                                 </text>
                         </idAttribute>
 
+                        
+
 
                         <!-- =============================================================== -->
                         <!--   Reporters -->
@@ -72,7 +74,6 @@
                                 <displayText>$$accession$$</displayText>
                                 <url>$$download_url$$$$accession$$</url>
                         </linkAttribute>
-
 
                         <attributeQueryRef ref="DatasetAttributes.PrimaryContact">
                                 <columnAttribute name="primary_contact" displayName="Contact" help="primary contact for the dataset"/>
@@ -170,14 +171,20 @@
                         <!-- </table>   -->
 
 
-                        <table name="Datasets" displayName="Filter Datasets" queryRef="DatasetTables.Datasets">
+                        <table name="Datasets" displayName="Dataset Overview" queryRef="DatasetTables.Datasets">
                                 <columnAttribute name="child_dataset_id" inReportMaker="false" internal="true"/>
                                 <columnAttribute name="dataset_name" displayName="Dataset" inReportMaker="false" internal="false"/>
-                                <columnAttribute name="highlight" displayName="Highlight" inReportMaker="false" internal="false" truncateTo="5000" help="browse subset of the most highly expressed genes; incl. functional enirchment and expression heatmap"/>
-                                <columnAttribute name="fc_link" inReportMaker="false" internal="false" displayName="Fold Change" truncateTo="5000" help="search differential expression comparison result"/>
-                                <columnAttribute name="p_link" inReportMaker="false" internal="false" displayName="Percentile" truncateTo="5000" help="search by ranked expression level"/>
+                                <columnAttribute name="dataset_summary" displayName="Summary" inReportMaker="false" internal="false"/>
                         </table>
-
+                        
+                        <table name="Searches" displayName="Search Data" queryRef="DatasetTables.Searches">
+                                <columnAttribute name="search_display_name" inReportMaker="false" internal="true"/>
+                                <columnAttribute name="search_name" inReportMaker="false" internal="true"/>
+                                <linkAttribute name="search_url" displayName="Search" internal="false">
+                                        <displayText><![CDATA[$$search_display_name$$ <i class="fa fa-arrow-circle-right"></i>]]></displayText>
+                                        <url>../../search/gene/$$search_name$$</url>
+                                </linkAttribute>
+                        </table>
                  
                 </recordClass>
         </recordClassSet>

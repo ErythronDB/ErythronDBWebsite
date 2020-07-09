@@ -21,8 +21,6 @@
 			<column name="taxon"/>
 			<column name="dataset_name"/>
 			<column name="dataset_summary"/>
-			<column name="fc_link"/>
-			<column name="p_link"/>
 			<column name="highlight"/>
 
 			<sql>
@@ -35,11 +33,37 @@
 					dataset_name,
 					dataset_summary,
 					is_public,
-					'<a href="/@WEBAPP@/' || split_part(p_link, '//', 1) || '&' || 'investigation=' || investigation_id || '&' || 'experiment=' || dataset_id || '">' || split_part(p_link, '//', 2) || '</a>' AS p_link,
-					'<a href="/@WEBAPP@/' || split_part(fc_link, '//', 1) || '&' || 'investigation=' || investigation_id || '&' || 'experiment=' || dataset_id || '">' || split_part(fc_link, '//', 2) || '</a>' AS fc_link,
 					'coming soon' AS highlight
 					FROM ErythronDB.Dataset
 					ORDER BY dataset_id, child_dataset_id
+				]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Searches">
+			<column name="dataset_id"/>
+
+			<column name="project_id"/>
+
+			<column name="search_display"/>
+			<column name="search_display_name"/>
+		
+			<sql>
+				<![CDATA[
+
+				SELECT DISTINCT i.source_id AS dataset_id, '@PROJECT_ID@'::text AS project_id,
+CASE WHEN r.target_name = 'GeneDataset.DifferentialExpression' THEN i.source_id || '_comparison'
+WHEN r.target_name = 'GeneDataset.RankedExpression'  THEN i.source_id || '_expression'
+ELSE 'proteomics_expression' END AS search_name,
+CASE WHEN r.target_name = 'GeneDataset.DifferentialExpression' AND i.source_id = 'study001' THEN 'Compare erythroid cell stages within and across lineages'
+WHEN r.target_name = 'GeneDataset.DifferentialExpression' AND i.source_id != 'study001' THEN 'Compare Epo challenged cells to controls'
+WHEN r.target_name = 'GeneDataset.RankedExpression' THEN 'Get genes by ranked expression level'
+ELSE 'Compare EPO challenged cells to controls' END AS search_display_name
+FROM Study.Study i, Study.Study d, CBIL.DatasetModelRef r
+WHERE d.investigation_id = i.study_id
+AND r.dataset_id = d.study_id
+ORDER BY dataset_id, search_name
+				
 				]]>
 			</sql>
 		</sqlQuery>

@@ -7,7 +7,7 @@ import {
   import { StepAnalysisHeatmapResult } from './components/StepAnalysis/StepAnalysisHeatmapResult';
   import { StepAnalysisGeneNetworkResults } from './components/StepAnalysis/StepAnalysisGeneNetworkResults';
 
-  import DefaultQuestionForm from "wdk-client/Views/Question/DefaultQuestionForm";
+  import DefaultQuestionForm from "./components/Components/DefaultQuestionForm";
 
   export default [
 

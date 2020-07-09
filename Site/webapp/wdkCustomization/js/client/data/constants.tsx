@@ -17,7 +17,7 @@ var _SEARCH_TYPE_MAP =
         title: "Differential Expression (Fold Change)",
         icon: "fa-exchange fa-rotate-90",
         internal: "dexp",
-        name: "transcriptomics_comparison",
+        name: "_comparison",
         description: "Find differentially expressed genes by fold change."
     },
 
@@ -26,7 +26,7 @@ var _SEARCH_TYPE_MAP =
         title: "Ranked mRNA Expression",
         icon:  "fa-sort-amount-desc",
         internal: "rank",
-        name: "transcriptomics_expression",
+        name: "_expression",
         description: "Find top-expressed genes within a sample (cell or treatment) or across a set of samples in the study."
     },
 
@@ -35,7 +35,7 @@ var _SEARCH_TYPE_MAP =
         title: "Expression Signature",
         icon: "fa fa-bar-chart",
         internal: "pattern",
-        name: "transcriptomics_profiles",
+        name: "_profiles",
         description: "Find genes exhibiting similar expression signatures within an erythroid lineage."
     },
 

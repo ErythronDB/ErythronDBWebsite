@@ -1,382 +1,74 @@
 <wdkModel>
-	<questionSet name="Study005" displayName="Search for Genes">
-		<question name="GenesByFoldChange" urlName="FC005" displayName="EpoR Alleles: EPO Challenge" shortDisplayName="Gene FC" queryRef="study005_queries.FoldChange" 
-		recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2" iconName="fa fa-exchange fa-rotate-90">
+  <questionSet name="Study005" displayName="Search for Genes">
+    <question name="study005_comparison" displayName="EPO-regulated targets in E1 with truncated EpoR" shortDisplayName="Gene FC" queryRef="GeneDatasets.DifferentialExpression" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2">
 
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study005" queryRef="study005_vq.Investigations"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="study005_vq.Experiments"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.ref_condition" />
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.alt_condition" />
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study005" queryRef="GeneVQ.TranscriptomicsInvestigations"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="GeneVQ.Experiments"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.transcriptomics_ref_condition" />
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.transcriptomics_alt_condition" />
 
-			<attributesList summary="product,fold_change,confidence_interval,adj_p_value,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
-
-
-			<summary>
-				<![CDATA[
-		 Find genes which are differentially expressed in a Transcriptomics experiment.
-        ]]>
-			</summary>
-
-			<description>
-				<![CDATA[
-		 Find genes which are differentially expressed in a transcriptomics dataset.  First choose an experiment as the available comparisons may change.  If only one "Experiment" is shown, this field will be selected for you.
-		 <br/><br/>
-		Choose the directionality and the magnitude of the difference.  For example, selecting up-regulated with a fold difference of 2 will only show results where the intensity of the comparator is twice that of the reference.
-		 <br/><br/>
-        ]]>
-			</description>
-
-			<dynamicAttributes>
-				<columnAttribute name="cell_or_lineage" displayName="Lineage/Cell" help="erythrocyte lineage or cell stage"/>
-				<columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
-				<columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
-				<columnAttribute name="fold_change" displayName="Log2 FC" align="center" inReportMaker="false" help="log2 fold change"/>
-				<columnAttribute name="reference_mean" displayName="Ref Mean" help="mean log2 mRNA expression level for the reference condition" align="center"/>
-				<columnAttribute name="alternative_mean" displayName="Alt Mean" help="mean log2 mRNA expression level for the alternate, comparison condition" align="center"/>
-				<columnAttribute name="confidence_interval" align="center" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
-				<columnAttribute name="adj_p_value" align="center" displayName="Adj. p-value" help="BH-adjusted p-value (q-value)"/>
-
-			</dynamicAttributes>
-
-			<propertyList name="displayCategory">
-				<value>fold_change</value>
-			</propertyList>
-		</question>
+      <attributesList summary="product,fold_change,confidence_interval,adj_p_value,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
 
 
-		<question name="GenesByFoldChange_All" urlName="FC005A" displayName="EpoR Alleles: Equivalent Cell-Stages" shortDisplayName="Gene FC" queryRef="study005_queries.FoldChange_Cross" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2">
+      <summary>
+	<![CDATA[Find genes which are differentially expressed in a Transcriptomics experiment.]]>
+      </summary>
 
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study005" queryRef="study005_vq.Investigations"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="study005_vq.Experiments_Cross"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.ref_condition_indep" queryRef="study005_vq.RefConditions_Cross" />
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.alt_condition_dep" queryRef="study005_vq.AltConditions" />
+      <description>
+	<![CDATA[
+		 <p>Find genes which are differentially expressed in <a href="../../record/dataset/study005" target="blank">Epo-challenged E1 cells with a truncated erthropoietin receptor (EpoR)</a>.</p>
+		 <p>First choose an experiment (erythroid lineage)
+		 as the available comparisons may change.  </p>
+		 <p>Choose the directionality and the magnitude of the difference.  </br>
+                 For example, selecting up-regulated with a fold difference of 2 will only show results where the intensity 
+		 of the comparator is twice that of the reference. </p>
 
-			<attributesList summary="product,fold_change,confidence_interval,adj_p_value,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
+       	]]>
+      </description>
 
+      <dynamicAttributes>
+	<columnAttribute name="cell_or_lineage" displayName="Dataset" />
+	<columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+	<columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+	<columnAttribute name="log2_fold_change" displayName="Log2 FC" align="center" inReportMaker="false" help="log2 fold change"/>
+	<columnAttribute name="log2_reference_mean" displayName="Log2 Ref Mean" help="mean log2 mRNA expression level for the reference condition" align="center"/>
+	<columnAttribute name="log2_alternative_mean" displayName="Log2 Alt Mean" help="mean log2 mRNA expression level for the alternate, comparison condition" align="center"/>
+	<columnAttribute name="fold_change" displayName="Raw FC" align="center" inReportMaker="false" help="fold change based on raw mRNA expression levels"/>
+	<columnAttribute name="reference_mean" displayName="Ref Mean" help="mean mRNA expression level for the reference condition" align="center"/>
+	<columnAttribute name="alternative_mean" displayName="Alt Mean" help="mean mRNA expression level for the alternate, comparison condition" align="center"/>
+	<columnAttribute name="confidence_interval" align="center" displayName="Conf. Interval" help="[log2 lower, log2 upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+	<columnAttribute name="adj_p_value" align="center" displayName="Adj. p-value" help="BH-adjusted p-value (q-value)"/>
+      </dynamicAttributes>
 
-			<summary>
-				<![CDATA[
-		 Find genes which are differentially expressed in a Transcriptomics experiment.
-        ]]>
-			</summary>
+    </question>
 
-			<description>
-				<![CDATA[
-		 Find genes which are differentially expressed in a transcriptomics dataset.  First choose an experiment as the available comparisons may change.  If only one "Experiment" is shown, this field will be selected for you.
-		 <br/><br/>
-		Choose the directionality and the magnitude of the difference.  For example, selecting up-regulated with a fold difference of 2 will only show results where the intensity of the comparator is twice that of the reference.
-		 <br/><br/>
-        ]]>
-			</description>
+    <question name="study005_expression"  displayName="Epo-challenged E1 cells with a truncated EpoR: Ranked Expression" shortDisplayName="Gene Exp" queryRef="GeneDatasets.RankedExpression" recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2" iconName="fa fa-sort-amount-desc">
 
-			<dynamicAttributes>
-				<columnAttribute name="cell_or_lineage" displayName="Lineage/Cell" help="erythrocyte lineage or cell stage"/>
-				<columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
-				<columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
-				<columnAttribute name="fold_change" displayName="Log2 FC" align="center" inReportMaker="false" help="log2 fold change"/>
-				<columnAttribute name="reference_mean" displayName="Ref Mean" help="mean log2 mRNA expression level for the reference condition" align="center"/>
-				<columnAttribute name="alternative_mean" displayName="Alt Mean" help="mean log2 mRNA expression level for the alternate, comparison condition" align="center"/>
-				<columnAttribute name="confidence_interval" align="center" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
-				<columnAttribute name="adj_p_value" align="center" displayName="Adj. p-value" help="BH-adjusted p-value (q-value)"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study005" queryRef="GeneVQ.TranscriptomicsInvestigations"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="GeneVQ.Experiments"/>
 
-			</dynamicAttributes>
+      <attributesList summary="product,percentile,mean_expression,standard_error" sorting="mean_expression desc"/>
 
-			<propertyList name="displayCategory">
-				<value>fold_change</value>
-			</propertyList>
-		</question>
-
-		<question name="GenesByExpression" urlName="EXP005" displayName="EpoR Alleles: Ranked Expression" shortDisplayName="Gene Exp" queryRef="study005_queries.Expression" 
-		recordClassRef="GeneRecordClasses.GeneRecordClass" newBuild="2" iconName="fa fa-sort-amount-desc">
-
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" default="study005" queryRef="study005_vq.Investigations"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="study005_vq.Experiments"/>
-
-			<attributesList summary="product,percentile,mean_expression,standard_error" sorting="mean_expression desc"/>
-
-			<summary>
-				<![CDATA[
+      <summary>
+        <![CDATA[
     		 Find expressed genes in a transcriptomics dataset.
     	]]>
-			</summary>
-			<description>
-				<![CDATA[[
-    		   Find genes by ranked expression level in a transcriptomics dataset  First choose an experiment as the available samples may change.  If only one "Experiment" is shown, this field will be selected for you.
-    	  ]]>
-			</description>
+      </summary>
+      <description>
+        <![CDATA[[
+		 <p>Find genes by ranked expression levels in the <a href="../../record/dataset/study005" target="blank">Epo-challenged E1 cells with a truncated erthropoietin receptor (EpoR)</a> dataset.</p>
 
-			<dynamicAttributes>
-				<columnAttribute name="percentile" displayName="Percentile" align="center" inReportMaker="false" help="ranked percentile across all genes expressed in this condition for the experiment"/>
-				<columnAttribute name="mean_expression" displayName="Log2 Mean Expression" help="mean log2 mRNA expression level  for the selected condition" align="center"/>
-				<columnAttribute name="standard_error" displayName="Std Error" help="standard error on the mean log2 expression" align="center"/>
+    	]]>
+      </description>
 
-			</dynamicAttributes>
-		</question>
-	</questionSet>
+      <dynamicAttributes>
+        <columnAttribute name="sample" displayName="Sample" align="center" inReportMaker="false" help="sample associated with top-ranked expression (out of selected samples in search)"/>
+        <columnAttribute name="percentile" displayName="Percentile" align="center" inReportMaker="false" help="ranked percentile across all genes expressed in this condition for the experiment"/>
+        <columnAttribute name="mean_expression" displayName="Log2 Mean Expression" help="mean log2 mRNA expression level  for the selected condition" align="center"/>
+        <columnAttribute name="standard_error" displayName="Std Error" help="standard error on the mean log2 expression" align="center"/>
 
+      </dynamicAttributes>
+    </question>
+</questionSet>
 
-	<querySet name="study005_vq" queryType="vocab" isCacheable="true">
-		<sqlQuery name="Investigations">
-			<column name="internal"/>
-			<column name="display"/>
-			<column name="term"/>
-			<sql>
-				<![CDATA[
-		 SELECT  source_id AS term, source_id AS internal, name AS display FROM Study.Study WHERE source_id = 'study005'
-	]]>
-			</sql>
-		</sqlQuery>
-
-		<sqlQuery name="Experiments">
-			<column name="internal"/>
-			<column name="display"/>
-			<column name="term"/>
-			<sql>
-				<![CDATA[
-		 	 SELECT DISTINCT replace(s.name, ', ', ' - ') AS display, s.source_id AS internal,  s.source_id AS term
-			 FROM 
-			 Study.Study p,
-			 Study.Study s,
-			 Study.StudyLink sl,
-			 ErythronDB.Comparison c
-			 WHERE s.investigation_id = p.study_id
-			 AND p.source_id = 'study005'
-			 AND sl.study_id = s.study_id
-			 AND c.protocol_app_node_id = sl.protocol_app_node_id
-			 AND s.source_id != 'dset005_3'
-			 ORDER BY s.source_id
-	]]>
-			</sql>
-		</sqlQuery>
-
-		<sqlQuery name="Experiments_All">
-			<column name="internal"/>
-			<column name="display"/>
-			<column name="term"/>
-			<sql>
-				<![CDATA[
-		 	 SELECT DISTINCT replace(s.name, ', ', ' - ') AS display, s.source_id AS internal,  s.source_id AS term
-			 FROM 
-			 Study.Study p,
-			 Study.Study s,
-			 Study.StudyLink sl,
-			 ErythronDB.Comparison c
-			 WHERE s.investigation_id = p.study_id
-			 AND p.source_id = 'study005'
-			 AND sl.study_id = s.study_id
-			 AND c.protocol_app_node_id = sl.protocol_app_node_id
-			 -- AND s.source_id != 'dset005_3'
-			 ORDER BY s.source_id
-	]]>
-			</sql>
-		</sqlQuery>
-
-		<sqlQuery name="Experiments_Cross">
-			<column name="internal"/>
-			<column name="display"/>
-			<column name="term"/>
-			<sql>
-				<![CDATA[
-		 	 SELECT DISTINCT replace(s.name, ', ', ' - ') AS display, s.source_id AS internal,  s.source_id AS term
-			 FROM 
-			 Study.Study p,
-			 Study.Study s,
-			 Study.StudyLink sl,
-			 ErythronDB.Comparison c
-			 WHERE s.investigation_id = p.study_id
-			 AND p.source_id = 'study005'
-			 AND sl.study_id = s.study_id
-			 AND c.protocol_app_node_id = sl.protocol_app_node_id
-			 AND s.source_id = 'dset005_3'
-			 ORDER BY s.source_id
-	]]>
-			</sql>
-		</sqlQuery>
-
-		<sqlQuery name="RefConditions">
-			<column name="internal"/>
-			<column name="term"/>
-			<column name="display"/>
-			<sql>
-				<![CDATA[
-		 SELECT DISTINCT ps.profile_series_id AS internal, ps.label AS term, ps.label AS display, ps.order_num
-		 FROM ErythronDB.Comparison c,
-		 Study.Study s,
-		 Study.StudyLink sl,
-		 ErythronDB.ProfileSeries ps
-		 WHERE s.source_id = $$experiment$$
-		 AND sl.study_id = s.study_id
-		 AND sl.protocol_app_node_id = c.protocol_app_node_id
-		 AND c.reference_condition_id = ps.profile_series_id
-		 ORDER BY order_num
-	  ]]>
-			</sql>
-		</sqlQuery>
-
-		<sqlQuery name="RefConditions_Cross">
-			<column name="internal"/>
-			<column name="term"/>
-			<column name="display"/>
-			<sql>
-				<![CDATA[
-		 SELECT DISTINCT ps.profile_series_id AS internal, ps.label AS term, ps.label AS display, ps.order_num
-		 FROM ErythronDB.Comparison c,
-		 Study.Study s,
-		 Study.StudyLink sl,
-		 ErythronDB.ProfileSeries ps
-		 WHERE s.source_id = 'dset005_3'
-		 AND sl.study_id = s.study_id
-		 AND sl.protocol_app_node_id = c.protocol_app_node_id
-		 AND c.reference_condition_id = ps.profile_series_id
-		 ORDER BY order_num
-	  ]]>
-			</sql>
-		</sqlQuery>
-
-		<sqlQuery name="AltConditions">
-			<paramRef ref="geneParams.ref_condition_indep"/>
-			<column name="internal"/>
-			<column name="term"/>
-			<column name="display"/>
-			<sql>
-				<![CDATA[
-    			  SELECT DISTINCT ps.profile_series_id AS internal, ps.label AS term, ps.label AS display, ps.order_num
-    			  FROM ErythronDB.Comparison c,
-    			  ErythronDB.ProfileSeries ps
-    			  WHERE  c.reference_condition_id = $$ref_condition_indep$$
-    			  AND c.alternative_condition_id = ps.profile_series_id
-    			  ORDER BY order_num
-    		 ]]>
-			</sql>
-		</sqlQuery>
-	</querySet>
-
-	<querySet name="study005_queries" queryType="id" isCacheable="true">
-		<sqlQuery name="FoldChange">
-			<paramRef ref="geneParams.investigation"/>
-			<paramRef ref="geneParams.experiment"/>
-			<paramRef ref="geneParams.ref_condition"/>
-			<paramRef ref="geneParams.alt_condition"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.fold_change" default="1.5"/>
-			<column name="source_id"/>
-			<column name="project_id"/>
-			<column name="fold_change"/>
-			<column name="cell_or_lineage"/>
-			<column name="ref_condition"/>
-			<column name="alt_condition"/>
-			<column name="confidence_interval"/>
-			<column name="adj_p_value"/>
-			<column name="reference_mean"/>
-			<column name="alternative_mean"/>
-			<sql>
-				<![CDATA[
-		 SELECT ga.source_id,
-		 '@PROJECT_ID@'::text AS project_id,
-		 pan.name AS comparison,
-		 split_part(pan.name, ': ', 2) AS cell_or_lineage,
-		 split_part(split_part(pan.name, ': ', 1), ' v ', 1) AS alt_condition,
-		 split_part(split_part(pan.name, ': ', 1), ' v ', 2) AS ref_condition,
-		 round(r.mean1::numeric, 2) AS reference_mean,
-		 round(r.mean2::numeric, 2) AS alternative_mean,
-		 round(fold_change::numeric, 2) AS fold_change,
-		 CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE') ELSE round(r.adj_p_value::numeric,4)::text END AS adj_p_value,
-		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval
-		 FROM Results.GeneDiffResult r,
-		 CBIL.GeneAttributes ga, 
-		 Study.ProtocolAppNode pan,
-		 ErythronDB.Comparison c
-		 WHERE ga.gene_id = r.gene_id
-		 AND pan.protocol_app_node_id = c.protocol_app_node_id
-		 AND c.reference_condition_id = $$ref_condition$$
-		 AND c.alternative_condition_id = $$alt_condition$$
-		 AND c.protocol_app_node_id = r.protocol_app_node_id
-		 AND adj_p_value <= 0.05
-		 AND (('$$regulated_dir$$' = 'up-regulated' AND r.fold_change >= $$fold_change$$ )
-		 OR ('$$regulated_dir$$' = 'down-regulated' AND r.fold_change <= -1 * $$fold_change$$)
-		 OR ('$$regulated_dir$$' = 'up or down regulated' AND abs(r.fold_change) >= $$fold_change$$))
-	]]>
-			</sql>
-		</sqlQuery>
-
-
-		<sqlQuery name="FoldChange_Cross">
-			<paramRef ref="geneParams.investigation"/>
-			<paramRef ref="geneParams.experiment"/>
-			<paramRef ref="geneParams.ref_condition_indep"/>
-			<paramRef ref="geneParams.alt_condition_dep"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.fold_change" default="1.5"/>
-			<column name="source_id"/>
-			<column name="project_id"/>
-			<column name="fold_change"/>
-			<column name="cell_or_lineage"/>
-			<column name="ref_condition"/>
-			<column name="alt_condition"/>
-			<column name="confidence_interval"/>
-			<column name="adj_p_value"/>
-			<column name="reference_mean"/>
-			<column name="alternative_mean"/>
-			<sql>
-				<![CDATA[
-		 SELECT ga.source_id,
-		 '@PROJECT_ID@'::text AS project_id,
-		 pan.name AS comparison,
-		 split_part(pan.name, ': ', 2) AS cell_or_lineage,
-		 split_part(split_part(pan.name, ': ', 1), ' v ', 1) AS alt_condition,
-		 split_part(split_part(pan.name, ': ', 1), ' v ', 2) AS ref_condition,
-		 round(r.mean1::numeric, 2) AS reference_mean,
-		 round(r.mean2::numeric, 2) AS alternative_mean,
-		 round(fold_change::numeric, 2) AS fold_change,
-		 CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE') ELSE round(r.adj_p_value::numeric,4)::text END AS adj_p_value,
-		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval
-		 FROM Results.GeneDiffResult r,
-		 CBIL.GeneAttributes ga, 
-		 Study.ProtocolAppNode pan,
-		 ErythronDB.Comparison c
-		 WHERE ga.gene_id = r.gene_id
-		 AND pan.protocol_app_node_id = c.protocol_app_node_id
-		 AND c.reference_condition_id = $$ref_condition$$
-		 AND c.alternative_condition_id = $$alt_condition$$
-		 AND c.protocol_app_node_id = r.protocol_app_node_id
-		 AND adj_p_value <= 0.05
-		 AND (('$$regulated_dir$$' = 'up-regulated' AND r.fold_change >= $$fold_change$$ )
-		 OR ('$$regulated_dir$$' = 'down-regulated' AND r.fold_change <= -1 * $$fold_change$$)
-		 OR ('$$regulated_dir$$' = 'up or down regulated' AND abs(r.fold_change) >= $$fold_change$$))
-	]]>
-			</sql>
-		</sqlQuery>
-
-
-		<sqlQuery name="Expression">
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" queryRef="study005_vq.Investigations"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment" queryRef="study005_vq.Experiments"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.sample"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.minimum_percentile" default="80"/>
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.maximum_percentile" default="100"/>
-			<column name="source_id"/>
-			<column name="project_id"/>
-			<column name="percentile"/>
-			<column name="mean_expression"/>
-			<column name="standard_error"/>
-			<sql>
-				<![CDATA[
-		  SELECT DISTINCT gene_source_id AS source_id,
-		 'ErythronDB'::text AS project_id,
-		 first_value(value) OVER (w_exp) AS mean_expression,
-		 first_value(standard_error) OVER (w_exp) AS standard_error,
-		 first_value(sample_description) OVER (w_exp) AS sample,
-		 first_value(round((percentile * 100)::numeric, 1)) OVER (w_exp) AS percentile
-		 FROM
-		 ErythronDB.AvgGeneExpressionDataTable dt,
-		 Study.Study s
-		 WHERE s.study_id = dt.dataset_id
-		 AND s.source_id = $$experiment$$
-		 AND percentile * 100 BETWEEN $$minimum_percentile$$ AND $$maximum_percentile$$
-		 AND sample_description IN ($$sample$$)
-		 WINDOW w_exp AS (PARTITION BY gene_source_id ORDER BY value DESC)
-	]]>
-			</sql>
-		</sqlQuery>
-	</querySet>
 </wdkModel>

@@ -19,13 +19,23 @@
     <questionRef>GeneQuestions.GeneTextSearch</questionRef>
   </searchCategory>
 
-  <searchCategory name="transcriptomicsFC" displayName="Transcriptomics"
+  <searchCategory name="study001" displayName="Transcriptomics: Erythroid Lineages"
     parentRef="GeneRecordClasses.GeneRecordClass">
-    <questionRef>GeneDataset.DifferentialExpression</questionRef>
-    <questionRef>GeneDataset.RankedExpression</questionRef>
-    <questionRef>GeneDataset.Pattern</questionRef>
+    <questionRef>Study001.study001_comparison</questionRef>
+    <questionRef>Study001.study001_expression</questionRef>
 </searchCategory>
 
+<searchCategory name="study002" displayName="Transcriptomics: E1, E2, E3"
+    parentRef="GeneRecordClasses.GeneRecordClass">
+    <questionRef>Study002.study002_comparison</questionRef>
+    <questionRef>Study002.study002_expression</questionRef>
+</searchCategory>
+  
+  <searchCategory name="study005" displayName="Transcriptomics: E1 - truncated EpoR"
+    parentRef="GeneRecordClasses.GeneRecordClass">
+    <questionRef>Study005.study005_comparison</questionRef>
+    <questionRef>Study005.study005_expression</questionRef>
+</searchCategory>
   
 
   <searchCategory name="proteomicsFC" displayName="Proteomics (Hs)"

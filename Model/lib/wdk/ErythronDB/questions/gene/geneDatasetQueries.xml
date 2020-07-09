@@ -57,7 +57,7 @@
 
 
 		<sqlQuery name="ProteomicsFC">
-			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" queryRef="GeneVQ.ProteomicsInvestigations" />
+			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.investigation" />
 			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.experiment"/>
 			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.comparison"/>
 			<paramRef groupRef="paramGroups.dynamicParams" ref="geneParams.regulated_dir"/>
