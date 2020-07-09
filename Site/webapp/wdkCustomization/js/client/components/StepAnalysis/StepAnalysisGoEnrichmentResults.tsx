@@ -2,7 +2,7 @@ import { scientificCellFactory, decimalCellFactory, integerCell } from 'wdk-clie
 import { StepAnalysisResultPluginProps } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisResultsPane';
 import { ColumnSettings, StepAnalysisEnrichmentResultTable } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisEnrichmentResultTable';
 import React, { Fragment, useState } from 'react';
-import { StepAnalysisButtonArray } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisButtonArray';
+import { StepAnalysisButtonArray } from './StepAnalysisButtonArray';
 import { WordCloudModal } from 'wdk-client/Core/MoveAfterRefactor/Components/StepAnalysis/StepAnalysisWordCloudModal';
 import Button from 'react-bootstrap/Button';
 
@@ -28,7 +28,7 @@ const goButtonsConfigFactory = (
           <textarea name="inputGoList" rows={10} cols={80} hidden readOnly value={revigoInputList} />
           <input name="isPValue" hidden readOnly value="yes" />
           <input name="outputListSize" hidden readOnly value="medium" />
-          <Button variant="secondary" type="submit" name="startRevigo">
+          <Button variant="info" type="submit" name="startRevigo">
             <i className="fa fa-bar-chart red-text" style={{ marginLeft: 0, paddingLeft: 0 }}> </i>
             Open in <b>Revigo</b>
           </Button>
@@ -37,7 +37,7 @@ const goButtonsConfigFactory = (
     },
     {
       key: 'wordCloud',
-      onClick: (event: React.MouseEvent<HTMLAnchorElement>) => {
+      onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setWordCloudOpen(true);
       },

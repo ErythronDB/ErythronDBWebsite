@@ -1,18 +1,18 @@
 var _workspace = [
     {
         text: "My Strategies",
-        url:"showApplication.do",
+        route:"/workspace/strategies",
     },
     {
         text: "Upload Genes",
-        route: "showQuestion.do?questionFullName=GeneQuestions.GeneUpload",
+        route: "/search/gene/upload",
     }
 ];
 
 var _about = [
     {
         text: "Public Strategies",
-        url: "showApplication.do?tab=public_strat"
+        route: "/workspace/strategies"
     },
     {
         text: "News",
