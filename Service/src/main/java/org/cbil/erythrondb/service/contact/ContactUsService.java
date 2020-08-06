@@ -105,10 +105,11 @@ public class ContactUsService extends AbstractWdkService {
         Utilities::sendEmail
       );
     }
-    catch(WdkRuntimeException ex) {
+    catch(WdkModelException ex) {
+    
       throw new WdkModelException(ex);
     }
-    
+
     return Response.ok().build();
   }
   

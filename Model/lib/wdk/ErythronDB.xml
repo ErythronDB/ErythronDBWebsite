@@ -16,6 +16,12 @@
 
     <constant name="goTermPageUrl">@AMIGO_TERM_URL@</constant>
     <constant name="revigoBaseUrl">@REVIGO_BASE_URL@</constant>
+
+    <constant name="study001_name" includeProjects="ErythronDB">Ontogeny of erythropoiesis</constant>
+    <constant name="study002_name" includeProjects="ErythronDB">EPO-regulated targets in erythroid progenitors</constant>
+    <constant name="study005_name" includeProjects="ErythronDB">EPO-targets in E1 cells with a truncated Epo receptor</constant>
+    <constant name="study003_name" includeProjects="ErythronDB">EPO phosphorylation PTM targets in UT-7epo-E cells</constant>
+    
     
     <modelName includeProjects="ErythronDB" displayName="ErythronDB" 
       version="%%releaseVersion%%" releaseDate="%%releaseDate%%" buildNumber="%%buildNumber%%" />
@@ -46,19 +52,25 @@
     <import file="ErythronDB/questions/dataset/datasetParams.xml" />
 
     <!-- import the gene related pieces -->
-    <import file="ErythronDB/records/gene/geneRecord.xml" />
+    <!-- <import file="ErythronDB/records/gene/geneRecord.xml" /> -->
     <import file="ErythronDB/records/gene/geneAttributeQueries.xml" />
     <import file="ErythronDB/records/gene/geneTableQueries.xml" />
-    <import file="ErythronDB/questions/gene/geneQuestions.xml" />
-    <import file="ErythronDB/questions/gene/geneQueries.xml" />
-    <import file="ErythronDB/questions/gene/geneParams.xml" />
-    <import file="ErythronDB/questions/gene/geneVocabQueries.xml" /> 
-    <import file="ErythronDB/questions/gene/geneDatasetQuestions.xml"/>
-    <import file="ErythronDB/questions/gene/geneDatasetQueries.xml"/>
+    <!-- <import file="ErythronDB/questions/gene/geneQuestions.xml" /> -->
+    <!-- <import file="ErythronDB/questions/gene/geneQueries.xml" /> -->
+    <!-- <import file="ErythronDB/questions/gene/geneParams.xml" /> -->
+    <!-- <import file="ErythronDB/questions/gene/geneVocabQueries.xml" />  -->
+    <!-- <import file="ErythronDB/questions/gene/geneDatasetQuestions.xml"/> -->
+    <!-- <import file="ErythronDB/questions/gene/geneDatasetQueries.xml"/> -->
 
-    <import file="ErythronDB/questions/gene/study001.xml"/>
-    <import file="ErythronDB/questions/gene/study002.xml"/>
-    <import file="ErythronDB/questions/gene/study005.xml"/>
+    <import file="ErythronDB/records/mouse_gene/mgeneRecord.xml" />
+    <import file="ErythronDB/records/mouse_gene/mgeneAttributeQueries.xml" />
+    <import file="ErythronDB/records/mouse_gene/study001_TableQueries.xml" />
+    <import file="ErythronDB/records/mouse_gene/study002_TableQueries.xml" />
+    <import file="ErythronDB/records/mouse_gene/study005_TableQueries.xml" />
+
+    <!-- <import file="ErythronDB/questions/gene/study001.xml"/> -->
+    <!-- <import file="ErythronDB/questions/gene/study002.xml"/> -->
+    <!-- <import file="ErythronDB/questions/gene/study005.xml"/> -->
 
     <!-- XML -->
     <!-- <import file="ErythronDB/records/xmlRecords.xml"/> -->

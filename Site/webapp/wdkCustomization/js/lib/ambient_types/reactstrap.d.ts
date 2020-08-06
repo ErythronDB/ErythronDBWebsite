@@ -1,1 +1,1 @@
-declare module 'reactstrap';x
+declare module 'reactstrap';

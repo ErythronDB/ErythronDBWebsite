@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wdkModel>
+  <recordClassSet name="MouseGeneRecordClasses">
+    <recordClass name="MouseGeneRecordClass" urlName="mm" displayName="Gene (Mm)">
+      <!-- =================================================================== -->
+      <!-- Primary Key -->
+      <!-- =================================================================== -->
+
+      <primaryKey aliasQueryRef="MouseGeneAttributes.GeneAlias">
+        <columnRef>source_id</columnRef>
+      </primaryKey>
+
+      <idAttribute name="primary_key" displayName="Gene ID" attributeCategory="deep">
+        <text>
+          <![CDATA[$$source_id$$]]>
+        </text>
+      </idAttribute>
+
+      <!-- =================================================================== -->
+      <!-- Reporters -->
+      <!-- =================================================================== -->
+
+      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" scopes="record"
+		implementation="org.gusdb.wdk.model.report.reporter.FullRecordReporter"/>
+
+      <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
+		implementation="org.gusdb.wdk.model.report.reporter.AttributesTabularReporter">
+        <description>%%attributesReporterDescription%%</description>
+        <property name="page_size">1000000</property>
+      </reporter>
+
+      <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results"
+		implementation="org.gusdb.wdk.model.report.reporter.TableTabularReporter">
+        <description>%%tableReporterDescription%%</description>
+        <property name="page_size">1000000</property>
+      </reporter>
+
+      
+      <reporter name="xml" displayName="XML: choose from columns and/or tables" scopes=""
+		implementation="org.gusdb.wdk.model.report.reporter.XMLReporter">
+      </reporter>
+
+      <reporter name="json" displayName="JSON: choose from columns and/or tables" scopes=""
+		implementation="org.gusdb.wdk.model.report.reporter.JSONReporter">
+      </reporter>
+
+
+      <!-- =============================================================== -->
+      <!--  Step Analysis Plugins -->
+      <!-- =============================================================== -->
+
+      <stepAnalysisRef name="custom-go-enrichment"/>
+      <stepAnalysisRef name="gene-expression-heatmap"/>
+      <stepAnalysisRef name="gene-network"/>
+      <!-- <stepAnalysisRef name="pathway-enrichment" /> -->
+      <!-- <stepAnalysisRef name="word-enrichment"/> -->
+
+
+      <!-- =================================================================== -->
+      <!-- Attributes -->
+      <!-- =================================================================== -->
+
+      <attributeQueryRef ref="GeneAttributes.Basic">
+        <columnAttribute name="project_id" internal="true" />
+        <columnAttribute name="chromosome" displayName="Chromosome" />
+        <columnAttribute name="gene_type" displayName="Gene Type" internal="false" help="Gene product category" />
+        <columnAttribute name="symbol" displayName="Symbol" removable="false" internal="false" align="center"/>
+	
+        <columnAttribute name="product" displayName="Name" internal="false" help="official gene name/protein product for this gene">
+	  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
+                    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
+            <description>
+              <![CDATA[ Display the terms in the attribute as word clouds ]]>
+            </description>
+          </reporter>
+        </columnAttribute>
+
+        <columnAttribute name="start_min" displayName="Start Location" internal="true" />
+        <columnAttribute name="end_max" displayName="End Location" internal="true" />
+        <columnAttribute name="strand" displayName="Strand" internal="true" />
+        <columnAttribute name="locus" displayName="Locus"/>
+	<columnAttribute name="location" displayName="Genomic Location" help="chromosome:start-end:strand"/> 
+        <columnAttribute name="organism" displayName="Organism" inReportMaker="true" internal="false"/>
+      </attributeQueryRef>
+
+      <attributeQueryRef ref="GeneAttributes.Synonyms">
+	<columnAttribute name="synonym" internal="false" displayName="Synonyms" />
+      </attributeQueryRef>
+
+      <attributeQueryRef ref="GeneAttributes.Ortholog">
+        <columnAttribute name="ortholog_source_id" internal="true" inReportMaker="true" displayName="Human Ortholog (Ensembl ID)"/>
+        <columnAttribute name="ortholog_symbol" internal="true" inReportMaker="true" displayName="Human Ortholog (Symbol)"/>
+
+	<linkAttribute name="ortholog_record_link" displayName="Human Ortholog" truncateTo="5000" inReportMaker="false">
+	  <displayText>$$ortholog_symbol$$</displayText>
+	  <url><![CDATA[../hgene/$$ortholog_source_id$$]]></url>
+	</linkAttribute>
+      </attributeQueryRef>
+
+      <!-- =================================================================== -->
+      <!-- Tables -->
+      <!-- =================================================================== -->
+
+      
+      <table name="gene_link_outs" displayName="Genes" inReportMaker="false" queryRef="GeneTables.DbRefs_Gene">
+        <columnAttribute name="external_id" displayName="External ID" internal="false"/>
+        <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
+      </table>
+
+      <table name="sequence_link_outs" displayName="Nucleotide Sequences" inReportMaker="false" queryRef="GeneTables.DbRefs_NSeq">
+        <columnAttribute name="external_id" displayName="External ID" internal="false"/>
+        <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
+      </table>
+
+      <table name="protein_link_outs" displayName="Proteins" inReportMaker="false" queryRef="GeneTables.DbRefs_Proteins">
+
+        <columnAttribute name="external_id" displayName="External ID" internal="false"/>
+        <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
+
+      </table>
+
+      <table name="clinical_link_outs" displayName="Clinical" inReportMaker="false" queryRef="GeneTables.DbRefs_Clinical">
+        <columnAttribute name="external_id" displayName="External ID" internal="false"/>
+        <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
+      </table>
+
+      <!-- =================================================================== -->
+      <!-- Functional Annotation -->
+      <!-- =================================================================== -->
+
+      <table name="go_terms" displayName="Gene Ontology Associations" queryRef="GeneTables.GO">
+        <columnAttribute name="ontology" displayName="Ontology"/>
+        <columnAttribute name="go_term" displayName="Term" internal="true" inReportMaker="true"/>
+        <columnAttribute name="definition" internal="true" inReportMaker="false"/>
+        <textAttribute name="go_term_display" displayName="Term" inReportMaker="false">
+          <text>
+            <![CDATA[<span class="wdk-tooltip" title="$$definition$$">$$go_term$$</span>]]>
+          </text>
+        </textAttribute>
+        <columnAttribute name="go_id" displayName="GO ID" internal="true" inReportMaker="true"/>
+        <linkAttribute name="go_id_link" displayName="GO ID" inReportMaker="false" help="view term at AmiGO">
+          <displayText>$$go_id$$</displayText>
+          <url>
+            <![CDATA[@AMIGO_TERM_URL@$$go_id$$]]>
+          </url>
+        </linkAttribute>
+        <columnAttribute name="evidence_code" displayName="Evidence Code" help="The evidence code reflects the type of work or analysis described in the cited reference which supports the association of the GO term to the gene product. More information on evidence codes can be found on http://www.geneontology.org/page/guide-go-evidence-codes."/>
+      </table>
+
+      <!-- <table name="pathways" displayName="Pathway Membership" queryRef="GeneTables.Pathways"> -->
+      <!-- 	<columnAttribute name="pathway_name" displayName="Pathway"/> -->
+      <!-- 	<columnAttribute name="pathway_source" displayName="Source"/> -->
+      <!-- 	<columnAttribute name="pathway_id" displayName="Pathway ID" internal="true" inReportMaker="true"/> -->
+      <!-- 	<columnAttribute name="pathway_url" internal="true" inReportMaker="false"/> -->
+      <!-- 	<linkAttribute name="pathway_link" displayName="View Pathway" inReportMaker="false" help="view pathway at KEGG or Reactome"> -->
+      <!-- 	  <displayText>$$pathway_id$$</displayText> -->
+      <!-- 	  <url><![CDATA[$$pathway_url$$/$$pathway_id$$]]></url> -->
+      <!-- 	</linkAttribute> -->
+      <!-- </table> -->
+      
+
+      <!-- =================================================================== -->
+      <!-- Comparisons: Study001 - Palis -->
+      <!-- =================================================================== -->
+
+      <table name="study001_within_lineage_comparisons" displayName="Within Lineage Comparisons"
+      	     inReportMaker="true" queryRef="study001_GeneTables.WithinLineageComparisons">
+      	<description>
+	  <![CDATA[
+		   <p>Comparisons between successive stages of erythrocyte differentiation within Primitive or Definitive Erythropoiesis (Fetal/Adult) in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study001" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study001_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+	  ]]>  
+	</description>
+
+      	<columnAttribute name="cell_or_lineage" displayName="Lineage" help="erythroid lineage"/>
+        <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
+        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+      </table>
+
+      <table name="study001_across_lineage_comparisons" displayName="Across Lineage Comparisons"
+      	     inReportMaker="true" queryRef="study001_GeneTables.AcrossLineageComparisons">
+      	<description>
+	  <![CDATA[
+		   <p>Comparisons of equivalent stages of erythrocyte differentiation across erythroid lineages in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study001" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study001_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+	  ]]>
+	</description>
+      	<columnAttribute name="cell_or_lineage" displayName="Cell" help="erythrocyte cell type"/>
+        <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
+        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+      </table>
+      
+
+      <!-- =================================================================== -->
+      <!-- Comparisons: Study002 - Stages -->
+      <!-- =================================================================== -->
+
+      <table name="study002_lineage_comparisons" displayName="Cell-Stage Comparisons"
+      	     inReportMaker="true" queryRef="study002_GeneTables.LineageComparisons">
+      	<description>
+	  <![CDATA[
+		   <p>Comparisons between successive stages of erythroid progenitors (stress erythropoiesis) within treated or control samples in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study002" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study002_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+	  ]]>
+	</description>
+      	<columnAttribute name="cell_or_lineage" displayName="Treatment" help="EPO challenged or control sample"/>
+        <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
+        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+      </table>
+
+      <table name="study002_treatment_comparisons" displayName="Epo Challenge v Control Comparisons"
+      	     inReportMaker="true" queryRef="study002_GeneTables.TreatmentComparisons">
+      	<description>
+	  <![CDATA[
+		   <p>Comparisons between treated (EPO-challenged) to control erythroid progenitors (stress erythropoiesis) in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study002" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study002_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+		   
+	  ]]>  
+	</description>
+      	<columnAttribute name="cell_or_lineage" displayName="Cell" help="erythroid progenitor cell type"/>
+        <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
+        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+      </table>
+
+
+      <!-- =================================================================== -->
+      <!-- Comparisons: Study005 - Alleles -->
+      <!-- =================================================================== -->
+      
+      <table name="study005_genotype_comparisons" displayName="EpoR Genotype Comparisons"
+      	     inReportMaker="true" queryRef="study005_GeneTables.GenotypeComparisons">
+      	<description>
+	  <![CDATA[
+		   <p>Comparisons between EpoR genotype within treated or control stage E1 cells in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study005" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study005_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+	  ]]>
+	</description>
+      	<columnAttribute name="cell_or_lineage" displayName="Treatment" help="EPO challenged or control sample"/>
+        <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
+        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+      </table>
+
+      <table name="study005_treatment_comparisons" displayName="Epo Challenge v Control Comparisons"
+      	     inReportMaker="true" queryRef="study005_GeneTables.TreatmentComparisons">
+      	<description>
+	  <![CDATA[
+		   <p>Comparisons between treated (EPO-challenged) to control stage E1 cells in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study005" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study005_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+		   
+	  ]]>  
+	</description>
+      	<columnAttribute name="cell_or_lineage" displayName="Genotype" help="EpoR allele status (wild type or truncated)"/>
+        <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
+        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+      </table>
+
+
+      <!-- =================================================================== -->
+      <!-- Profiles: Study001 - Palis -->
+      <!-- =================================================================== -->
+
+      <table name="study001_profiles" displayName="Gene Expression Profiles" inReportMaker="false" queryRef="study001_GeneTables.ExpressionProfile">
+	<description>
+	  <![CDATA[
+		   <p>Profiles of gene expression during erythrocyte differentiation (Primitive and Definitive lineages).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study001" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study001_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+	  ]]>
+	</description>
+        <columnAttribute name="dataset_id" internal="true" displayName="Dataset" inReportMaker="false"/>
+        <columnAttribute name="dataset_name" displayName="Dataset Name" internal="true" inReportMaker="false"/>
+        <columnAttribute name="dataset_description" displayName="Dataset Description" internal="true" inReportMaker="false" />
+        <textAttribute name="dataset" displayName="Dataset" inReportMaker="false" truncateTo="5000">
+          <text><![CDATA[<a href="../dataset/$$dataset_id$$" title ="$$dataset_description$$">$$dataset_name$$</a>]]></text>
+        </textAttribute>
+        <columnAttribute name="avg_gene_profile" displayName="Average Gene Expression" help="profile of per condition gene expression, averaged across replicates and reporters" inReportMaker="false" />
+        <columnAttribute name="gene_profile" displayName="Gene Expression" help="profile of per sample gene expression, averaged across reporters" inReportMaker="false"/>
+        <columnAttribute name="reporter_profile" displayName="Reporter Expression" help="profile of per sample reporter expression"/>
+      </table>
+
+
+      <!-- =================================================================== -->
+      <!-- Profiles: Study002 - Stages -->
+      <!-- =================================================================== -->
+
+      <table name="study002_profiles" displayName="Gene Expression Profiles" inReportMaker="false" queryRef="study002_GeneTables.ExpressionProfile">
+	<description>
+	  <![CDATA[
+		   <p>Profiles of gene expression during stress erythropoeisis (Control and EPO challenged).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study002" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study002_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+		   
+	  ]]>
+	</description>
+        <columnAttribute name="dataset_id" internal="true" displayName="Dataset" inReportMaker="false"/>
+        <columnAttribute name="dataset_name" displayName="Dataset Name" internal="true" inReportMaker="false"/>
+        <columnAttribute name="dataset_description" displayName="Dataset Description" internal="true" inReportMaker="false" />
+        <textAttribute name="dataset" displayName="Dataset" inReportMaker="false" truncateTo="5000">
+          <text><![CDATA[<a href="../dataset/$$dataset_id$$" title ="$$dataset_description$$">$$dataset_name$$</a>]]></text>
+        </textAttribute>
+        <columnAttribute name="avg_gene_profile" displayName="Average Gene Expression" help="profile of per condition gene expression, averaged across replicates and reporters" inReportMaker="false" />
+        <columnAttribute name="gene_profile" displayName="Gene Expression" help="profile of per sample gene expression, averaged across reporters" inReportMaker="false"/>
+        <columnAttribute name="reporter_profile" displayName="Reporter Expression" help="profile of per sample reporter expression"/>
+      </table>
+
+        <!-- =================================================================== -->
+      <!-- Profiles: Study005 - Stages -->
+      <!-- =================================================================== -->
+
+      <table name="study005_profiles" displayName="Gene Expression Profiles" inReportMaker="false" queryRef="study005_GeneTables.ExpressionProfile">
+	<description>
+	  <![CDATA[
+		   <p>Profiles of gene expression during stress erythropoeisis (Control and EPO challenged).</p>
+		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
+		   <div class="btn-group mr-2" role="group" aria-label="Browse">
+		   <a href="../dataset/study005" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study005_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
+		   
+	  ]]>
+	</description>
+        <columnAttribute name="dataset_id" internal="true" displayName="Dataset" inReportMaker="false"/>
+        <columnAttribute name="dataset_name" displayName="Dataset Name" internal="true" inReportMaker="false"/>
+        <columnAttribute name="dataset_description" displayName="Dataset Description" internal="true" inReportMaker="false" />
+        <textAttribute name="dataset" displayName="Dataset" inReportMaker="false" truncateTo="5000">
+          <text><![CDATA[<a href="../dataset/$$dataset_id$$" title ="$$dataset_description$$">$$dataset_name$$</a>]]></text>
+        </textAttribute>
+        <columnAttribute name="avg_gene_profile" displayName="Average Gene Expression" help="profile of per condition gene expression, averaged across replicates and reporters" inReportMaker="false" />
+        <columnAttribute name="gene_profile" displayName="Gene Expression" help="profile of per sample gene expression, averaged across reporters" inReportMaker="false"/>
+        <columnAttribute name="reporter_profile" displayName="Reporter Expression" help="profile of per sample reporter expression"/>
+      </table>
+      
+
+
+    </recordClass>
+  </recordClassSet>
+</wdkModel>

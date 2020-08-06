@@ -26,85 +26,7 @@
 		<!-- =================================================================== -->
 		<!-- Transcriptomics -->
 		<!-- =================================================================== -->
-		<sqlQuery name="MicroarrayComparison">
-			<column name="source_id"/>
-			<column name="cell_or_lineage"/>
-			<column name="ref_condition"/>
-			<column name="alt_condition"/>
-			<column name="dataset_name"/>
-			<column name="dataset_id"/>
-			<column name="ref_mean_expression"/>
-			<column name="alt_mean_expression"/>
-			<column name="fold_change"/>
-			<column name="adj_p_value"/>
-			<column name="confidence_interval"/>
-			<sql>
-				<![CDATA[
-		 SELECT ga.source_id,
-		   split_part(pan.name, ': ', 2) AS cell_or_lineage,
-                 split_part(split_part(pan.name, ': ', 1), ' v ', 2) AS ref_condition,
-                 split_part(split_part(pan.name, ': ', 1), ' v ', 1) AS alt_condition,
-		 round(r.mean1::numeric, 2) AS ref_mean_expression,
-		 round(r.mean2::numeric, 2) AS alt_mean_expression,
-		 round(r.fold_change::numeric, 2) AS fold_change,
-		 CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE') ELSE round(r.adj_p_value::numeric,4)::text END AS adj_p_value,
-		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval,
-		 pan.name AS comparison,
-		 p.source_id AS dataset_id,
-		 split_part(p.name, ': ', 2) AS dataset_name
-		 FROM ErythronDB.Comparison c,
-		 Study.StudyLink sl,
-		 Study.ProtocolAppNode pan,
-		 Study.Study s,
-		 Study.Study p,
-		 Results.GeneDiffResult r,
-		 CBIL.GeneAttributes ga
-		 WHERE sl.study_id = s.study_id
-		 AND sl.protocol_app_node_id = c.protocol_app_node_id
-		 AND c.protocol_app_node_id = pan.protocol_app_node_id
-		 AND r.protocol_app_node_id = c.protocol_app_node_id
-		 AND r.gene_id = ga.gene_id
-		 AND r.adj_p_value <= 0.05
-		 AND p.study_id = s.investigation_id
-		 ORDER BY fold_change DESC
-	]]>
-			</sql>
-		</sqlQuery>
-
-
-		
-
-		<sqlQuery name="ExpressionProfile">
-			<column name="source_id"/>
-			<column name="dataset_id"/>
-			<column name="dataset_name"/>
-			<column name="dataset_description"/>
-			<column name="gene_profile"/>
-			<column name="reporter_profile"/>
-			<column name="avg_gene_profile"/>
-			<sql>
-				<![CDATA[
-						SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneNotSampledProfile p,
-						(##WDK_ID_SQL##) id
-						WHERE p.source_id = id.source_id
-
-						UNION ALL
-
-						SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneNotExpressedProfile p,
-						(##WDK_ID_SQL##) id
-						WHERE p.source_id = id.source_id
-
-						UNION ALL
-
-						SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneExpressedProfile p,
-						(##WDK_ID_SQL##) id
-						WHERE p.source_id = id.source_id
-
-						ORDER BY dataset_id, order_num
-				]]>
-			</sql>
-		</sqlQuery>
-
+	
 
 		<!-- =================================================================== -->
 		<!-- Proteomics -->
@@ -233,20 +155,25 @@
 			<column name="external_id"/>
 			<sql>
 				<![CDATA[
-		 SELECT ga.source_id,
-		 '@PROJECT_ID@'::text AS project_id,
-		 a.external_id,
-		 string_agg('<a href="' || drl.url || a.external_id || '" class="wdk-toolitp" title="' || drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ') AS external_links
-		 FROM
-		 CBIL.DbRefLink drl,
-		 CBIL.GeneAttributes ga,
-		 LATERAL jsonb_each(annotation),
-		 LATERAL UNNEST(string_to_array(replace(value::text, '"',''), '|')) a(external_id)
-		 WHERE drl.dbref_id = key
-		 AND drl.resource_type = 'gene'
-		 GROUP BY ga.source_id, a.external_id, '@PROJECT_ID@'::text
-		 ORDER BY ga.source_id, a.external_id
-	]]>
+					 WITH links AS (
+					 SELECT ga.source_id,
+					 a.external_id,
+					 string_agg('<a href="' || drl.url || a.external_id || '" class="wdk-toolitp" title="' || drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ') AS external_links
+					 FROM
+					 CBIL.DbRefLink drl,
+					 CBIL.GeneAttributes ga,
+					 LATERAL jsonb_each(annotation),
+					 LATERAL UNNEST(string_to_array(replace(value::text, '"',''), '|')) a(external_id)
+					 WHERE drl.dbref_id = key
+					 AND drl.resource_type = 'gene'
+					 GROUP BY ga.source_id, a.external_id, '@PROJECT_ID@'::text
+					 ORDER BY ga.source_id, a.external_id
+					 )
+					 SELECT source_id, 
+					 external_id,
+					 CASE WHEN external_id LIKE 'OTTMUS%' THEN replace(external_links, 'Homo_sapiens', 'Mus_musculus') ELSE external_links END AS external_links
+					 FROM links
+				]]>
 			</sql>
 
 		</sqlQuery>

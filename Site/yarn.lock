@@ -191,6 +191,11 @@ highcharts@^7.1.2:
   resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-7.2.1.tgz#313c434bbfd4525a72b76c6bfbd9c39dfe2d1993"
   integrity sha512-/fSUZiONmM+x49IQJNf8XwZGiNGOPRmxEOcd0xdJP9Xc3OlG46ZiUWgSLfhYQ9Oyhmzc3V3SKYCLud8+rKLi+w==
 
+igv@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/igv/-/igv-2.6.3.tgz#441ed1161f6cc1a3e86732a323b3e9fadcc5c59b"
+  integrity sha512-2IfuC+BZ2ecXAyghDFzFIpdUPRwUHU8h1/coDDzbg5ciPCH2wEL6kAQvBRDebAgrwtKftincIzaUk7YaufNRmA==
+
 invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"

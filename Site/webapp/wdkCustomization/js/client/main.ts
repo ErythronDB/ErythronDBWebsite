@@ -1,5 +1,6 @@
 import { initialize } from 'ebrc-client/bootstrap';
-import * as componentWrappers from './componentWrappers';
+//import * as componentWrappers from './componentWrappers';
+import * as componentWrappers from "./component-wrappers";
 
 import { wrapRoutes } from './routes';
 

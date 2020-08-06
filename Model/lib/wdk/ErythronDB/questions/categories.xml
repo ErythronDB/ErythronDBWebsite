@@ -1,46 +1,5 @@
 <wdkModel>
-
   <ontology name="Categories" pluginClass="org.eupathdb.common.model.ontology.EuPathDbOwlParserWdkPlugin" useAsWdkCategories="true">
     <property name="owlFilePath">lib/wdk/ontology/categories_merged.owl</property>
   </ontology>
-
-  <ontology name="SiteMap" pluginClass="org.eupathdb.common.model.ontology.SiteMapOntologyPlugin2">
-    <property name="owlFilePath">lib/wdk/ontology/categories_merged.owl</property>
-  </ontology>
-
-
-  <ontology name="test" pluginClass="org.gusdb.wdk.model.ontology.TestOntologyPlugin"/>
-
- <searchCategory name="GeneRecordClasses.GeneRecordClass" displayName="Search for Genes" />
-  
-  <searchCategory name="geneIds" displayName="Identifier"
-    		  parentRef="GeneRecordClasses.GeneRecordClass">
-    <questionRef>GeneQuestions.GeneUpload</questionRef>
-    <questionRef>GeneQuestions.GeneTextSearch</questionRef>
-  </searchCategory>
-
-  <searchCategory name="study001" displayName="Transcriptomics: Erythroid Lineages"
-    parentRef="GeneRecordClasses.GeneRecordClass">
-    <questionRef>Study001.study001_comparison</questionRef>
-    <questionRef>Study001.study001_expression</questionRef>
-</searchCategory>
-
-<searchCategory name="study002" displayName="Transcriptomics: E1, E2, E3"
-    parentRef="GeneRecordClasses.GeneRecordClass">
-    <questionRef>Study002.study002_comparison</questionRef>
-    <questionRef>Study002.study002_expression</questionRef>
-</searchCategory>
-  
-  <searchCategory name="study005" displayName="Transcriptomics: E1 - truncated EpoR"
-    parentRef="GeneRecordClasses.GeneRecordClass">
-    <questionRef>Study005.study005_comparison</questionRef>
-    <questionRef>Study005.study005_expression</questionRef>
-</searchCategory>
-  
-
-  <searchCategory name="proteomicsFC" displayName="Proteomics (Hs)"
-    parentRef="GeneRecordClasses.GeneRecordClass">
-    <questionRef>GeneDataset.GenesByProteomicsComparison</questionRef>
-  </searchCategory>
-  
 </wdkModel>

@@ -8,26 +8,14 @@
 	    <column name="project"/>
 	    <column name="symbol"/>
 	    <column name="gene_type"/>
-	    <column name="sequence_id"/>
 	    <column name="chromosome"/>
 	    <column name="start_min"/>
-	    <column name="start_min_text"/>
 	    <column name="end_max"/>
-	    <column name="end_max_text"/>
-	    <column name="strand_plus_minus"/>
-	    <column name="organism_common"/>
-	    <column name="organism_full"/>
-	    <column name="organism_abbrev"/>
-	    <column name="ncbi_tax_id"/>
-	    <column name="transcript_count"/>
-	    <column name="exon_count"/>
+	    <column name="strand"/>
+	    <column name="organism"/>
 	    <column name="product"/>
-	    <column name="is_pseudo"/>
-	    <column name="is_pseudo_check"/>
-	    <column name="chromosomal_location"/>
-	    <column name="chromosomal_location_overview"/>
-	    <column name="gene_family"/>
-	    <column name="gene_family_id"/>
+	    <column name="locus"/>
+	    <column name="location"/>
 	    <sql>
 	      <![CDATA[
 		       SELECT source_id,
@@ -35,28 +23,14 @@
 		       '@PROJECT_ID@'::text AS project,
 		       gene_symbol AS symbol,
 		       gene_type,
-		       sequence_id,
 		       chromosome,
 		       start_min,
-		       start_min::text AS start_min_text,
 		       end_max,
-		       end_max::text AS end_max_text,
-		       CASE WHEN is_reversed THEN '-' ELSE '+' END AS strand_plus_minus,
-		       genus_species AS organism_full,
-		       organism AS organism_common,
-		       CASE WHEN organism = 'Human' THEN 'Hs' ELSE 'Mm' END AS organism_abbrev,
-		       ncbi_tax_id,
-		       transcript_count,
-		       exon_count,
+		       CASE WHEN is_reversed THEN '-' ELSE '+' END AS strand,
+		       CASE WHEN organism = 'Human' THEN 'Hs' ELSE 'Mm' END AS organism,
 		       annotation->>'name' AS product,
-		       annotation->>'location' AS chromosomal_location,
-		       CASE WHEN annotation->>'location' IS NOT NULL THEN
-		       '<div class="eupathdb-RecordOverviewItem" data-label="Chromosomal Location">' || (annotation->>'location')::text || '</div>'
-		       ELSE '' END AS chromosomal_location_overview,
-		       annotation->>'gene_family' AS gene_family,
-		       annotation->>'gene_family_id' AS gene_family_id,
-		       CASE WHEN gene_type ILIKE '%pseudo%' THEN true ELSE NULL END AS is_pseudo,
-		       CASE WHEN gene_type ILIKE '%pseudo%' THEN '<i class="fa fa-check"></i>' ELSE NULL END AS is_pseudo_check
+		       annotation->>'location' AS locus,
+		       chromosome || ':' || start_min::text || '-' || end_max::text || ':' || CASE WHEN is_reversed THEN '-' ELSE '+' END AS location
 		       FROM CBIL.GeneAttributes
 	      ]]>
 	    </sql>
@@ -117,29 +91,5 @@
 		     
 	  </sql>
 	</sqlQuery>
-
-	
-	<!-- =================================================================== -->
-	<!-- Alias -->
-	<!-- for now just for current gene symbol  -->
-	<!-- =================================================================== -->
-	<sqlQuery name="GeneAlias" doNotTest="true">
-            <column name="source_id"/>
-            <column name="project_id"/>
-	    <column name="old_source_id"/>
-            <sql>
-	      <![CDATA[
-		       SELECT source_id,
-		       '@PROJECT_ID@'::text AS project_id,
-		       gene_symbol AS old_source_id
-		       FROM CBIL.GeneAttributes
-		       UNION
-		       SELECT source_id,
-		       '@PROJECT_ID@'::text AS project_id,
-		       source_id AS old_source_id
-		       FROM CBIL.GeneAttributes
-		  ]]>
-            </sql>
-        </sqlQuery>
     </querySet>
 </wdkModel>
