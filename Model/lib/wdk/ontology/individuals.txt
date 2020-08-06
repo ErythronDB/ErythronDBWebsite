@@ -52,43 +52,32 @@ MouseGeneRecordClasses.MouseGeneRecordClass.study005_genotype_comparisons	http:/
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_treatment_comparisons	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_treatment_comparisons				gene	2		record	download
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_profiles	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_profiles				gene	1		record	
 													
-													
-													
 ## Human Gene Attributes ##													
 													
-GeneRecordClasses.HumanGeneRecordClass.source_id	http://edamontology.org/topic_0219	annot and cur	GeneRecordClasses.HumanGeneRecordClass	attribute	source_id				gene		record-internal		download
-GeneRecordClasses.HumanGeneRecordClass.sequence_id	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.HumanGeneRecordClass	attribute	sequence_id				gene		results	record-internal	download
-GeneRecordClasses.HumanGeneRecordClass.chromosome	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.HumanGeneRecordClass	attribute	chromosome				gene		results	record-internal	download
-GeneRecordClasses.HumanGeneRecordClass.organism_full	http://edamontology.org/topic_0637	Taxonomy	GeneRecordClasses.HumanGeneRecordClass	attribute	organism_full				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.organism_common	http://edamontology.org/topic_0637	Taxonomy	GeneRecordClasses.HumanGeneRecordClass	attribute	organism_common				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.organism_abbrev	http://edamontology.org/topic_0637	Taxonomy	GeneRecordClasses.HumanGeneRecordClass	attribute	organism_abbrev				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.product	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.HumanGeneRecordClass	attribute	product				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.gene_type	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.HumanGeneRecordClass	attribute	gene_type				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.location_text	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.HumanGeneRecordClass	attribute	location_text				gene			record-internal	
-GeneRecordClasses.HumanGeneRecordClass.strand_plus_minus	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.HumanGeneRecordClass	attribute	strand_plus_minus				gene			record-internal	
-GeneRecordClasses.HumanGeneRecordClass.start_min	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.HumanGeneRecordClass	attribute	start_min				gene			record-internal	
-GeneRecordClasses.HumanGeneRecordClass.end_max	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.HumanGeneRecordClass	attribute	end_max				gene			record-internal	
-GeneRecordClasses.HumanGeneRecordClass.symbol	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.HumanGeneRecordClass	attribute	symbol				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.is_pseudo	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.HumanGeneRecordClass	attribute	is_pseudo				gene			record-internal	
-GeneRecordClasses.HumanGeneRecordClass.ortholog_record_link	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.HumanGeneRecordClass	attribute	ortholog_record_link				gene			record	
-GeneRecordClasses.HumanGeneRecordClass.synonym	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.HumanGeneRecordClass	attribute	synonym				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.is_pseudo_display	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.HumanGeneRecordClass	attribute	is_pseudo_display				gene			record-internal	
-GeneRecordClasses.HumanGeneRecordClass.chromosomal_location	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.HumanGeneRecordClass	attribute	chromosomal_location				gene		results	record	download
-GeneRecordClasses.HumanGeneRecordClass.gene_family	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.HumanGeneRecordClass	attribute	gene_family				gene		results	record-internal	download
-GeneRecordClasses.HumanGeneRecordClass.gene_family_id	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.HumanGeneRecordClass	attribute	gene_family_id				gene			record-internal	download
-GeneRecordClasses.HumanGeneRecordClass.gene_family_link	http://edamontology.org/topic_3299	Evolutionary Biology	GeneRecordClasses.HumanGeneRecordClass	attribute	gene_family_link				gene			record-internal	
-GeneRecordClasses.HumanGeneRecordClass.transcripts	http://edamontology.org/topic_0114	Gene Structure	GeneRecordClasses.HumanGeneRecordClass	table	transcripts				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.gene_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.HumanGeneRecordClass	table	gene_link_outs				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.protein_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.HumanGeneRecordClass	table	protein_link_outs				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.clinical_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.HumanGeneRecordClass	table	clinical_link_outs				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.sequence_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	GeneRecordClasses.HumanGeneRecordClass	table	sequence_link_outs				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.go_terms	http://edamontology.org/topic_1775	Function analysis	GeneRecordClasses.HumanGeneRecordClass	table	go_terms				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.study003_modifications	http://edamontology.org/topic_0121	Proteomics	GeneRecordClasses.HumanGeneRecordClass	table	study003_modifications				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.study003_comparison	http://edamontology.org/topic_0121	Proteomics	GeneRecordClasses.HumanGeneRecordClass	table	study003_comparison				gene			record	download
-GeneRecordClasses.HumanGeneRecordClass.record_overview	http://edamontology.org/topic_0219	Curation and Annotation	GeneRecordClasses.HumanGeneRecordClass	attribute	record_overview				gene		record-internal		
-GeneRecordClasses.HumanGeneRecordClass.chromosomal_location_overview	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	GeneRecordClasses.HumanGeneRecordClass	attribute	chromosomal_location_overview				gene			record-internal	
-GeneRecordClasses.MouseGeneRecordClass.pathways	http://edamontology.org/topic_1775	Function analysis	GeneRecordClasses.MouseGeneRecordClass	table	pathways				gene			record	download
-													
+HumanGeneRecordClasses.HumanGeneRecordClass.source_id	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	source_id				gene			record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.organism	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	organism				gene	1	results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.symbol	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	symbol				gene	2	results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.product	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	product				gene	3	results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.synonym	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	synonym				gene	4	results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.gene_type	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	gene_type				gene	5	results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.ortholog_record_link	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	ortholog_record_link				gene	6	results	record-internal	
+HumanGeneRecordClasses.HumanGeneRecordClass.ortholog_source_id	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	ortholog_source_id				gene	6			download
+HumanGeneRecordClasses.HumanGeneRecordClass.ortholog_symbol	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	ortholog_symbol				gene	6			download
+HumanGeneRecordClasses.HumanGeneRecordClass.locus	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	locus				gene	1	results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.location	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	location				gene	2	results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.chromosome	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	chromosome				gene		results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.strand	GenomicSequenceLocationCategory	GenomicSequenceLocationCategory	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	strand				gene		results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.start_min	http://edamontology.org/topic_0114	Gene Structure	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	start_min				gene		results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.end_max	http://edamontology.org/topic_0114	Gene Structure	HumanGeneRecordClasses.HumanGeneRecordClass	attribute	end_max				gene		results	record-internal	download
+HumanGeneRecordClasses.HumanGeneRecordClass.gene_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	HumanGeneRecordClasses.HumanGeneRecordClass	table	gene_link_outs				gene			record	download
+HumanGeneRecordClasses.HumanGeneRecordClass.protein_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	HumanGeneRecordClasses.HumanGeneRecordClass	table	protein_link_outs				gene			record	download
+HumanGeneRecordClasses.HumanGeneRecordClass.clinical_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	HumanGeneRecordClasses.HumanGeneRecordClass	table	clinical_link_outs				gene			record	download
+HumanGeneRecordClasses.HumanGeneRecordClass.sequence_link_outs	http://edamontology.org/topic_3345	Data identity and mapping	HumanGeneRecordClasses.HumanGeneRecordClass	table	sequence_link_outs				gene			record	download
+HumanGeneRecordClasses.HumanGeneRecordClass.pathways	http://edamontology.org/topic_1775	Function analysis	HumanGeneRecordClasses.HumanGeneRecordClass	table	pathways				gene			record	download
+HumanGeneRecordClasses.HumanGeneRecordClass.go_terms	http://edamontology.org/topic_1775	Function analysis	HumanGeneRecordClasses.HumanGeneRecordClass	table	go_terms				gene			record	download
+HumanGeneRecordClasses.HumanGeneRecordClass.study003_ptm	http://www.cbil.upenn.edu/ErythronDB/study003	EPO phosphorylation PTM targets in UT-7epo-E cells	HumanGeneRecordClasses.HumanGeneRecordClass	table	study003_ptm				gene	1		record	download
+HumanGeneRecordClasses.HumanGeneRecordClass.study003_comparisons	http://www.cbil.upenn.edu/ErythronDB/study003	EPO phosphorylation PTM targets in UT-7epo-E cells	HumanGeneRecordClasses.HumanGeneRecordClass	table	study003_comparisons				gene	2		record	download
+																							
 ## Dataset Attributes ##													
 													
 DatasetRecordClasses.DatasetRecordClass.Datasets	http://edamontology.org/data_0916	Datasets	DatasetRecordClasses.DatasetRecordClass	table	Datasets						results	record	download

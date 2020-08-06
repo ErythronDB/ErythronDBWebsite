@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+  <querySet name="study003_GeneTables" queryType="table" isCacheable="false">
+
+    <sqlQuery name="PTM">
+      <column name="source_id"/>
+      <column name="experiment"/>
+      <column name="peptide"/>
+      <column name="protein_id"/>
+      <column name="modification_site"/>
+      <column name="modification_type"/>
+      <column name="molecular_weight"/>
+      <column name="charge"/>
+      <column name="mass_to_charge_ratio"/>
+      <sql>
+	<![CDATA[
+		 SELECT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 s.name AS experiment,
+		 gp.peptide,
+		 gp.protein_id,
+		 gp.modification_site,
+		 ot.name AS modification_type,
+		 scores->>'kD' AS molecular_weight,
+		 scores->>'Charge' AS charge,
+		 round((scores->>'Calc m/Z')::numeric, 2) AS mass_to_charge_ratio
+		 FROM
+		 ErythronDB.GenePeptide gp,
+		 Study.Study s,
+		 CBIL.GeneAttributes ga,
+		 SRes.OntologyTerm ot
+		 WHERE s.study_id = gp.study_id
+		 AND ga.gene_id = gp.gene_id
+		 AND ot.ontology_term_id = gp.modification_type_id
+		 AND NOT (@HIDE_PRIVATE_DATA@::boolean AND (s.approaches->>'public' IS NOT NULL AND (s.approaches->>'public')::boolean IS FALSE))
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="Comparisons">
+      <column name="source_id"/>
+      <column name="comparison"/>
+      <column name="fold_change"/>
+      <column name="adj_fold_change"/>
+      <column name="alt_mean_intensity"/>
+      <column name="ref_mean_intensity"/>
+      <column name="peptide"/>
+      <column name="protein_id"/>
+      <sql>
+	<![CDATA[
+		 SELECT ga.source_id,
+		 gp.peptide,
+		 gp.protein_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 pan.name AS comparison,
+		 CASE WHEN pc.fold_change = 'NaN' THEN pc.fold_change
+		 ELSE round(pc.fold_change::numeric, 2)::float END AS fold_change,
+		 CASE WHEN pc.adj_fold_change = 'NaN' THEN pc.adj_fold_change
+		 ELSE round(pc.adj_fold_change::numeric, 2)::float END AS adj_fold_change,
+		 CASE WHEN api.intensity > 1000 THEN to_char(round(api.intensity::numeric), '9.99EEEE')
+		 ELSE round(api.intensity::numeric)::text END AS alt_mean_intensity,
+		 CASE WHEN rpi.intensity > 1000 THEN to_char(round(rpi.intensity::numeric), '9.99EEEE')
+		 ELSE round(rpi.intensity::numeric)::text END AS ref_mean_intensity
+		 FROM
+		 ErythronDB.PeptideComparison pc,
+		 ErythronDB.GenePeptide gp,
+		 ErythronDB.Comparison c,
+		 CBIL.GeneAttributes ga,
+		 ErythronDB.PeptideIntensity rpi,
+		 ErythronDB.PeptideIntensity api,
+		 Study.ProtocolAppNode pan,
+		 Study.StudyLink sl,
+		 Study.Study s
+		 WHERE c.comparison_id = pc.comparison_id
+		 AND gp.gene_peptide_id = pc.peptide_id
+		 AND pan.protocol_app_node_id = c.protocol_app_node_id
+		 AND gp.gene_id = ga.gene_id
+		 AND c.reference_condition_id = rpi.protocol_app_node_id
+		 AND rpi.peptide_id = gp.gene_peptide_id
+		 AND c.alternative_condition_id = api.protocol_app_node_id
+		 AND api.peptide_id = gp.gene_peptide_id
+		 AND pan.protocol_app_node_id = sl.protocol_app_node_id
+		 AND s.study_id = sl.study_id
+		 AND NOT (@HIDE_PRIVATE_DATA@::boolean AND (s.approaches->>'public' IS NOT NULL AND (s.approaches->>'public')::boolean IS FALSE))
+		 ORDER BY fold_change DESC
+	]]>
+      </sql>
+    </sqlQuery>
+    
+  </querySet>
+</wdkModel>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+    <querySet name="HumanGeneAttributes" queryType="attribute" isCacheable="false">
+
+	<!-- =================================================================== -->
+	<!-- Alias -->
+	<!-- =================================================================== -->
+	<sqlQuery name="GeneAlias" doNotTest="true">
+            <column name="source_id"/>
+            <column name="project_id"/>
+	    <column name="old_source_id"/>
+            <sql>
+	      <![CDATA[
+		       SELECT source_id,
+		       '@PROJECT_ID@'::text AS project_id,
+		       gene_symbol AS old_source_id
+		       FROM CBIL.GeneAttributes 
+		       WHERE organism = 'Human'
+		       UNION
+		       SELECT source_id,
+		       '@PROJECT_ID@'::text AS project_id,
+		       source_id AS old_source_id
+		       FROM CBIL.GeneAttributes
+		       WHERE organism = 'Human'
+		  ]]>
+            </sql>
+        </sqlQuery>
+    </querySet>
+</wdkModel>

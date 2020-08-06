@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wdkModel>
   <recordClassSet name="MouseGeneRecordClasses">
-    <recordClass name="MouseGeneRecordClass" urlName="mm" displayName="Gene (Mm)">
+    <recordClass name="MouseGeneRecordClass" urlName="mm" displayName="Gene (Mm)" shortDisplayName="Genes (Mm)">
       <!-- =================================================================== -->
       <!-- Primary Key -->
       <!-- =================================================================== -->
@@ -93,7 +93,7 @@
 
 	<linkAttribute name="ortholog_record_link" displayName="Human Ortholog" truncateTo="5000" inReportMaker="false">
 	  <displayText>$$ortholog_symbol$$</displayText>
-	  <url><![CDATA[../hgene/$$ortholog_source_id$$]]></url>
+	  <url><![CDATA[../hs/$$ortholog_source_id$$]]></url>
 	</linkAttribute>
       </attributeQueryRef>
 

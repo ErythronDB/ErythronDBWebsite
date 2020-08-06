@@ -52,21 +52,19 @@
     <import file="ErythronDB/questions/dataset/datasetParams.xml" />
 
     <!-- import the gene related pieces -->
-    <!-- <import file="ErythronDB/records/gene/geneRecord.xml" /> -->
+
     <import file="ErythronDB/records/gene/geneAttributeQueries.xml" />
     <import file="ErythronDB/records/gene/geneTableQueries.xml" />
-    <!-- <import file="ErythronDB/questions/gene/geneQuestions.xml" /> -->
-    <!-- <import file="ErythronDB/questions/gene/geneQueries.xml" /> -->
-    <!-- <import file="ErythronDB/questions/gene/geneParams.xml" /> -->
-    <!-- <import file="ErythronDB/questions/gene/geneVocabQueries.xml" />  -->
-    <!-- <import file="ErythronDB/questions/gene/geneDatasetQuestions.xml"/> -->
-    <!-- <import file="ErythronDB/questions/gene/geneDatasetQueries.xml"/> -->
-
+  
     <import file="ErythronDB/records/mouse_gene/mgeneRecord.xml" />
     <import file="ErythronDB/records/mouse_gene/mgeneAttributeQueries.xml" />
     <import file="ErythronDB/records/mouse_gene/study001_TableQueries.xml" />
     <import file="ErythronDB/records/mouse_gene/study002_TableQueries.xml" />
     <import file="ErythronDB/records/mouse_gene/study005_TableQueries.xml" />
+
+    <import file="ErythronDB/records/human_gene/hgeneRecord.xml" />
+    <import file="ErythronDB/records/human_gene/hgeneAttributeQueries.xml" />
+    <import file="ErythronDB/records/human_gene/study003_TableQueries.xml" />
 
     <!-- <import file="ErythronDB/questions/gene/study001.xml"/> -->
     <!-- <import file="ErythronDB/questions/gene/study002.xml"/> -->

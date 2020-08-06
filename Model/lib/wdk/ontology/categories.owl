@@ -977,6 +977,11 @@
         <obo:hasNarrowSynonym>Study002</obo:hasNarrowSynonym>
     </owl:Class>
 
+    <owl:Class rdf:about="http://www.cbil.upenn.edu/ErythronDB/study003">
+        <rdfs:label>Study003</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://edamontology.org/topic_0121"/>
+        <obo:hasNarrowSynonym>Study003</obo:hasNarrowSynonym>
+    </owl:Class>
 
     
 </rdf:RDF>

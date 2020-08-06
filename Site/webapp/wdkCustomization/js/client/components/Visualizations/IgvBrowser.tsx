@@ -45,7 +45,7 @@ export const HumanIgvBrowser: React.FC<IgvBrowser> = ({ defaultLocus, webAppUrl 
                 genome: "hg38",
                 name: "Human GRCh38",
                 locus: defaultLocus,
-                tracks: [
+                /* tracks: [
                     {
                         name: "GENCODE v25 Genes",
                         url: webAppUrl + '/data/gencode.v25.basic.annotation.sorted.gtf.gz',
@@ -57,7 +57,7 @@ export const HumanIgvBrowser: React.FC<IgvBrowser> = ({ defaultLocus, webAppUrl 
                         maxHeight: 350,
                         visibilityWindow: -1,
                         color: "rgb(76,171,225)",
-                    }]
+                    }] */
                 
             };
 
