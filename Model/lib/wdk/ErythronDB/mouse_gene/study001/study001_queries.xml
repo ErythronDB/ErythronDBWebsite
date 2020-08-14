@@ -1,0 +1,95 @@
+<wdkModel>
+  <querySet name="study001_Queries" queryType="id" isCacheable="true">
+    <sqlQuery name="Comparison">
+      <paramRef ref="mgeneParams.experiment"/>
+      <paramRef ref="mgeneParams.transcriptomics_ref_condition"/>
+      <paramRef ref="mgeneParams.transcriptomics_alt_condition"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="mgeneParams.regulated_dir"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="mgeneParams.fold_change" default="2.0"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="mgeneParams.confidence"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="fold_change"/>
+      <column name="cell_or_lineage"/>
+      <column name="ref_condition"/>
+      <column name="alt_condition"/>
+      <column name="log2_confidence_interval"/>
+      <column name="adj_p_value"/>
+      <column name="p_value"/>
+      <column name="reference_mean"/>
+      <column name="alternative_mean"/>
+      <column name="log2_fold_change"/>
+      <column name="log2_reference_mean"/>
+      <column name="log2_alternative_mean"/>
+
+      <sql>
+	<![CDATA[
+		 SELECT ga.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 CASE WHEN $$experiment$$ != 'dset001_4' THEN extract_lineage(pan.cell_or_lineage) ELSE pan.cell_or_lineage END AS cell_or_lineage,
+		 CASE WHEN $$experiment$$ = 'dset001_4' THEN extract_lineage(pan.alt_condition) ELSE pan.alt_condition END AS alt_condition,
+		 CASE WHEN $$experiment$$ = 'dset001_4' THEN extract_lineage(pan.ref_condition) ELSE pan.ref_condition END AS ref_condition,
+		 round(r.mean1::numeric, 2) AS log2_reference_mean,
+		 round(r.mean2::numeric, 2) AS log2_alternative_mean,
+		 round(fold_change::numeric, 2) AS log2_fold_change,
+		 round(power(2, r.mean1::numeric), 2) AS reference_mean,
+		 round(power(2, r.mean2::numeric), 2) AS alternative_mean,
+		 r.raw_fold_change AS fold_change,
+		 CASE WHEN r.p_value < 0.0001 
+		 THEN to_char(r.p_value, '9.99EEEE')
+		 ELSE round(r.p_value::numeric,4)::text END AS p_value,
+		 CASE WHEN r.adj_p_value < 0.0001 
+		 THEN to_char(r.adj_p_value, '9.99EEEE')
+		 ELSE round(r.adj_p_value::numeric,4)::text END AS adj_p_value,
+		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS log2_confidence_interval
+		 FROM Results.GeneDiffResult r,
+		 CBIL.GeneAttributes ga, 
+		 Study.ProtocolAppNode pan,
+		 ErythronDB.Comparison c
+		 WHERE ga.gene_id = r.gene_id
+		 AND pan.protocol_app_node_id = c.protocol_app_node_id
+		 AND c.reference_condition_id = $$transcriptomics_ref_condition$$
+		 AND c.alternative_condition_id = $$transcriptomics_alt_condition$$
+		 AND c.protocol_app_node_id = r.protocol_app_node_id
+		 AND adj_p_value <= $$confidence$$
+		 AND (('up-regulated' IN ($$regulated_dir$$) AND r.raw_fold_change >= $$fold_change$$ )
+		 OR   ('down-regulated' IN ($$regulated_dir$$) AND r.raw_fold_change <= -1 * $$fold_change$$))
+	]]>
+      </sql>
+    </sqlQuery>
+
+ 
+
+    <sqlQuery name="RankedExpression">
+      <paramRef groupRef="paramGroups.dynamicParams" ref="mgeneParams.experiment"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="mgeneParams.sample"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="mgeneParams.minimum_percentile" default="80"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="mgeneParams.maximum_percentile" default="100"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="percentile"/>
+      <column name="mean_expression"/>
+      <column name="standard_error"/>
+      <column name="sample"/>
+      <sql>
+	<![CDATA[
+		 SELECT DISTINCT gene_source_id AS source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 extract_lineage(first_value(sample_description) OVER (w_exp)) || ' ' || 
+		 extract_erythroid_cell(first_value(sample_description) OVER (w_exp)) AS sample,
+		 first_value(value) OVER (w_exp) AS mean_expression,
+		 first_value(standard_error) OVER (w_exp) AS standard_error,
+		 first_value(round((percentile * 100)::numeric, 1)) OVER (w_exp) AS percentile
+		 FROM
+		 ErythronDB.AvgGeneExpressionDataTable dt,
+		 Study.Study s
+		 WHERE s.study_id = dt.dataset_id
+		 AND s.source_id = $$experiment$$
+		 AND percentile * 100 BETWEEN $$minimum_percentile$$ AND $$maximum_percentile$$
+		 AND sample_description IN ($$sample$$)
+		 WINDOW w_exp AS (PARTITION BY gene_source_id ORDER BY value DESC)
+	]]>
+      </sql>
+    </sqlQuery>
+  </querySet>
+</wdkModel>

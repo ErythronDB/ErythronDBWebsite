@@ -1,0 +1,59 @@
+<wdkModel>
+  <querySet name="study001_VocabQueries" queryType="vocab" isCacheable="true">
+  
+    <sqlQuery name="Experiments">
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+		 SELECT CASE WHEN is_comprehensive 
+		 THEN 'Compare Equivalent Cells Across Lineages'
+		 ELSE extract_lineage(dataset_name) END AS display,
+		 dataset_id AS term,
+		 dataset_id AS internal
+		 FROM ErythronDB.Dataset
+		 WHERE 'study001'::text = investigation_id
+		 ORDER BY term
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ExpressionExperiments">
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+		 SELECT extract_lineage(dataset_name) AS display,
+		 dataset_id AS term,
+		 dataset_id AS internal
+		 FROM ErythronDB.Dataset
+		 WHERE 'study001'::text = investigation_id
+		 AND NOT is_comprehensive
+		 ORDER BY term
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="Sample">
+      <paramRef ref="mgeneParams.experiment"/>
+
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+		 SELECT DISTINCT sample_description AS term, sample_description AS internal,
+		 extract_erythroid_cell(sample_description) AS display, sample_id
+		 FROM ErythronDB.AvgGeneExpressionDataTable dt,
+		 Study.Study s
+		 WHERE s.source_id = $$experiment$$::text
+		 AND dt.dataset_id = s.study_id
+		 ORDER BY dt.sample_id
+        ]]>
+      </sql>
+    </sqlQuery>
+    
+  </querySet>
+</wdkModel>

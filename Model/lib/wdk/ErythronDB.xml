@@ -11,7 +11,7 @@
     <constant name="attributesReporterDescription">Choose columns from search result to download as a tab-delimited text or EXCEL file.</constant>
     <constant name="tableReporterDescription">Choose tabular data not displayed in search results (e.g., proteomics, transcriptomics, functional annotation) to download as a tab-delimited text or EXCEL file.</constant>
 
-    <constant name="defaultGene">EPOR</constant>
+    <constant name="defaultGene">TXNIP</constant>
     <constant name="defaultTextExpression">cyto*</constant>
 
     <constant name="goTermPageUrl">@AMIGO_TERM_URL@</constant>
@@ -37,46 +37,58 @@
     
     <exampleStratsAuthor name="ErythronDB Example"/>
 
-    <!-- <import file="ErythronDB/questions/gene/study001.xml"/>
-    <import file="ErythronDB/questions/gene/study002.xml"/>
-    <import file="ErythronDB/questions/gene/study003.xml"/>
-    <import file="ErythronDB/questions/gene/study005.xml"/> -->
-  
     
     <!-- import the dataset related pieces -->
-    <import file="ErythronDB/records/dataset/datasetRecord.xml" />
-    <import file="ErythronDB/records/dataset/datasetAttributeQueries.xml" />
-    <import file="ErythronDB/records/dataset/datasetTableQueries.xml" />
-    <import file="ErythronDB/questions/dataset/datasetQuestions.xml" />
-    <import file="ErythronDB/questions/dataset/datasetQueries.xml" />
-    <import file="ErythronDB/questions/dataset/datasetParams.xml" />
+    <import file="ErythronDB/dataset/record/datasetRecord.xml" />
+    <import file="ErythronDB/dataset/record/datasetAttributeQueries.xml" />
+    <import file="ErythronDB/dataset/record/datasetTableQueries.xml" />
+    <import file="ErythronDB/dataset/questions/datasetQuestions.xml" />
+    <import file="ErythronDB/dataset/questions/datasetQueries.xml" />
+    <import file="ErythronDB/dataset/questions/datasetParams.xml" />
 
     <!-- import the gene related pieces -->
 
-    <import file="ErythronDB/records/gene/geneAttributeQueries.xml" />
-    <import file="ErythronDB/records/gene/geneTableQueries.xml" />
-  
-    <import file="ErythronDB/records/mouse_gene/mgeneRecord.xml" />
-    <import file="ErythronDB/records/mouse_gene/mgeneAttributeQueries.xml" />
-    <import file="ErythronDB/records/mouse_gene/study001_TableQueries.xml" />
-    <import file="ErythronDB/records/mouse_gene/study002_TableQueries.xml" />
-    <import file="ErythronDB/records/mouse_gene/study005_TableQueries.xml" />
+    <import file="ErythronDB/gene/record/geneTableQueries.xml" />
+    <import file="ErythronDB/gene/record/geneAttributeQueries.xml" />
+    
+    <import file="ErythronDB/mouse_gene/record/mgeneRecord.xml" />
+    <import file="ErythronDB/mouse_gene/record/mgeneAttributeQueries.xml" />
+    
+    <import file="ErythronDB/mouse_gene/study001/study001_TableQueries.xml" />
+    <import file="ErythronDB/mouse_gene/study002/study002_TableQueries.xml" />
+    <import file="ErythronDB/mouse_gene/study005/study005_TableQueries.xml" />
 
-    <import file="ErythronDB/records/human_gene/hgeneRecord.xml" />
-    <import file="ErythronDB/records/human_gene/hgeneAttributeQueries.xml" />
-    <import file="ErythronDB/records/human_gene/study003_TableQueries.xml" />
+    <import file="ErythronDB/human_gene/record/hgeneRecord.xml" />
+    <import file="ErythronDB/human_gene/record/hgeneAttributeQueries.xml" />
+    <import file="ErythronDB/human_gene/study003/study003_TableQueries.xml" />
 
-    <!-- <import file="ErythronDB/questions/gene/study001.xml"/> -->
-    <!-- <import file="ErythronDB/questions/gene/study002.xml"/> -->
-    <!-- <import file="ErythronDB/questions/gene/study005.xml"/> -->
+    <!-- <import file="ErythronDB/questions/gene/geneParams.xml"/> -->
+    <!-- <import file="ErythronDB/questions/gene/geneVocabQueries.xml"/> -->
+    <import file="ErythronDB/mouse_gene/questions/mgeneParams.xml"/>
+    <import file="ErythronDB/mouse_gene/questions/mgeneVocabQueries.xml"/>
+    
+    <import file="ErythronDB/mouse_gene/study001/study001_questions.xml"/>
+    <import file="ErythronDB/mouse_gene/study001/study001_queries.xml"/>
+    <import file="ErythronDB/mouse_gene/study001/study001_vocabQueries.xml"/>
+
+    <import file="ErythronDB/mouse_gene/study002/study002_questions.xml"/>
+    <import file="ErythronDB/mouse_gene/study002/study002_queries.xml"/>
+    <import file="ErythronDB/mouse_gene/study002/study002_vocabQueries.xml"/>
+
+    <import file="ErythronDB/mouse_gene/study005/study005_questions.xml"/>
+    <import file="ErythronDB/mouse_gene/study005/study005_queries.xml"/>
+    <import file="ErythronDB/mouse_gene/study005/study005_vocabQueries.xml"/>
+
+    <!-- <import file="ErythronDB/questions/mouse_gene/study002.xml"/>  -->
+    <!-- <import file="ErythronDB/questions/mouse_gene/study005.xml"/> -->
 
     <!-- XML -->
-    <!-- <import file="ErythronDB/records/xmlRecords.xml"/> -->
+    <!-- <import file="ErythronDB/xmlRecords.xml"/> -->
     <!-- <import file="ErythronDB/questions/xmlQuestions.xml"/> -->
 
     <!-- import the helper related pieces -->
-    <!-- <import file="ErythronDB/records/helperRecord.xml" /> -->
-    <!-- <import file="ErythronDB/records/helperRecordQueries.xml" /> -->
+    <!-- <import file="ErythronDB/helperRecord.xml" /> -->
+    <!-- <import file="ErythronDB/helperRecordQueries.xml" /> -->
     <!-- <import file="ErythronDB/questions/helperQuestions.xml" /> -->
     <!-- <import file="ErythronDB/questions/queries/helperIdQueries.xml" /> -->
 

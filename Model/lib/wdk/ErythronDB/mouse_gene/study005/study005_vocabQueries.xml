@@ -1,0 +1,116 @@
+ <wdkModel>
+  <querySet name="study005_VocabQueries" queryType="vocab" isCacheable="true">
+  
+    <sqlQuery name="Experiments">
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+		 SELECT CASE WHEN is_comprehensive 
+		 THEN 'Compare Alleles within Treatments'
+		 ELSE extract_epor_allele(dataset_name) END AS display,
+		 dataset_id AS term,
+		 dataset_id AS internal
+		 FROM ErythronDB.Dataset
+		 WHERE 'study005'::text = investigation_id
+		 ORDER BY term
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="ExpressionExperiments">
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+		 SELECT extract_epor_allele(dataset_name) AS display,
+		 dataset_id AS term,
+		 dataset_id AS internal
+		 FROM ErythronDB.Dataset
+		 WHERE 'study005'::text = investigation_id
+		 AND NOT is_comprehensive
+		 ORDER BY term
+	]]>
+      </sql>
+    </sqlQuery>
+
+   <sqlQuery name="Sample">
+      <paramRef ref="mgeneParams.experiment"/>
+
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+		 SELECT DISTINCT sample_description AS term, sample_description AS internal,
+		 extract_treatment(sample_description) AS display, sample_id
+		 FROM ErythronDB.AvgGeneExpressionDataTable dt,
+		 Study.Study s
+		 WHERE s.source_id = $$experiment$$::text
+		 AND dt.dataset_id = s.study_id
+		 ORDER BY dt.sample_id
+        ]]>
+      </sql>
+   </sqlQuery>
+
+
+     <sqlQuery name="TranscriptomicsRefConditions">
+      <paramRef ref="mgeneParams.experiment"/>
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+                 SELECT DISTINCT ps.profile_series_id AS internal,
+		 ps.label AS term,
+		 CASE WHEN $$experiment$$::text = 'dset005_3' 
+		 THEN extract_treatment(ps.label) || ' ' || extract_epor_allele(ps.label) 
+		 ELSE ps.label END AS display,
+		 ps.order_num
+		 FROM ErythronDB.Comparison c,
+		 Study.Study s,
+		 Study.StudyLink sl,
+		 ErythronDB.ProfileSeries ps
+		 WHERE s.source_id = $$experiment$$::text
+		 AND sl.study_id = s.study_id
+		 AND sl.protocol_app_node_id = c.protocol_app_node_id
+		 AND c.reference_condition_id = ps.profile_series_id
+		 ORDER BY order_num
+	]]>
+      </sql>
+    </sqlQuery>
+
+
+    <sqlQuery name="TranscriptomicsAltConditions">
+      <paramRef ref="mgeneParams.experiment"/>
+      <paramRef ref="mgeneParams.transcriptomics_ref_condition"/>
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+                 SELECT DISTINCT ps.profile_series_id AS internal,
+		 ps.label AS term,
+		 CASE WHEN $$experiment$$::text = 'dset005_3' 
+		 THEN extract_treatment(ps.label) || ' ' || extract_epor_allele(ps.label) 
+		 ELSE ps.label END AS display,
+		 ps.order_num
+		 FROM ErythronDB.Comparison c,
+		 Study.Study s,
+		 Study.StudyLink sl,
+		 ErythronDB.ProfileSeries ps
+		 WHERE s.source_id = $$experiment$$::text
+		 AND sl.study_id = s.study_id
+		 AND sl.protocol_app_node_id = c.protocol_app_node_id
+		 AND c.reference_condition_id = $$transcriptomics_ref_condition$$
+		 AND c.alternative_condition_id = ps.profile_series_id
+		 ORDER BY order_num
+	]]>
+      </sql>
+    </sqlQuery>
+
+
+  </querySet>
+</wdkModel>

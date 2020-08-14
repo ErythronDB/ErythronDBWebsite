@@ -1,0 +1,93 @@
+<wdkModel>
+  <questionSet name="study002_questions" displayName="Search for Genes">
+    <question name="study002_comparison"
+	      displayName="EPO Regulated Targets"
+	      shortDisplayName="EPO Targets"
+	      queryRef="study002_Queries.Comparison"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"
+	      newBuild="2">
+
+      <paramRef ref="mgeneParams.experiment" queryRef="study002_VocabQueries.Experiments" prompt="Progenitor Cell">
+	<help>Select a progenitor cell type</help>
+      </paramRef>
+      <paramRef ref="mgeneParams.transcriptomics_ref_condition" queryRef="study002_VocabQueries.TranscriptomicsRefConditions"/>
+      <paramRef ref="mgeneParams.transcriptomics_alt_condition" queryRef="study002_VocabQueries.TranscriptomicsAltConditions"/>
+
+      <attributesList summary="product,fold_change,p_value,adj_p_value,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
+
+
+      <summary>
+	<![CDATA[Find genes which are differentially expressed in erythroid progenitors after treatment with rhEPO.]]>
+      </summary>
+
+      <description>
+	<![CDATA[
+		 <p>Find genes which are differentially expressed in erythroid progenitors after treatement with rhEPO or between successive progenitor cell stages in comparisons between treated or control samples.</p>
+		 <p>These data come from the <a href="../../record/dataset/study002" target="blank">EPO-regulated targets in erythroid progenitors</a> study.</p>
+		 <p>First choose an experiment, then choose your reference and alternative conditions.  Comparisons within control or treated samples were made between successive stages of erythroid development, with earlier stages serving as the reference for the later ones.</p>
+		 <p>Choose the directionality and the magnitude of the (raw) fold difference. <br/>
+                 For example, selecting up-regulated with a fold difference of 2 will only show results where the expression level 
+		 of the comparator is twice that of the reference. </p>
+		 <p>If a comparison returns no result with a high-confidence filter, rerun setting the confidence value to 'Any'.</p>
+
+       	]]>
+      </description>
+
+      <dynamicAttributes>
+	<columnAttribute name="cell_or_lineage" displayName="Cell/Treatment" />
+	<columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
+	<columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
+	<columnAttribute name="log2_fold_change" displayName="Log2 FC" align="center" inReportMaker="false" help="log2 fold change calculated as the difference between the log2 mean of the alternative and the log2 mean of the reference condition"/>
+	<columnAttribute name="log2_reference_mean" displayName="Log2 Ref Mean" help="mean log2 mRNA expression level for the reference condition" align="center"/>
+	<columnAttribute name="log2_alternative_mean" displayName="Log2 Alt Mean" help="mean log2 mRNA expression level for the alternate, comparison condition" align="center"/>
+	<columnAttribute name="fold_change" displayName="Raw FC" align="center" inReportMaker="false" help="fold change based on raw mRNA expression levels"/>
+	<columnAttribute name="reference_mean" displayName="Ref Mean" help="mean mRNA expression level for the reference condition" align="center"/>
+	<columnAttribute name="alternative_mean" displayName="Alt Mean" help="mean mRNA expression level for the alternate, comparison condition" align="center"/>
+	<columnAttribute name="log2_confidence_interval" align="center" displayName="Log2 Conf. Interval" help="[log2 lower, log2 upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>	
+	<columnAttribute name="p_value" align="center" displayName="p-value" help="p-value uncorrected for multiple hypothesis testing"/>
+	<columnAttribute name="adj_p_value" align="center" displayName="Adj. p-value" help="BH-adjusted p-value"/>
+      </dynamicAttributes>
+
+    </question>
+
+
+    <question name="study002_expression"
+	      displayName="Ranked Expression"
+	      shortDisplayName="Expression"
+	      queryRef="study002_Queries.RankedExpression"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"
+	      newBuild="2">
+
+      <paramRef ref="mgeneParams.experiment" queryRef="study002_VocabQueries.ExpressionExperiments" prompt="Progenitor Cell">
+	<help>Select a treatment.</help>
+      </paramRef>
+      
+      <paramRef ref="mgeneParams.sample" queryRef="study002_VocabQueries.Sample" prompt="Treatment">
+	<help>Select a treatment - EPO Challenge or Control</help>
+      </paramRef>
+ 
+      <attributesList summary="product,percentile,mean_expression,standard_error" sorting="mean_expression desc"/>
+
+      <summary>
+        <![CDATA[
+    		 Find genes expressed in EPO Challenged and Control erythroid progenitor cells.
+    	]]>
+      </summary>
+      <description>
+        <![CDATA[
+		 <p>Find genes by ranked expression levels in the <a href="../../record/dataset/study002" target="blank">EPO-regulated targets in erythroid progenitors</a> study.</p>
+		 <p>Select a progenitor cell type and one or more treatment.</p>
+    	]]>
+      </description>
+
+      <dynamicAttributes>
+        <columnAttribute name="sample" displayName="Sample" align="center" inReportMaker="false" help="sample associated with top-ranked expression (out of selected samples in search)"/>
+        <columnAttribute name="percentile" displayName="Percentile" align="center" inReportMaker="false" help="ranked percentile across all genes expressed in this condition for the experiment"/>
+        <columnAttribute name="mean_expression" displayName="Log2 Mean Expression" help="mean log2 mRNA expression level  for the selected condition" align="center"/>
+        <columnAttribute name="standard_error" displayName="Std Error" help="standard error on the mean log2 expression" align="center"/>
+
+      </dynamicAttributes>
+    </question>
+</questionSet>
+
+</wdkModel>

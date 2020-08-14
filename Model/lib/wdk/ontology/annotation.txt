@@ -17,7 +17,7 @@ Sequence Analysis	http://edamontology.org/topic_0080	Sequence analysis	14
 Sequence	http://edamontology.org/data_2044	Sequences	14
 Protein properties	http://edamontology.org/topic_0123	Protein features and properties	16
 Protein targeting and localization	http://edamontology.org/topic_0140	Protein targeting and localization	17
-Proteomics	http://edamontology.org/topic_0121	Proteomics	20
+Proteomics	http://edamontology.org/topic_0121	Proteomics	3
 Structure Analysis	http://edamontology.org/topic_0081	Structure analysis	15
 Metabolomics	http://edamontology.org/topic_3172	Metabolomics	22
 Metagenomics	http://edamontology.org/topic_3174	Metagenomics	23
@@ -64,5 +64,5 @@ Biodiversity	http://edamontology.org/topic_3050	Biodiversity	30
 Public health and epidemiology	http://edamontology.org/topic_3305	Public health and epidemiology	35
 Study001	http://www.cbil.upenn.edu/ErythronDB/study001	Ontogeny of erythroid gene expression	900
 Study002	http://www.cbil.upenn.edu/ErythronDB/study002	EPO-regulated targets in erythroid progenitors	901
-Study005	http://www.cbil.upenn.edu/ErythronDB/study005	Epo-targets in E1 cells with a truncated Epo receptor	902
+Study005	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	902
 Study003	http://www.cbil.upenn.edu/ErythronDB/study003	EPO phosphorylation PTM targets in UT-7epo-E cells	950

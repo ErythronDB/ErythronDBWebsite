@@ -18,7 +18,8 @@ var _SEARCH_TYPE_MAP =
         icon: "fa-exchange fa-rotate-90",
         internal: "dexp",
         name: "_comparison",
-        description: "Find differentially expressed genes by fold change."
+        description: "Find differentially expressed genes by fold change.",
+        taxon: "mm"
     },
 
     rank:
@@ -27,7 +28,8 @@ var _SEARCH_TYPE_MAP =
         icon:  "fa-sort-amount-desc",
         internal: "rank",
         name: "_expression",
-        description: "Find top-expressed genes within a sample (cell or treatment) or across a set of samples in the study."
+        description: "Find top-expressed genes within a sample (cell or treatment) or across a set of samples in the study.",
+        taxon: "mm"
     },
 
     pattern:
@@ -36,7 +38,8 @@ var _SEARCH_TYPE_MAP =
         icon: "fa fa-bar-chart",
         internal: "pattern",
         name: "_profiles",
-        description: "Find genes exhibiting similar expression signatures within an erythroid lineage."
+        description: "Find genes exhibiting similar expression signatures within an erythroid lineage.",
+        taxon: "mm"
     },
 
     mdexp:
@@ -44,8 +47,9 @@ var _SEARCH_TYPE_MAP =
         title: "Differential Intensity",
         icon: "fa-exchange fa-rotate-90",
         internal: "mdexp",
-        name: "proteomics_comparison",
-        description: "Find phosphorylation target proteins by fold change."
+        name: "_comparison",
+        description: "Find phosphorylation target proteins by fold change.",
+        taxon: "hs"
     }
 };
 ;

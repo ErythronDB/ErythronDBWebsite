@@ -61,9 +61,7 @@ const SearchButton: React.SFC<SearchButtonProps> = props => {
 
     const search_type = (isKeyOf(_SEARCH_TYPE_MAP, searchKey)) ? _SEARCH_TYPE_MAP[searchKey] : _SEARCH_TYPE_MAP.dexp;
 
-    const search_url = (search_type.name.includes('proteomics')) ? 
-        `${webAppUrl}/app/search/gene/${search_type.name}`
-        : `${webAppUrl}/app/search/gene/${study_id}${search_type.name}`;
+    const search_url = `${webAppUrl}/app/search/${search_type.taxon}/${study_id}${search_type.name}`;
 
     return (
         <ButtonGroup className="mr-2">

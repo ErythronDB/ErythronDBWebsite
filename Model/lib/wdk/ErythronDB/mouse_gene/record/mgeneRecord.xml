@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wdkModel>
   <recordClassSet name="MouseGeneRecordClasses">
-    <recordClass name="MouseGeneRecordClass" urlName="mm" displayName="Gene (Mm)" shortDisplayName="Genes (Mm)">
+    <recordClass name="MouseGeneRecordClass" urlName="mm" displayName="Gene (Mm)" shortDisplayName="Gene" displayNamePlural="Genes (Mm)"
+		 shortDisplayNamePlural="Genes">
       <!-- =================================================================== -->
       <!-- Primary Key -->
       <!-- =================================================================== -->
@@ -107,22 +108,20 @@
         <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
       </table>
 
-      <table name="sequence_link_outs" displayName="Nucleotide Sequences" inReportMaker="false" queryRef="GeneTables.DbRefs_NSeq">
-        <columnAttribute name="external_id" displayName="External ID" internal="false"/>
-        <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
-      </table>
+      <!-- <table name="sequence_link_outs" displayName="Nucleotide Sequences" inReportMaker="false" queryRef="GeneTables.DbRefs_NSeq"> -->
+      <!--   <columnAttribute name="external_id" displayName="External ID" internal="false"/> -->
+      <!--   <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/> -->
+      <!-- </table> -->
 
       <table name="protein_link_outs" displayName="Proteins" inReportMaker="false" queryRef="GeneTables.DbRefs_Proteins">
-
-        <columnAttribute name="external_id" displayName="External ID" internal="false"/>
-        <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
-
-      </table>
-
-      <table name="clinical_link_outs" displayName="Clinical" inReportMaker="false" queryRef="GeneTables.DbRefs_Clinical">
         <columnAttribute name="external_id" displayName="External ID" internal="false"/>
         <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
       </table>
+
+      <!-- <table name="clinical_link_outs" displayName="Clinical" inReportMaker="false" queryRef="GeneTables.DbRefs_Clinical"> -->
+      <!--   <columnAttribute name="external_id" displayName="External ID" internal="false"/> -->
+      <!--   <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/> -->
+      <!-- </table> -->
 
       <!-- =================================================================== -->
       <!-- Functional Annotation -->

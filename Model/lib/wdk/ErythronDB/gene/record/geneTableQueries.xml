@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wdkModel>
+  <querySet name="GeneTables" queryType="table" isCacheable="false">
+
+    <!-- =================================================================== -->
+    <!-- Gene Model -->
+    <!-- =================================================================== -->
+
+    <sqlQuery name="Transcripts">
+      <column name="source_id"/>
+      <column name="transcript_id"/>
+      <column name="transcript_length"/>
+      <column name="transcript_exon_count"/>
+      <sql>
+	<![CDATA[
+		 SELECT gene_source_id AS source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 transcript_source_id AS transcript_id,
+		 transcript_length,
+		 exon_count AS transcript_exon_count
+		 FROM CBIL.TranscriptAttributes
+	]]>
+      </sql>
+    </sqlQuery>
+
+    
+
+    <!-- =================================================================== -->
+    <!-- Functional Annotation -->
+    <!-- =================================================================== -->
+    <sqlQuery name="GO">
+      <column name="source_id"/>
+      <column name="go_term"/>
+      <column name="go_id"/>
+      <column name="ontology"/>
+      <column name="definition"/>
+      <column name="evidence_code"/>
+      <sql>
+	<![CDATA[
+		 SELECT goa.source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 go_term,
+		 ot.definition,
+		 replace(go_term_id, '_', ':') AS go_id,
+		 evidence_code,
+		 ontology_abbrev AS ontology
+		 FROM CBIL.GoAssociation_TC goa,
+		 SRes.OntologyTerm ot
+		 WHERE evidence_code != 'closure'
+		 AND ot.ontology_term_id = goa.ontology_term_id
+		 ORDER BY ontology_abbrev, go_term
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <!-- =================================================================== -->
+    <!-- Link outs -->
+    <!-- =================================================================== -->
+
+    <sqlQuery name="DbRefs_Gene">
+      <column name="source_id"/>
+      <column name="external_links"/>
+      <column name="external_id"/>
+      <sql>
+	<![CDATA[
+		 SELECT source_id,
+		 external_id,
+		 external_links
+		 FROM CBIL.GeneLinkOuts
+	]]>
+      </sql>
+
+    </sqlQuery>
+
+    <sqlQuery name="DbRefs_Clinical">
+      <column name="source_id"/>
+      <column name="external_links"/>
+      <column name="external_id"/>
+      <sql>
+	<![CDATA[
+		 SELECT source_id,
+		 external_id,
+		 external_links
+		 FROM CBIL.ClinicalLinkOuts
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="DbRefs_NSeq">
+      <column name="source_id"/>
+      <column name="external_links"/>
+      <column name="external_id"/>
+      <sql>
+	<![CDATA[
+		 SELECT source_id,
+		 external_id,
+		 external_links
+		 FROM CBIL.NSeqLinkOuts
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="DbRefs_Proteins">
+      <column name="source_id"/>
+      <column name="external_links"/>
+      <column name="external_id"/>
+      <sql>
+	<![CDATA[
+		 SELECT source_id,
+		 external_id,
+		 external_links
+		 FROM CBIL.ProteinLinkOuts		 
+	]]>
+      </sql>
+    </sqlQuery>
+  </querySet>
+</wdkModel>

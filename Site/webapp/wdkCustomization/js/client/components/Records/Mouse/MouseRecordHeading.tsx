@@ -26,7 +26,6 @@ interface RecordHeading {
     headerActions: HeaderActions[];
 }
 
-
 type GeneRecordSummary = StoreProps & RecordHeaderAttributes;
 
 const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record, recordClass, headerActions, webAppUrl }) => {
