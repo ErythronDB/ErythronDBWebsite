@@ -4,7 +4,8 @@
 
     <sqlQuery name="PTM">
       <column name="source_id"/>
-      <column name="experiment"/>
+      <column name="digest"/>
+      <column name="antibody"/>
       <column name="peptide"/>
       <column name="protein_id"/>
       <column name="modification_site"/>
@@ -16,7 +17,8 @@
 	<![CDATA[
 		 SELECT ga.source_id,
 		 '@PROJECT_ID@'::text AS project_id,
-		 s.name AS experiment,
+		 extract_digest(s.name) AS digest,
+		 extract_antibody(s.name) AS antibody,
 		 gp.peptide,
 		 gp.protein_id,
 		 gp.modification_site,
@@ -39,7 +41,9 @@
 
     <sqlQuery name="Comparisons">
       <column name="source_id"/>
-      <column name="comparison"/>
+      <column name="treatment"/>
+      <column name="digest"/>
+      <column name="antibody"/>
       <column name="fold_change"/>
       <column name="adj_fold_change"/>
       <column name="alt_mean_intensity"/>
@@ -52,7 +56,9 @@
 		 gp.peptide,
 		 gp.protein_id,
 		 '@PROJECT_ID@'::text AS project_id,
-		 pan.name AS comparison,
+		 extract_proteomics_alt(pan.name) AS treatment,
+		 extract_digest(pan.name) AS digest,
+		 extract_antibody(pan.name) AS antibody,
 		 CASE WHEN pc.fold_change = 'NaN' THEN pc.fold_change
 		 ELSE round(pc.fold_change::numeric, 2)::float END AS fold_change,
 		 CASE WHEN pc.adj_fold_change = 'NaN' THEN pc.adj_fold_change

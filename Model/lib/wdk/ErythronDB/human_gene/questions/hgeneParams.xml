@@ -1,0 +1,65 @@
+<wdkModel>
+
+  <!--===========================================================================-->
+  <!-- Params  -->
+  <!--===========================================================================-->
+
+  <paramSet name="hgeneParams">
+
+    <!-- =================================================================== -->
+    <!-- Identifiers -->
+    <!-- =================================================================== -->
+
+    <datasetParam name="ds_gene_identifiers" recordClassRef="HumanGeneRecordClasses.HumanGeneRecordClass" prompt="Gene IDs">
+      <help>
+        <![CDATA[
+		 Enter a list of one or more comma or new-line separated gene identifiers, or select a file to upload.
+	]]>
+      </help>
+      <suggest default="EPOR,GATA1,JAK2,STAT3"/>
+    </datasetParam>
+
+    <!-- =================================================================== -->
+    <!-- Dataset -->
+    <!-- =================================================================== -->
+
+ 
+    <flatVocabParam name="experiment" queryRef="HumanGeneVQ.Experiments" prompt="Experiment" multiPick="false">
+      <help>Select an experiment (digest/antibody motif).</help>
+    </flatVocabParam>
+
+    
+    <!-- =================================================================== -->
+    <!-- Comparison -->
+    <!-- =================================================================== -->
+
+  
+    <stringParam name="fold_change" prompt="Minimum Log2 Fold Change Cut-off" number="true">
+      <help>Enter a non-negative number specifying the minimum (log2) fold change threshold.
+      In the result summary, fold change will be reported as positive numbers for up-regulated genes and negative numbers for down-regulated genes</help>
+      <suggest default="2.0"/>
+    </stringParam>
+
+
+    <flatVocabParam name="comparison" queryRef="HumanGeneVQ.Comparison" prompt="Treatment" dependedParamRef="hgeneParams.experiment" multiPick="false">
+      <help>Select a treatment (for comparison against an untreated control).</help>
+    </flatVocabParam>
+
+
+    <flatVocabParam name="regulated_dir" prompt="Direction" multiPick="true" displayType="checkBox" quote="true" queryRef="MouseGeneVQ.RegulatedDirection">
+      <noTranslation value="true" />
+      <help>
+          <![CDATA[
+                    <ul>
+		    <li>Select <strong><em>up-regulated</em></strong> to retrieve genes that have higher expression
+		    in the comparator relative to the reference.</li><br>
+		    <li>Select <strong><em>down-regulated</em></strong> to retrieve genes that have lower expression
+		    in the comparator relative to the reference.</li><br>
+		    <li>Select both to retrieve genes that meet the fold change cutoff, regardless of regulation direction.</li>
+		    </ul>
+          ]]>      
+      </help>
+    </flatVocabParam>
+    
+  </paramSet>
+</wdkModel>

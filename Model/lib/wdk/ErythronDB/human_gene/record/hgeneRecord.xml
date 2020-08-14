@@ -192,8 +192,8 @@
         <columnAttribute name="peptide" displayName="Peptide" align="center"/>
         <columnAttribute name="modification_type" displayName="Modification Type"/>
         <columnAttribute name="modification_site" displayName="Modification Site" align="center"/>
-        <columnAttribute name="experiment" displayName="Experiment"/>
-
+	<columnAttribute name="digest" displayName="Digest"/>
+	<columnAttribute name="antibody" displayName="Antibody Motif"/>
         <columnAttribute name="molecular_weight" displayName="kD" help="translated molecular weight of the assigned protein"/>
         <columnAttribute name="charge" displayName="Charge" help="observed charge state for the protein"/>
         <columnAttribute name="mass_to_charge_ratio" displayName="m/Z" help="calculated mass to charge ratio of the peptide determined from the primary amino acid sequence and the associated modifications"/>
@@ -215,13 +215,15 @@
 		   <a href="../dataset/study003" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
 		   </div>
 		   <div class="btn-group mr-2" role="group" aria-label="Search">
-		   <a href="../../search/mm/study003_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   <a href="../../search/mm/study003_comparison" clasComparisons="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
 		   </div>
 		   </div>
 	  ]]>
 	</description>
 	
-        <columnAttribute name="comparison" displayName="Comparison" help="comparison labeled as alternative versus reference condition"/>
+        <columnAttribute name="treatment" displayName="Treatment" help="treatment compared to control samples"/>
+	<columnAttribute name="digest" displayName="Digest"/>
+	<columnAttribute name="antibody" displayName="Antibody Motif"/>
         <columnAttribute displayName="Protein ID" name="protein_id" internal="true"/>
         <linkAttribute displayName="Protein ID" name="protein_link" inReportMaker="false">
           <displayText>

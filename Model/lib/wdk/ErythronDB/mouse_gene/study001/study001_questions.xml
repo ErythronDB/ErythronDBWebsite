@@ -21,7 +21,7 @@
       <description>
 	<![CDATA[
 		 <p>Find genes which are differentially expressed during Primitive or Definitive erythropoiesis or between equivalent cell stages in comparisons among the different erythroid lineages.</p>
-		 <p>These data come from the <a href="../../record/dataset/study001" target="blank">Ontogeny of Erythropoeisis </a> study.</p>
+		 <p>These data come from the <a href="../../record/dataset/study001" target="blank">%%study001_name%%</a> study.</p>
 		 <p>First choose an experiment, then choose your reference and alternative conditions.  Comparisons within lineages were made between successive stages of erythroid development, with earlier stages serving as the reference for the later ones.  Comparisons between lineages were made with either Primitive or Fetal Definitive Erythropoiesis as the reference condition.</p>
 		 <p>Choose the directionality and the magnitude of the (raw) fold difference. <br/>
                  For example, selecting up-regulated with a fold difference of 2 will only show results where the expression level 
@@ -81,7 +81,7 @@
 	</summary>
 	<description>
           <![CDATA[[
-		   <p>Find genes by ranked expression levels in the <a href="../../record/dataset/study001" target="blank">Ontogeny of Erythropoeisis Dataset</a>.</p>
+		   <p>Find genes by ranked expression levels in the <a href="../../record/dataset/study001" target="blank">%%study001_name%%</a>.</p>
 		   <p>Select a lineage and one or more developmental stage.</p>
     	  ]]>
 	</description>

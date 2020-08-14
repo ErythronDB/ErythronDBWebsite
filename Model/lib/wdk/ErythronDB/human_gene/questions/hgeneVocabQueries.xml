@@ -1,0 +1,47 @@
+<wdkModel>
+  <querySet name="HumanGeneVQ" queryType="vocab" isCacheable="true">
+   
+    <sqlQuery name="Experiments">
+      <column name="internal"/>
+      <column name="term"/>
+      <column name="display"/>
+      <sql>
+	<![CDATA[
+		 SELECT extract_digest(dataset_name) || '/' || extract_antibody(dataset_name) AS display,
+		 dataset_id AS term,
+		 dataset_id AS internal
+		 FROM ErythronDB.Dataset
+		 WHERE 'study003'::text = investigation_id
+		 AND NOT is_comprehensive
+		 ORDER BY term
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="Comparison">
+      <paramRef ref="hgeneParams.experiment"/>
+      <column name="internal"/>
+      <column name="display"/>
+      <column name="term"/>
+      <sql>
+	<![CDATA[
+		 SELECT pan.source_id AS internal,
+		 extract_proteomics_alt(pan.name) AS display,
+		 pan.source_id AS term
+		 FROM ErythronDB.Dataset d,
+		 Study.ProtocolAppNode pan,
+		 Study.StudyLink sl,
+		 ErythronDB.Comparison c
+		 WHERE d.dataset_id = $$experiment$$
+		 AND d.dataset_study_id = sl.study_id
+		 AND pan.protocol_app_node_id = sl.protocol_app_node_id
+		 AND c.protocol_app_node_id = pan.protocol_app_node_id
+	]]>
+      </sql>
+    </sqlQuery>
+
+   
+
+   
+  </querySet>
+</wdkModel>

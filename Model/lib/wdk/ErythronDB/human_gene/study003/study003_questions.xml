@@ -1,0 +1,39 @@
+<wdkModel>
+  <questionSet name="study003_questions" displayName="Search for Genes by Dataset">
+    <question name="study003_comparison"  displayName="EPO phosphorylation PTM targets"
+	      shortDisplayName="PTM EPO" queryRef="study003_Queries.Comparison"
+	      recordClassRef="HumanGeneRecordClasses.HumanGeneRecordClass">
+
+      <attributesList summary="product,fold_change,reference_mean,alternative_mean,treatment,digest,antibody" sorting="fold_change desc" />
+
+      <summary>
+        <![CDATA[
+                 Find genes EPO phosphorylation PTM targets in UT-7epo-E cells.
+        ]]>
+      </summary>
+
+      <description>
+        <![CDATA[
+                 <p>Find  EPO phosphorylation PTM targets in UT-7epo-E cells.</p>
+		 <p>These data come from the <a href="../../record/dataset/study003" target="blank">%%study005_name%%</a> study.</p>
+		 <p>First choose an experiment and a treatment to be compared against untreate control cells.</p>
+		 <p>Then choose the directionality and the magnitude of the (log2) fold difference. </p>
+                
+	]]>
+      </description>
+
+      <dynamicAttributes>
+        <columnAttribute name="fold_change" displayName="Fold Change" align="center" inReportMaker="false" help=""/>
+        <columnAttribute name="reference_mean" displayName="Ref (Log2 Mean Intensity)" help="mean log2 intensity for the reference condition" align="center"/>
+        <columnAttribute name="alternative_mean" displayName="Alt (Log2 Mean Intensity)" help="mean log2 intensity for the alternate, comparison condition" align="center"/>
+	<columnAttribute name="digest" displayName="Digest"/>
+	<columnAttribute name="treatment" displayName="Treatment"/>
+	<columnAttribute name="antibody" displayName="Antibody"/>
+      </dynamicAttributes>
+
+
+    </question>
+
+  </questionSet>
+
+</wdkModel>

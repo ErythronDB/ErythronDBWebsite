@@ -1,0 +1,77 @@
+
+<wdkModel>
+
+  <querySet name="study003_Queries" queryType="id" isCacheable="true">
+  
+    <sqlQuery name="Comparison">
+      <paramRef ref="hgeneParams.experiment"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="hgeneParams.comparison"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="hgeneParams.regulated_dir"/>
+      <paramRef groupRef="paramGroups.dynamicParams" ref="hgeneParams.fold_change" default="2.0"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="fold_change"/>
+      <column name="reference_mean"/>
+      <column name="alternative_mean"/>
+      <column name="treatment"/>
+      <column name="antibody"/>
+      <column name="digest"/>
+      
+
+      <sql>
+        <![CDATA[
+		 WITH fc AS (
+                 SELECT ga.source_id,
+                 round((CASE WHEN pc.adj_fold_change IS NOT NULL
+                 THEN pc.adj_fold_change ELSE pc.fold_change END)::numeric,2) AS fold_change,
+                 CASE WHEN ref.intensity = 'NaN' THEN NULL ELSE round(log(2.0, ref.intensity::numeric),1) END AS reference_mean,
+                 CASE WHEN alt.intensity = 'NaN' THEN NULL ELSE round(log(2.0, alt.intensity::numeric),1) END AS alternative_mean,
+		 extract_proteomics_alt(pan.name) AS treatment,
+		 extract_digest(pan.name) AS digest,
+		 extract_antibody(pan.name) AS antibody
+                 FROM
+                 ErythronDB.Comparison c,
+                 Study.ProtocolAppNode pan,
+                 ErythronDB.PeptideIntensity ref,
+                 ErythronDB.PeptideIntensity alt,
+                 ErythronDB.PeptideComparison pc,
+                 ErythronDB.GenePeptide gp,
+                 CBIL.GeneAttributes ga
+                 WHERE c.protocol_app_node_id = pan.protocol_app_node_id
+                 AND pan.source_id = $$comparison$$
+                 AND pc.comparison_id = c.comparison_id
+                 AND pc.peptide_id = gp.gene_peptide_id
+                 AND gp.gene_id = ga.gene_id
+                 AND c.reference_condition_id = ref.protocol_app_node_id
+                 AND ref.peptide_id = pc.peptide_id
+                 AND c.alternative_condition_id = alt.protocol_app_node_id
+                 AND alt.peptide_id = pc.peptide_id
+                 AND (('up-regulated' IN ($$regulated_dir$$) AND ((pc.fold_change >= $$fold_change$$ AND pc.adj_fold_change IS NULL) 
+		 OR pc.adj_fold_change >= $$fold_change$$))
+
+                 OR ('down-regulated' IN ($$regulated_dir$$) AND ((pc.fold_change <= -1 * $$fold_change$$ AND pc.adj_fold_change IS NULL) 
+		 OR pc.adj_fold_change <= -1 * $$fold_change$$)))
+
+                 )
+		 
+		 SELECT DISTINCT ON (source_id)
+		 source_id,
+		 '@PROJECT_ID@'::text AS project_id,
+		 first_value(fold_change) OVER wnd AS fold_change,
+		 first_value(reference_mean) OVER wnd AS reference_mean,
+		 first_value(alternative_mean) OVER wnd AS alternative_mean,
+		 first_value(treatment) OVER wnd AS treatment,
+		 first_value(antibody) OVER wnd AS antibody,
+		 first_value(digest) OVER wnd AS digest
+		 FROM fc
+		 
+		 WINDOW wnd AS (
+		 PARTITION BY source_id ORDER BY fold_change DESC
+		 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+		 )
+        ]]>
+      </sql>
+    </sqlQuery>
+   
+</querySet>
+</wdkModel>

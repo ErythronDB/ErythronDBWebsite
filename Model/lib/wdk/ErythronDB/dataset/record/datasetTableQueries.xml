@@ -47,6 +47,7 @@
 
 			<column name="search_display"/>
 			<column name="search_display_name"/>
+			<column name="taxon"/>
 		
 			<sql>
 				<![CDATA[
@@ -54,7 +55,7 @@
 				SELECT DISTINCT i.source_id AS dataset_id, '@PROJECT_ID@'::text AS project_id,
 CASE WHEN r.target_name = 'GeneDataset.DifferentialExpression' THEN i.source_id || '_comparison'
 WHEN r.target_name = 'GeneDataset.RankedExpression'  THEN i.source_id || '_expression'
-ELSE 'proteomics_expression' END AS search_name,
+ELSE i.source_id || '_comparison' END AS search_name,
 CASE WHEN r.target_name = 'GeneDataset.DifferentialExpression' AND i.source_id = 'study001' THEN 'Compare erythroid cell stages within and across lineages'
 WHEN r.target_name = 'GeneDataset.DifferentialExpression' AND i.source_id != 'study001' THEN 'Compare Epo challenged cells to controls'
 WHEN r.target_name = 'GeneDataset.RankedExpression' THEN 'Get genes by ranked expression level'

@@ -67,6 +67,9 @@
     <import file="ErythronDB/mouse_gene/questions/mgeneParams.xml"/>
     <import file="ErythronDB/mouse_gene/questions/mgeneVocabQueries.xml"/>
     
+    <import file="ErythronDB/human_gene/questions/hgeneParams.xml"/>
+    <import file="ErythronDB/human_gene/questions/hgeneVocabQueries.xml"/>
+    
     <import file="ErythronDB/mouse_gene/study001/study001_questions.xml"/>
     <import file="ErythronDB/mouse_gene/study001/study001_queries.xml"/>
     <import file="ErythronDB/mouse_gene/study001/study001_vocabQueries.xml"/>
@@ -78,6 +81,9 @@
     <import file="ErythronDB/mouse_gene/study005/study005_questions.xml"/>
     <import file="ErythronDB/mouse_gene/study005/study005_queries.xml"/>
     <import file="ErythronDB/mouse_gene/study005/study005_vocabQueries.xml"/>
+
+    <import file="ErythronDB/human_gene/study003/study003_questions.xml"/>
+    <import file="ErythronDB/human_gene/study003/study003_queries.xml"/>
 
     <!-- <import file="ErythronDB/questions/mouse_gene/study002.xml"/>  -->
     <!-- <import file="ErythronDB/questions/mouse_gene/study005.xml"/> -->
