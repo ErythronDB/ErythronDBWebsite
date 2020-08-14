@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.gusdb.wdk.service.WdkServiceApplication;
 import org.cbil.erythrondb.service.contact.ContactUsService;
+import org.cbil.erythrondb.service.search.GeneLookupService;
 
 // import static org.gusdb.fgputil.functional.Functions.filter;
 import org.gusdb.fgputil.SetBuilder;
@@ -15,6 +16,7 @@ public class ServiceApplication extends WdkServiceApplication {
         // add WDK services
         .addAll(super.getClasses())
         .add(ContactUsService.class)
+        .add(GeneLookupService.class)
         .toSet();
   }
 
