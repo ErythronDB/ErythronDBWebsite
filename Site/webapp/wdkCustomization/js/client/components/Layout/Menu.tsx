@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { _studies } from '../../data/studies';
 import { _workspace, _about } from '../../data/menu';
 import { StateProps } from './Header';
-
+import AutoCompleteSearch from '../Components/AutoCompleteSearch/AutoCompleteSearch';
 import { Link, HelpIcon, Icon } from 'wdk-client/Components';
 
 import { showLoginForm, showLogoutWarning } from 'wdk-client/Actions/UserSessionActions';
@@ -17,12 +17,12 @@ import {
     submitQuestion,
     updateParamValue,
     updateActiveQuestion
-  } from "wdk-client/Actions/QuestionActions";
-  import { QuestionState } from "wdk-client/StoreModules/QuestionStoreModule";
+} from "wdk-client/Actions/QuestionActions";
+import { QuestionState } from "wdk-client/StoreModules/QuestionStoreModule";
 
 import Button from 'react-bootstrap/Button';
 
-  
+
 
 interface DispatchProps {
     actions?: {
@@ -194,7 +194,7 @@ const DropDownStudyMenu: React.ComponentClass<DropDownMenuProps> = class extends
 const MenuSearch: React.FC<{ webAppUrl: string }> = (props: { webAppUrl: string }) => {
     return (
         <form className="form-inline my-2 my-lg-0" method="GET" action={`${props.webAppUrl}/app/search/gene/id`}>
-                <input type="hidden" name="autoRun"/>
+            <input type="hidden" name="autoRun" />
             <label htmlFor="menu-search-input" className="mr-3">
                 <HelpIcon>
                     <div>
@@ -247,9 +247,16 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Menu
                         <DropDownMenu text="About" items={_about} webAppUrl={webAppUrl} />
                         {!isGuest && <UserMenu user={user}></UserMenu>}
                     </ul>
-                    <MenuSearch webAppUrl={webAppUrl} />
+                    <HelpIcon>
+                        <div>
+                            <p>Search for a gene by keyword or identifier (official gene symbol, NCBI Entrez Gene, MGI, or Ensembl).</p>
+                            <p>Click on the <i className="fa fa-upload"></i> button to upload a list of genes.</p>
+                        </div>
+                    </HelpIcon>
+                    <AutoCompleteSearch canGrow={true} />
+                    {/*<MenuSearch webAppUrl={webAppUrl} />*/}
                 </div>
-                <Button variant="info" href={`${webAppUrl}/app/search/gene/upload`} id="menu-upload-button" title="Upload a list of genes.">
+                <Button variant="info" href={`${webAppUrl}/app/search/gene/upload`} id="menu-upload-button" title="Upload a list of genes." disabled>
                     <i className="fa fa-upload"></i>
                 </Button>
                 {isGuest && <Button variant="link" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
@@ -263,7 +270,7 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Menu
 
 const mapDispatchToProps = (dispatch: DispatchAction): DispatchProps => ({
     actions: {
-        showLoginForm: (url?:string) => dispatch(showLoginForm(url)),
+        showLoginForm: (url?: string) => dispatch(showLoginForm(url)),
         showLogoutWarning: () => dispatch(showLogoutWarning())
     }
 });

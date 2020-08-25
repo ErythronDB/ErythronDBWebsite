@@ -24,17 +24,14 @@ import org.gusdb.wdk.service.service.AbstractWdkService;
 @Path("lookup/gene")
 public class GeneLookupService extends AbstractWdkService {
     private static final Logger LOG = Logger.getLogger(GeneLookupService.class);
-    private static final String SEARCH_TERM_PARAM = "id";
+    private static final String SEARCH_TERM_PARAM = "query";
     
-    private static final String SEARCH_QUERY =  "SELECT jsonb_agg(DISTINCT" + NL
-    + "jsonb_build_object('source_id', ga.source_id," + NL 
-    + "'chromosome', ga.chromosome," + NL 
-    + "'start', ga.start_min, 'end', ga.end_max," + NL 
-    + "'symbol', ga.gene_symbol, 'organism'," + NL
-    + "ga.organism, 'product', annotation->>'name'))" + NL
-    + "FROM CBIL.GeneIdentifiers gi, CBIL.GeneAttributes ga" + NL
-    + "WHERE external_id ILIKE '%' || ? || '%'" + NL
-    + "AND gi.gene_id = ga.gene_id";
+    private static final String SEARCH_QUERY = "WITH st AS (SELECT TRIM(?) AS term)," + NL
+    + "matches AS (" + NL
+    + "SELECT * FROM gene_text_search((SELECT term FROM st))" + NL
+    + "ORDER BY match_rank, record_type, display ASC)" + NL
+    + "SELECT jsonb_agg(matches)::text AS result" + NL
+    + "FROM matches";
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
