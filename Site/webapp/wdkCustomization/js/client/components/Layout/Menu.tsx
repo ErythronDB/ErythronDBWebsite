@@ -260,7 +260,7 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Menu
                     <i className="fa fa-upload"></i>
                 </Button>
                 {isGuest && <Button variant="link" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
-                {isGuest && <Button variant="outline-warning" href={`${webAppUrl}/app/user/registration`}>Sign Up</Button>}
+                {isGuest && <Button variant="outline-warning" href={`${webAppUrl}/app/user/registration`} disabled>Sign Up</Button>}
 
                 {!isGuest && <Button variant="link" onClick={() => showLogoutWarning()}>Logout</Button>}
             </nav>
