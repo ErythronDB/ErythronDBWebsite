@@ -1,7 +1,7 @@
 <wdkModel>
   <questionSet name="study002_questions" displayName="Search for Genes">
     <question name="study002_comparison"
-	      displayName="EPO Regulated Targets"
+	      displayName="Erythroid Progenitors - EPO Regulated Targets"
 	      shortDisplayName="EPO Targets"
 	      queryRef="study002_Queries.Comparison"
 	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"
@@ -52,7 +52,7 @@
 
 
     <question name="study002_expression"
-	      displayName="Ranked Expression"
+	      displayName="Erythroid Progenitors - Ranked Expression"
 	      shortDisplayName="Expression"
 	      queryRef="study002_Queries.RankedExpression"
 	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"

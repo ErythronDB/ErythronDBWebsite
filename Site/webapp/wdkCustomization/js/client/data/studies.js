@@ -40,7 +40,7 @@ const _studies =
 			accession_ref: "ArrayExpress",
 			display_summary: "Gene expression profiling of control and EPO-challenged bone marrow-derived erythroid progenitor cells at the E1 (CFU-e), E2 (proerythroblast) and E3 (maturing erythroblast) stages",
 			short_display_name: "EPO targets: erythroid progenitors",
-			menu_text: "EPO targets: WT Progenitors",
+			menu_text: "EPO targets: Erythroid Progenitors",
 
 			individual_datasets: {
 				comparison_tooltip: "Identify candidate EPO targets by comparing EPO-challenged to control cells or identify changes in gene expression across developmental stages within the treated or the control stress lineage.",

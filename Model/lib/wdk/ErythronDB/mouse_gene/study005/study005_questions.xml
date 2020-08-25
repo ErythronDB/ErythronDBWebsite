@@ -1,7 +1,7 @@
 <wdkModel>
   <questionSet name="study005_questions" displayName="Search for Genes">
     <question name="study005_comparison"
-	      displayName="EPO Regulated Targets - Truncated EpoR allele"
+	      displayName="Truncated EpoR Allele - EPO Regulated Targets"
 	      shortDisplayName="Trunc EpoR"
 	      queryRef="study005_Queries.Comparison"
 	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"
@@ -52,7 +52,7 @@
 
 
     <question name="study005_expression"
-	      displayName="Ranked Expression"
+	      displayName="Truncated EpoR Allele = Ranked Expression"
 	      shortDisplayName="Expression"
 	      queryRef="study005_Queries.RankedExpression"
 	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"

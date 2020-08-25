@@ -180,9 +180,11 @@
                         <table name="Searches" displayName="Search Data" queryRef="DatasetTables.Searches">
                                 <columnAttribute name="search_display_name" inReportMaker="false" internal="true"/>
                                 <columnAttribute name="search_name" inReportMaker="false" internal="true"/>
+                                <columnAttribute name="taxon" inReportMaker="false" internal="true"/>
+
                                 <linkAttribute name="search_url" displayName="Search" internal="false">
                                         <displayText><![CDATA[$$search_display_name$$ <i class="fa fa-arrow-circle-right"></i>]]></displayText>
-                                        <url>../../search/gene/$$search_name$$</url>
+                                        <url>../../search/$$taxon$$/$$search_name$$</url>
                                 </linkAttribute>
                         </table>
                  

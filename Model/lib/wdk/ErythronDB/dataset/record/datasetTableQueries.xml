@@ -56,6 +56,7 @@
 CASE WHEN r.target_name = 'GeneDataset.DifferentialExpression' THEN i.source_id || '_comparison'
 WHEN r.target_name = 'GeneDataset.RankedExpression'  THEN i.source_id || '_expression'
 ELSE i.source_id || '_comparison' END AS search_name,
+CASE WHEN i.source_id = 'study003' THEN 'hs' ELSE 'mm' END AS taxon,
 CASE WHEN r.target_name = 'GeneDataset.DifferentialExpression' AND i.source_id = 'study001' THEN 'Compare erythroid cell stages within and across lineages'
 WHEN r.target_name = 'GeneDataset.DifferentialExpression' AND i.source_id != 'study001' THEN 'Compare Epo challenged cells to controls'
 WHEN r.target_name = 'GeneDataset.RankedExpression' THEN 'Get genes by ranked expression level'

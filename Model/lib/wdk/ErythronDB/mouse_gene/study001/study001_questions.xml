@@ -1,7 +1,7 @@
 <wdkModel>
   <questionSet name="study001_questions" displayName="Search for Genes">
     <question name="study001_comparison"
-	      displayName="Ontogeny of Erythropoiesis: Comparisons"
+	      displayName="Ontogeny of Erythropoiesis - Cell Comparisons"
 	      shortDisplayName="Diff Exp"
 	      queryRef="study001_Queries.Comparison"
 	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"
@@ -60,7 +60,7 @@
 
 
     <question name="study001_expression"
-	      displayName="Ranked Expression"
+	      displayName="Ontogeny of Erythropoiesis - Ranked Expression"
 	      shortDisplayName="Expression"
 	      queryRef="study001_Queries.RankedExpression"
 	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"
