@@ -215,7 +215,7 @@
 		   <a href="../dataset/study003" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
 		   </div>
 		   <div class="btn-group mr-2" role="group" aria-label="Search">
-		   <a href="../../search/mm/study003_comparison" clasComparisons="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
+		   <a href="../../search/mm/study003_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
 		   </div>
 		   </div>
 	  ]]>
