@@ -148,16 +148,18 @@
         <columnAttribute name="evidence_code" displayName="Evidence Code" help="The evidence code reflects the type of work or analysis described in the cited reference which supports the association of the GO term to the gene product. More information on evidence codes can be found on http://www.geneontology.org/page/guide-go-evidence-codes."/>
       </table>
 
-      <!-- <table name="pathways" displayName="Pathway Membership" queryRef="GeneTables.Pathways"> -->
-      <!-- 	<columnAttribute name="pathway_name" displayName="Pathway"/> -->
-      <!-- 	<columnAttribute name="pathway_source" displayName="Source"/> -->
-      <!-- 	<columnAttribute name="pathway_id" displayName="Pathway ID" internal="true" inReportMaker="true"/> -->
-      <!-- 	<columnAttribute name="pathway_url" internal="true" inReportMaker="false"/> -->
-      <!-- 	<linkAttribute name="pathway_link" displayName="View Pathway" inReportMaker="false" help="view pathway at KEGG or Reactome"> -->
-      <!-- 	  <displayText>$$pathway_id$$</displayText> -->
-      <!-- 	  <url><![CDATA[$$pathway_url$$/$$pathway_id$$]]></url> -->
-      <!-- 	</linkAttribute> -->
-      <!-- </table> -->
+      <table name="pathways" displayName="Pathway Membership" queryRef="GeneTables.Pathways">
+      	<columnAttribute name="pathway_name" displayName="Pathway"/>
+      	<columnAttribute name="pathway_source" displayName="Source"/>
+      	<columnAttribute name="pathway_id" displayName="Pathway ID" internal="true" inReportMaker="true"/>
+      	<columnAttribute name="pathway_url" internal="true" inReportMaker="false"/>
+	<columnAttribute name="pathway_url_param" internal="true" inReportMaker="false"/>
+      	<linkAttribute name="pathway_link" displayName="View Pathway" inReportMaker="false" help="view pathway at KEGG or Reactome">
+      	  <displayText>$$pathway_id$$</displayText>
+      	  <url><![CDATA[$$pathway_url$$$$pathway_url_param$$]]></url>
+      	</linkAttribute>
+	<columnAttribute name="evidence" displayName="Evidence Code" inReportMaker="true" help="Gene ontology (GO) evidence code supporting how the pathway annotation was determined; available only for Reactome pathways"/>
+      </table>
       
       <!-- =================================================================== -->
       <!-- PTM: Study003 - EPO Targets -->

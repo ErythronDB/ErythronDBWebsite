@@ -3,7 +3,7 @@ PROJECT_ID=ErythronDB
 
 HIDE_PRIVATE_DATA=true
 
-WEBAPP=erythrondb2
+WEBAPP=ErythronDB
 
 SITE_ADMIN_EMAIL=allenem@pennmedicine.upenn.edu
 
@@ -19,3 +19,6 @@ PUBMED_URL=https://www.ncbi.nlm.nih.gov/pubmed/
 ARRAY_EXPRESS_URL=https://www.ebi.ac.uk/arrayexpress/experiments/
 REVIGO_BASE_URL=http://revigo.irb.hr/
 STRING_URL=https://string-db.org/
+REACTOME_PATHWAY_URL=https://reactome.org/content/detail/
+KEGG_PATHWAY_URL=https://www.kegg.jp/kegg-bin/show_pathway?
+

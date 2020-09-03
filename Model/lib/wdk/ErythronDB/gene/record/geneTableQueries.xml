@@ -53,6 +53,36 @@
       </sql>
     </sqlQuery>
 
+    <sqlQuery name="Pathways">
+      <column name="source_id"/>
+      <column name="pathway_source"/>
+      <column name="pathway_id"/>
+      <column name="pathway_name"/>
+      <column name="pathway_url"/>
+      <column name="pathway_url_param"/>
+      <column name="evidence"/>
+      <sql>
+	<![CDATA[
+		 SELECT ga.source_id,
+		 p.name AS pathway_name, string_agg(pn.evidence_code, ',') AS evidence,
+		 p.source_id AS pathway_id,
+		 CASE WHEN p.source_id LIKE 'R%' THEN p.source_id 
+		 ELSE p.source_id || '+' || (ga.annotation->>'entrez_id')::text END AS pathway_url_param,
+		 CASE WHEN p.source_id LIKE 'R%' THEN '@REACTOME_PATHWAY_URL@' 
+		 ELSE '@KEGG_PATHWAY_URL@' END AS pathway_url,
+		 CASE WHEN p.source_id LIKE 'R%' THEN 'Reactome' 
+		 ELSE 'KEGG' END AS pathway_source
+		 FROM SRes.PathwayNode pn,
+		 CBIL.GeneAttributes ga,
+		 SRes.Pathway p
+		 WHERE ga.gene_id = pn.row_id
+		 AND pn.pathway_id = p.pathway_id
+		 GROUP BY ga.source_id, ga.gene_symbol, p.source_id, pathway_name, pathway_url, pathway_url_param
+		 ORDER BY pathway_name
+	]]>
+      </sql>
+    </sqlQuery>
+
     <!-- =================================================================== -->
     <!-- Link outs -->
     <!-- =================================================================== -->
