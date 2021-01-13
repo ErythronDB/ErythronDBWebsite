@@ -16,8 +16,8 @@
       <column name="ref_mean_expression"/>
       <column name="alt_mean_expression"/>
       <column name="fold_change"/>
-      <column name="adj_p_value"/>
-      <column name="confidence_interval"/>
+      <column name="fdr"/>
+
       <sql>
 	<![CDATA[
 		 SELECT ga.source_id,
@@ -28,11 +28,8 @@
 		 round(r.mean2::numeric, 2) AS alt_mean_expression,
 		 round(r.fold_change::numeric, 2) AS fold_change,
 		 
-		 CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE')
-		 ELSE round(r.adj_p_value::numeric,4)::text
-		 END AS adj_p_value,
-		 
-		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval,
+		 round((1.0 - r.fdr)::numeric, 2) AS fdr,
+		
 		 pan.name AS comparison,
 		 p.investigation_id AS dataset_id,
 		 p.dataset_name AS dataset_name 
@@ -50,7 +47,7 @@
 		 AND c.protocol_app_node_id = pan.protocol_app_node_id
 		 AND r.protocol_app_node_id = c.protocol_app_node_id
 		 AND r.gene_id = ga.gene_id
-		 AND r.adj_p_value <= 0.05
+		 AND r.test_statistic::integer::boolean
 		 
 		 ORDER BY fold_change DESC 
 	]]>
@@ -67,8 +64,8 @@
       <column name="ref_mean_expression"/>
       <column name="alt_mean_expression"/>
       <column name="fold_change"/>
-      <column name="adj_p_value"/>
-      <column name="confidence_interval"/>
+      <column name="fdr"/>
+
       <sql>
 	<![CDATA[
 		 SELECT ga.source_id,
@@ -79,11 +76,8 @@
 		 round(r.mean2::numeric, 2) AS alt_mean_expression,
 		 round(r.fold_change::numeric, 2) AS fold_change,
 		 
-		 CASE WHEN r.adj_p_value < 0.0001 THEN to_char(r.adj_p_value, '9.99EEEE')
-		 ELSE round(r.adj_p_value::numeric,4)::text
-		 END AS adj_p_value,
-		 
-		 '[' || round(confidence_down::numeric, 2) || ', ' || round(confidence_up::numeric, 2) || ']' AS confidence_interval,
+		 round((1.0 - r.fdr)::numeric, 2) AS fdr,
+
 		 pan.name AS comparison,
 		 p.investigation_id AS dataset_id,
 		 p.dataset_name AS dataset_name 
@@ -101,7 +95,7 @@
 		 AND c.protocol_app_node_id = pan.protocol_app_node_id
 		 AND r.protocol_app_node_id = c.protocol_app_node_id
 		 AND r.gene_id = ga.gene_id
-		 AND r.adj_p_value <= 0.05
+		 AND r.test_statistic::integer::boolean
 		 
 		 ORDER BY fold_change DESC
 	]]>
@@ -111,7 +105,6 @@
     <!-- =================================================================== -->
     <!-- Profiles: Study001 -->
     <!-- =================================================================== -->
-   
 
     <sqlQuery name="GeneExpressionProfile">
       <column name="source_id" columnType="string"/>

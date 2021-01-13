@@ -87,7 +87,7 @@ const AutoCompleteSearch: React.FC<AutoCompleteSearch> = ({ canGrow }) => {
     <div
       className="autocomplete-box"
       ref={ownRef}
-      style={{ flexGrow: hasFocus && canGrow ? 1 : 0 }}
+      //style={{ flexGrow: hasFocus && canGrow ? 1 : 0 }}
     >
       <AutoCompleteSearchBox
         onChange={debounce(_setSearchTerm, 650)}

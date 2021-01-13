@@ -197,7 +197,7 @@
 	<columnAttribute name="digest" displayName="Digest"/>
 	<columnAttribute name="antibody" displayName="Antibody Motif"/>
         <columnAttribute name="molecular_weight" displayName="kD" help="translated molecular weight of the assigned protein"/>
-        <columnAttribute name="charge" displayName="Charge" help="observed charge state for the protein"/>
+        <columnAttribute name="charge" displayName="Charge" help="observed charge state for the peptide"/>
         <columnAttribute name="mass_to_charge_ratio" displayName="m/Z" help="calculated mass to charge ratio of the peptide determined from the primary amino acid sequence and the associated modifications"/>
 
       </table>

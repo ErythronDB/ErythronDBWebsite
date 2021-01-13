@@ -11,7 +11,7 @@
 	<help>Select an erythroid lineage</help>
       </paramRef>
       
-      <attributesList summary="product,fold_change,p_value,adj_p_value,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
+      <attributesList summary="product,fold_change,fdr,is_confident,cell_or_lineage,ref_condition,alt_condition" sorting="fold_change desc" />
 
 
       <summary>
@@ -36,24 +36,17 @@
 			 help="reference condition for the comparison"/>
 	<columnAttribute name="alt_condition" displayName="Alternative"
 			 help="alternative condition for the comparison"/>
-	<columnAttribute name="log2_fold_change" displayName="Log2 FC" align="center" inReportMaker="false"
-			 help="log2 fold change calculated as the difference between the log2 mean of the alternative and the log2 mean of the reference condition"/>
-	<columnAttribute name="log2_reference_mean" displayName="Log2 Ref Mean"
-			 help="mean log2 mRNA expression level for the reference condition" align="center"/>
-	<columnAttribute name="log2_alternative_mean" displayName="Log2 Alt Mean"
-			 help="mean log2 mRNA expression level for the alternate, comparison condition" align="center"/>
 	<columnAttribute name="fold_change" displayName="Raw FC" align="center" inReportMaker="false"
-			 help="fold change based on raw mRNA expression levels"/>
+			 help="fold change based on the ratio of raw mRNA expression levels"/>
 	<columnAttribute name="reference_mean" displayName="Ref Mean"
 			 help="mean mRNA expression level for the reference condition" align="center"/>
 	<columnAttribute name="alternative_mean" displayName="Alt Mean"
 			 help="mean mRNA expression level for the alternate, comparison condition" align="center"/>
-	<columnAttribute name="log2_confidence_interval" align="center" displayName="Log2 Conf. Interval"
-			 help="[log2 lower, log2 upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>	
-	<columnAttribute name="p_value" align="center" displayName="p-value"
-			 help="p-value uncorrected for multiple hypothesis testing"/>
-	<columnAttribute name="adj_p_value" align="center" displayName="Adj. p-value"
-			 help="BH-adjusted p-value"/>
+	<columnAttribute name="is_confident" align="center" displayName="High Confidence?"
+			 help="FDR passes confidence cutoff for the comparison (usually FDR less than 20%)"/>
+	<columnAttribute name="fdr" align="center" displayName="FDR"
+			 help="permutation based estimate of the false discovery rate "/>
+
       </dynamicAttributes>
 
     </question>

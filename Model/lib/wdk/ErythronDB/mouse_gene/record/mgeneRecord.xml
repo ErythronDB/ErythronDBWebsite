@@ -167,7 +167,7 @@
       	     inReportMaker="true" queryRef="study001_GeneTables.WithinLineageComparisons">
       	<description>
 	  <![CDATA[
-		   <p>Comparisons between successive stages of erythrocyte differentiation within Primitive or Definitive Erythropoiesis (Fetal/Adult) in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <p>Comparisons between successive stages of erythrocyte differentiation within Primitive or Definitive Erythropoiesis (Fetal/Adult) in which this gene is significantly differentially expressed (FDR <= 0.2).</p>
 		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study001" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
@@ -180,20 +180,20 @@
 	</description>
 
       	<columnAttribute name="cell_or_lineage" displayName="Lineage" help="erythroid lineage"/>
+	<columnAttribute name="fold_change" displayName="Raw Fold Change" />
+        <columnAttribute name="fdr" displayName="FDR" help="permutation-based false discovery rate estimate"/>
         <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
-        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
         <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
-        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
-        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
-        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
-        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+        <columnAttribute name="ref_mean_expression" displayName="Ref Mean" help="mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="alt_mean_expression" displayName="Alt Mean" help="mean mRNA expression over alternative condition replicates"/>
+      
       </table>
 
       <table name="study001_across_lineage_comparisons" displayName="Across Lineage Comparisons"
       	     inReportMaker="true" queryRef="study001_GeneTables.AcrossLineageComparisons">
       	<description>
 	  <![CDATA[
-		   <p>Comparisons of equivalent stages of erythrocyte differentiation across erythroid lineages in which this gene is significantly differentially expressed (adj. p-value &le; 0.05).</p>
+		   <p>Comparisons of equivalent stages of erythrocyte differentiation across erythroid lineages in which this gene is significantly differentially expressed (FDR < 0.2).</p>
 		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study001" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
@@ -206,12 +206,12 @@
 	</description>
       	<columnAttribute name="cell_or_lineage" displayName="Cell" help="erythrocyte cell type"/>
         <columnAttribute name="ref_condition" displayName="Reference" help="reference condition for the comparison"/>
-        <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
+        <columnAttribute name="ref_mean_expression" displayName="Ref Mean" help="mean mRNA expression over reference condition replicates"/>
         <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
-        <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
-        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
-        <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
-        <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
+        <columnAttribute name="alt_mean_expression" displayName="Alt Mean" help="mean mRNA expression over alternative condition replicates"/>
+        <columnAttribute name="fold_change" displayName="Raw Fold Change"/>
+        <columnAttribute name="fdr" displayName="FDR" help="permutation-based false discovery rate estimate"/>
+
       </table>
       
 
@@ -239,7 +239,7 @@
         <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
         <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
         <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
-        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change"/>
         <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
         <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
       </table>
@@ -265,7 +265,7 @@
         <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
         <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
         <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
-        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change"/>
         <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
         <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
       </table>
@@ -295,7 +295,7 @@
         <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
         <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
         <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
-        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" />
         <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
         <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
       </table>
@@ -321,7 +321,7 @@
         <columnAttribute name="ref_mean_expression" displayName="Log2 Ref Mean" help="log2 mean mRNA expression over reference condition replicates"/>
         <columnAttribute name="alt_condition" displayName="Alternative" help="alternative condition for the comparison"/>
         <columnAttribute name="alt_mean_expression" displayName="Log2 Alt Mean" help="log2 mean mRNA expression over alternative condition replicates"/>
-        <columnAttribute name="fold_change" displayName="Log2 Fold Change" help="log2 fold change"/>
+        <columnAttribute name="fold_change" displayName="Log2 Fold Change" />
         <columnAttribute name="adj_p_value" displayName="Adj p-value" help="Benjamini-Hochberg adjusted p-value"/>
         <columnAttribute name="confidence_interval" displayName="Conf. Interval" help="[lower, upper] 95% confidence interval on fold change.  Most useful for interpreting fold changes less/greater than +/-2.  If the interval is broad or lower and upper limits have opposing signs, then the there is less confidence in the fold change value."/>
       </table>
@@ -341,6 +341,9 @@
 		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study001" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		<div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study001_expression" class="btn btn-info">Search Ranked Expression <i class="fa fa-search"></i></a>		    
 		   </div>
 		   </div>
 	  ]]>
@@ -389,6 +392,10 @@
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study002" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
 		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study002_expression" class="btn btn-info">Search Ranked Expression <i class="fa fa-search"></i></a>		    
+		   </div>
+		   </div>
 		   </div>
 	  ]]>
 	</description>
@@ -435,6 +442,10 @@
 		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study005" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
+		   </div>
+		   <div class="btn-group mr-2" role="group" aria-label="Search">
+		   <a href="../../search/mm/study005_expression" class="btn btn-info">Search Ranked Expression <i class="fa fa-search"></i></a>		    
+		   </div>
 		   </div>
 		   </div>
 	  ]]>

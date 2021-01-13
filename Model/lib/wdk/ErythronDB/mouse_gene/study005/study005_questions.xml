@@ -52,7 +52,7 @@
 
 
     <question name="study005_expression"
-	      displayName="Truncated EpoR Allele = Ranked Expression"
+	      displayName="Truncated EpoR Allele - Ranked Expression"
 	      shortDisplayName="Expression"
 	      queryRef="study005_Queries.RankedExpression"
 	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass"
