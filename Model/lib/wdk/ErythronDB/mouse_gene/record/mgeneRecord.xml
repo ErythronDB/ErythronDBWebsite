@@ -331,7 +331,10 @@
       <!-- Profiles: Study001 - Palis -->
       <!-- =================================================================== -->
 
-      <table name="study001_profiles" displayName="Gene Expression Profiles" inReportMaker="false" queryRef="study001_GeneTables.ExpressionProfile">
+      <table name="study001_gene_profiles"
+	     displayName="Gene Expression Profiles"
+	     inReportMaker="false"
+	     queryRef="study001_GeneTables.GeneExpressionProfile">
 	<description>
 	  <![CDATA[
 		   <p>Profiles of gene expression during erythrocyte differentiation (Primitive and Definitive lineages).</p>
@@ -339,21 +342,35 @@
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study001" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
 		   </div>
-		   <div class="btn-group mr-2" role="group" aria-label="Search">
-		   <a href="../../search/mm/study001_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
-		   </div>
 		   </div>
 	  ]]>
 	</description>
-        <columnAttribute name="dataset_id" internal="true" displayName="Dataset" inReportMaker="false"/>
-        <columnAttribute name="dataset_name" displayName="Dataset Name" internal="true" inReportMaker="false"/>
-        <columnAttribute name="dataset_description" displayName="Dataset Description" internal="true" inReportMaker="false" />
-        <textAttribute name="dataset" displayName="Dataset" inReportMaker="false" truncateTo="5000">
-          <text><![CDATA[<a href="../dataset/$$dataset_id$$" title ="$$dataset_description$$">$$dataset_name$$</a>]]></text>
-        </textAttribute>
-        <columnAttribute name="avg_gene_profile" displayName="Average Gene Expression" help="profile of per condition gene expression, averaged across replicates and reporters" inReportMaker="false" />
-        <columnAttribute name="gene_profile" displayName="Gene Expression" help="profile of per sample gene expression, averaged across reporters" inReportMaker="false"/>
-        <columnAttribute name="reporter_profile" displayName="Reporter Expression" help="profile of per sample reporter expression"/>
+        <columnAttribute name="primitive_gene_profile" displayName="Primitive"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+	<columnAttribute name="fetal_gene_profile" displayName="Fetal Definitive"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+	<columnAttribute name="adult_gene_profile" displayName="Adult Definitive"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+      </table>
+
+      <table name="study001_reporter_profiles"
+	     displayName="Reporter Expression Profiles"
+	     inReportMaker="false"
+	     queryRef="study001_GeneTables.ReporterExpressionProfile">
+	<description>
+	  <![CDATA[
+		   <p>Profiles of reporter-level expression during erythrocyte differentiation (Primitive and Definitive lineages).</p>
+	  ]]>
+	</description>
+        <columnAttribute name="primitive_reporter_profile" displayName="Primitive"
+			 help="profile of per sample reporter expression" sortable="false"/>
+	<columnAttribute name="fetal_reporter_profile" displayName="Fetal Definitive"
+			 help="profile of per sample reporter expression" sortable="false"/>
+	<columnAttribute name="adult_reporter_profile" displayName="Adult Definitive"
+			 help="profile of per sample reporter expression" sortable="false"/>
       </table>
 
 
@@ -361,7 +378,10 @@
       <!-- Profiles: Study002 - Stages -->
       <!-- =================================================================== -->
 
-      <table name="study002_profiles" displayName="Gene Expression Profiles" inReportMaker="false" queryRef="study002_GeneTables.ExpressionProfile">
+      <table name="study002_gene_profiles"
+	     displayName="Gene Expression Profiles"
+	     inReportMaker="false"
+	     queryRef="study002_GeneTables.GeneExpressionProfile">
 	<description>
 	  <![CDATA[
 		   <p>Profiles of gene expression during stress erythropoeisis (Control and EPO challenged).</p>
@@ -369,29 +389,46 @@
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study002" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
 		   </div>
-		   <div class="btn-group mr-2" role="group" aria-label="Search">
-		   <a href="../../search/mm/study002_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
 		   </div>
-		   </div>
-		   
 	  ]]>
 	</description>
-        <columnAttribute name="dataset_id" internal="true" displayName="Dataset" inReportMaker="false"/>
-        <columnAttribute name="dataset_name" displayName="Dataset Name" internal="true" inReportMaker="false"/>
-        <columnAttribute name="dataset_description" displayName="Dataset Description" internal="true" inReportMaker="false" />
-        <textAttribute name="dataset" displayName="Dataset" inReportMaker="false" truncateTo="5000">
-          <text><![CDATA[<a href="../dataset/$$dataset_id$$" title ="$$dataset_description$$">$$dataset_name$$</a>]]></text>
-        </textAttribute>
-        <columnAttribute name="avg_gene_profile" displayName="Average Gene Expression" help="profile of per condition gene expression, averaged across replicates and reporters" inReportMaker="false" />
-        <columnAttribute name="gene_profile" displayName="Gene Expression" help="profile of per sample gene expression, averaged across reporters" inReportMaker="false"/>
-        <columnAttribute name="reporter_profile" displayName="Reporter Expression" help="profile of per sample reporter expression"/>
+	<columnAttribute name="e1_gene_profile" displayName="E1"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+	<columnAttribute name="e2_gene_profile" displayName="E2"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+	<columnAttribute name="e3_gene_profile" displayName="E3"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+      </table>
+      
+
+      <table name="study002_reporter_profiles"
+	     displayName="Reporter Expression Profiles"
+	     inReportMaker="false"
+	     queryRef="study002_GeneTables.ReporterExpressionProfile">
+	<description>
+	  <![CDATA[
+		   <p>Profiles of reporter-level expression during stress erythropoeisis (Control and EPO challenged).</p>		   
+	  ]]>
+	</description>
+	<columnAttribute name="e1_reporter_profile" displayName="E1"
+			 help="profile of per sample reporter expression" sortable="false"/>
+	<columnAttribute name="e2_reporter_profile" displayName="E2"
+			 help="profile of per sample reporter expression" sortable="false"/>
+	<columnAttribute name="e3_reporter_profile" displayName="E3"
+			 help="profile of per sample reporter expression" sortable="false"/>
       </table>
 
-        <!-- =================================================================== -->
+      <!-- =================================================================== -->
       <!-- Profiles: Study005 - Stages -->
       <!-- =================================================================== -->
 
-      <table name="study005_profiles" displayName="Gene Expression Profiles" inReportMaker="false" queryRef="study005_GeneTables.ExpressionProfile">
+      <table name="study005_gene_profiles"
+	     displayName="Gene Expression Profiles"
+	     inReportMaker="false"
+	     queryRef="study005_GeneTables.GeneExpressionProfile">
 	<description>
 	  <![CDATA[
 		   <p>Profiles of gene expression during stress erythropoeisis (Control and EPO challenged).</p>
@@ -399,25 +436,32 @@
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
 		   <a href="../dataset/study005" class="btn btn-info">View Experiment Details <i class="fa fa-info-circle"></i></a>
 		   </div>
-		   <div class="btn-group mr-2" role="group" aria-label="Search">
-		   <a href="../../search/mm/study005_comparison" class="btn btn-info">Search Comparison Results <i class="fa fa-search"></i></a>		    
 		   </div>
-		   </div>
-		   
 	  ]]>
 	</description>
-        <columnAttribute name="dataset_id" internal="true" displayName="Dataset" inReportMaker="false"/>
-        <columnAttribute name="dataset_name" displayName="Dataset Name" internal="true" inReportMaker="false"/>
-        <columnAttribute name="dataset_description" displayName="Dataset Description" internal="true" inReportMaker="false" />
-        <textAttribute name="dataset" displayName="Dataset" inReportMaker="false" truncateTo="5000">
-          <text><![CDATA[<a href="../dataset/$$dataset_id$$" title ="$$dataset_description$$">$$dataset_name$$</a>]]></text>
-        </textAttribute>
-        <columnAttribute name="avg_gene_profile" displayName="Average Gene Expression" help="profile of per condition gene expression, averaged across replicates and reporters" inReportMaker="false" />
-        <columnAttribute name="gene_profile" displayName="Gene Expression" help="profile of per sample gene expression, averaged across reporters" inReportMaker="false"/>
-        <columnAttribute name="reporter_profile" displayName="Reporter Expression" help="profile of per sample reporter expression"/>
+	<columnAttribute name="wt_gene_profile" displayName="WT Epor"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+	<columnAttribute name="eporh_gene_profile" displayName="Epor-H"
+			 help="profile of per condition gene expression, averaged across replicates and expressed reporters"
+			 inReportMaker="false" sortable="false"/>
+      </table>
+
+      <table name="study005_reporter_profiles"
+	     displayName="Reporter Expression Profiles"
+	     inReportMaker="false"
+	     queryRef="study005_GeneTables.ReporterExpressionProfile">
+	<description>
+	  <![CDATA[
+		   <p>Profiles of reporter-level expression during stress erythropoeisis (Control and EPO challenged).</p>
+	  ]]>
+	</description>
+	<columnAttribute name="wt_reporter_profile" displayName="WT Epor"
+			 help="profile of per sample reporter expression" sortable="false"/>
+	<columnAttribute name="eporh_reporter_profile" displayName="Epor-H"
+			 help="profile of per sample reporter expression" sortable="false"/>
       </table>
       
-
 
     </recordClass>
   </recordClassSet>

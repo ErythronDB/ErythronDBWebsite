@@ -1,7 +1,7 @@
 		en	en
 		EUPATH_0000052	EUPATH_0000274
 Gene Structure	http://edamontology.org/topic_0114	Gene models	2
-Identity and mapping	http://edamontology.org/topic_3345	Link outs	4
+Identity and mapping	http://edamontology.org/topic_3345	Links to Related Resouces	4
 Annotation and curation	http://edamontology.org/topic_0219	"Annotation, curation and identifiers"	1
 Function analysis	http://edamontology.org/topic_1775	Function prediction	18
 Taxonomy	http://edamontology.org/topic_0637	Taxonomy	8

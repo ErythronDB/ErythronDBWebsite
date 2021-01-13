@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^4.1.3",
+    "btoa": "^1.2.1",
     "d3": "3.5.17",
     "d3-array": "^2.4.0",
     "d3-axis": "^1.0.12",
@@ -16,7 +17,7 @@
     "d3-transition": "^1.3.2",
     "highcharts": "^7.1.2",
     "highcharts-react-official": "^2.2.2",
-    "igv": "^2.6.3",
+    "igv": "^2.7.4",
     "popper.js": "^1.16.0",
     "react-bootstrap": "1.0.0-beta.16",
     "react-csv": "^1.0.19"

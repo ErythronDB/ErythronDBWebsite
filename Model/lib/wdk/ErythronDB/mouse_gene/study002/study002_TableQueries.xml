@@ -112,40 +112,96 @@
     <!-- Profiles: Study002 -->
     <!-- =================================================================== -->
     
-    <sqlQuery name="ExpressionProfile">
+    <sqlQuery name="GeneExpressionProfile">
       <column name="source_id" columnType="string"/>
-      <column name="dataset_id" columnType="string"/>
-      <column name="dataset_name" columnType="string"/>
-      <column name="dataset_description" columnType="string"/>
-      <column name="gene_profile" columnType="string"/>
-      <column name="reporter_profile" columnType="string"/>
-      <column name="avg_gene_profile" columnType="string"/>
+      <column name="e1_gene_profile" columnType="string"/>
+      <column name="e2_gene_profile" columnType="string"/>
+      <column name="e3_gene_profile" columnType="string"/>
+
       <sql>
 	<![CDATA[
-
-		 SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneNotSampledProfile p,
-		 (##WDK_ID_SQL##) id
+		 WITH id AS (##WDK_ID_SQL##) ,
+		 profiles AS (
+	         SELECT p.* 
+		 FROM ErythronDB.GeneNotSampledProfile p, id
 		 WHERE p.source_id = id.source_id
 		 AND dataset_id = 'study002'
 		 
 		 UNION ALL
 		 
-		 SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneNotExpressedProfile p,
-		 (##WDK_ID_SQL##) id
+		 SELECT p.* 
+		 FROM ErythronDB.GeneNotExpressedProfile p, id
 		 WHERE p.source_id = id.source_id
 		 AND dataset_id = 'study002'
 		 
 		 UNION ALL
 		 
-		 SELECT '@PROJECT_ID@'::text AS project_id, p.* FROM ErythronDB.GeneExpressedProfile p,
-		 (##WDK_ID_SQL##) id
+		 SELECT p.* 
+		 FROM ErythronDB.GeneExpressedProfile p, id
 		 WHERE p.source_id = id.source_id
 		 AND dataset_id = 'study002'
 
-		 ORDER BY order_num
+		 ORDER BY order_num),
+
+		 AvgProfiles AS (
+		 SELECT source_id, array_agg(avg_gene_profile ORDER BY order_num) AS profiles
+		 FROM profiles
+		 GROUP BY source_id)
+
+		 SELECT source_id, '@PROJECT_ID@'::Text AS project_id,
+		 replace(profiles[1], 'Stress Erythropoiesis ', '') AS e1_gene_profile,
+		 replace(profiles[2], 'Stress Erythropoiesis ', '') AS e2_gene_profile,
+		 replace(profiles[3], 'Stress Erythropoiesis ', '') AS e3_gene_profile
+		 FROM AvgProfiles
+	]]>
+      </sql>
+    </sqlQuery>
+
+     <sqlQuery name="ReporterExpressionProfile">
+      <column name="source_id" columnType="string"/>
+      <column name="e1_reporter_profile" columnType="string"/>
+      <column name="e2_reporter_profile" columnType="string"/>
+      <column name="e3_reporter_profile" columnType="string"/>
+
+
+      <sql>
+	<![CDATA[
+		 WITH id AS (##WDK_ID_SQL##) ,
+		 profiles AS (
+	         SELECT p.* 
+		 FROM ErythronDB.GeneNotSampledProfile p, id
+		 WHERE p.source_id = id.source_id
+		 AND dataset_id = 'study002'
+		 
+		 UNION ALL
+		 
+		 SELECT p.* 
+		 FROM ErythronDB.GeneNotExpressedProfile p, id
+		 WHERE p.source_id = id.source_id
+		 AND dataset_id = 'study002'
+		 
+		 UNION ALL
+		 
+		 SELECT p.* 
+		 FROM ErythronDB.GeneExpressedProfile p, id
+		 WHERE p.source_id = id.source_id
+		 AND dataset_id = 'study002'
+
+		 ORDER BY order_num),
+
+		 RProfiles AS (
+		 SELECT source_id, array_agg(reporter_profile ORDER BY order_num) AS profiles
+		 FROM profiles
+		 GROUP BY source_id)
+
+		 SELECT source_id, '@PROJECT_ID@'::Text AS project_id,
+		 replace(profiles[1], 'Stress Erythropoiesis ', '') AS e1_reporter_profile,
+		 replace(profiles[2], 'Stress Erythropoiesis ' , '') AS e2_reporter_profile,
+		 replace(profiles[3], 'Stress Erythropoiesis ' , '') AS e3_reporter_profile
+		 FROM RProfiles
 	]]>
       </sql>
     </sqlQuery>
     
-</querySet>
+  </querySet>
 </wdkModel>

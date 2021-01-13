@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import igv from "igv/dist/igv.esm";
+import {_mm_config, _hs_config} from "../../data/igv-config";
 
 interface IgvBrowser {
     defaultLocus: string;
@@ -7,60 +8,31 @@ interface IgvBrowser {
 }
 
 export const MouseIgvBrowser: React.FC<IgvBrowser> = ({ defaultLocus, webAppUrl }) => {
+    let _options = _mm_config;
+    _options.locus = defaultLocus;
+    _options.search = {url: `${webAppUrl}/service/track/feature?id=$FEATURE$&genome=Mouse`};
     useLayoutEffect(() => {
         //https://github.com/igvteam/igv.js/wiki/Browser-Creation
-        const igvDiv = document.getElementById("igv-div"),
-            options = {
-                genome: "mm10",
-                name: "Mouse GRCm38 p.5",
-                locus: defaultLocus,
-                tracks: [
-                    {
-                        name: "GENCODE vM16 Genes",
-                        url: webAppUrl + '/data/gencode.vM16.basic.annotation.sorted.gtf.gz',
-                        indexURL: webAppUrl + '/data/gencode.vM16.basic.annotation.sorted.gtf.gz.tbi',
-                        order: 1,
-                        displayMode: "EXPANDED",
-                        format: "gtf",
-                        indexed: true,
-                        visibilityWindow: -1,
-                        color: "rgb(76,171,225)",
-                    }]
-                
-            };
-
+        const igvDiv = document.getElementById(`igv-${defaultLocus}`),
+            options = _options;
+        
+        igv.removeAllBrowsers(); // deal w/duplicate tracks from things in memory
         igv.createBrowser(igvDiv, options).then((browser: any) => {});
     }, []);
 
-    return <span style={{ width: "100%" }} id="igv-div" />;
+    return <div style={{ width: "100%" }} className="mt-5" id={`igv-${defaultLocus}`}></div>;
 };
 
 
 
 export const HumanIgvBrowser: React.FC<IgvBrowser> = ({ defaultLocus, webAppUrl }) => {
+    let _options = _hs_config;
+    _options.locus = defaultLocus;
+    _options.search = {url: `${webAppUrl}/service/track/feature?id=$FEATURE$&genome=Human`}
     useLayoutEffect(() => {
         //https://github.com/igvteam/igv.js/wiki/Browser-Creation
         const igvDiv = document.getElementById("igv-div"),
-            options = {
-                genome: "hg38",
-                name: "Human GRCh38",
-                locus: defaultLocus,
-                /* tracks: [
-                    {
-                        name: "GENCODE v25 Genes",
-                        url: webAppUrl + '/data/gencode.v25.basic.annotation.sorted.gtf.gz',
-                        indexURL: webAppUrl + '/data/gencode.v25.basic.annotation.sorted.gtf.gz.tbi',
-                        order: 1,
-                        displayMode: "EXPANDED",
-                        format: "gtf",
-                        indexed: true,
-                        maxHeight: 350,
-                        visibilityWindow: -1,
-                        color: "rgb(76,171,225)",
-                    }] */
-                
-            };
-
+            options = _options;
         igv.createBrowser(igvDiv, options).then((browser: any) => {});
     }, []);
 

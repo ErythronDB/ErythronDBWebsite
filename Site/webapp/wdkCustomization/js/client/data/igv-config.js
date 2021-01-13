@@ -11,15 +11,23 @@ const _mm_tracks = [
         visibilityWindow: -1,
         color: "rgb(76,171,225)"
     },
-   /* {
+    {
         name: "UniProt Proteome",
-        url: '../../../data/mm10/UP000000589_10090_proteome.bed.gz',
-        indexURL: '../../../data/mm10/UP000000589_10090_proteome.bed.gz.tbi',
+        url: '../../../data/mm10/UP000000589_10090_proteome.bb',
         order: 2,
-        format: "bed",
+        format: "bigBed",
         type: "annotation",
         indexed: true
-    } */
+    }
+    /*,
+    {
+        name: "UniProt Signal Peptide",
+        url: '../../../data/mm10/UP000000589_10090_signal.bb',
+        order: 3,
+        format: "bigBed",
+        type: "annotation",
+        indexed: true
+    },*/
 ];
 
 const _mm_config = {
@@ -53,6 +61,15 @@ const _hs_tracks = [
     },
     {
         name: "UniProt Proteome",
+        url: '../../../data/hg38/UP000005640_9606_proteome.bed.gz',
+        indexURL:  '../../../data/hg38/UP000005640_9606_proteome.bed.gz.tbi',
+        order: 2,
+        format: "bed",
+        type: "annotation",
+        indexed: true
+    },
+    {
+        name: "UniProt Signal Peptides",
         url: '../../../data/hg38/UP000005640_9606_proteome.bed.gz',
         indexURL:  '../../../data/hg38/UP000005640_9606_proteome.bed.gz.tbi',
         order: 2,

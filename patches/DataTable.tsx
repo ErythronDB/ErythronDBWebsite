@@ -510,8 +510,7 @@ function formatColumns(columns: ColumnDef[]): DataTables.ColumnSettings[] {
           else {
             //$(cell).css('color', 'red');
             let key = "profile" + String(row) + "_" + String(column);
-            jV.chart = assign({}, {"width": 500});
-            console.log(jV);
+            jV.chart = assign({}, {"width": 300, "height":300});
             ReactDOM.render([<HighchartsReact highcharts={Highcharts} options={jV} key={key}/>], cell);
           }
         }

@@ -72,7 +72,7 @@ const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
                 </ul>
             </Col>
             <Col>
-                <MouseIgvBrowser webAppUrl={webAppUrl} defaultLocus={`${record.attributes.chromosome}:${record.attributes.start_min}-${record.attributes.end_max}`}/>
+               <MouseIgvBrowser webAppUrl={webAppUrl} defaultLocus={record.attributes.source_id}/>
             </Col>
         </>
     );
