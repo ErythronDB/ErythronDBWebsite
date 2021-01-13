@@ -34,7 +34,7 @@ const _studies =
 			accession: "E-MTAB-5373",
 			dataset_id: "study002",
 			attribution: "Wojchowski",
-			description: "Global gene expression profiling of bone marrow-derived erythroid progenitor cells at E1 (CFU-e), E2 (proerythroblasts), and E3 (maturing erythroblast) stages of development under stress erythropoiesis conditions and in response to EPO challenge. MACS-isolated E1, E2, and E3 stage EPCs were cultured in SP34ex media for 6 hrs in the absence of hematopoietic growth factors and the presence of insulin (to enforce survival and anti-apoptotic effects) and then exposed to rhEPO for 90 minutes. Gene expression analysis was performed using Affymetrix Mouse Genome 430 2.0 arrays; microarray data were analyzed using Bioconductor.",
+			description: "Global gene expression profiling of bone marrow-derived erythroid progenitor cells at E1 (CFU-e), E2 (proerythroblasts), and E3 (maturing erythroblast) stages of differentiation under stress erythropoiesis conditions and in response to EPO challenge. MACS-isolated E1, E2, and E3 stage EPCs were cultured in SP34ex media for 6 hrs in the absence of hematopoietic growth factors and the presence of insulin (to enforce survival and anti-apoptotic effects) and then exposed to rhEPO for 90 minutes. Gene expression analysis was performed using Affymetrix Mouse Genome 430 2.0 arrays; microarray data were analyzed using Bioconductor.",
 			display_name: "EPO-regulated targets in erythroid progenitors",
 			taxon_abbrev: "Mm",
 			accession_ref: "ArrayExpress",
@@ -43,7 +43,7 @@ const _studies =
 			menu_text: "EPO targets: Erythroid Progenitors",
 
 			individual_datasets: {
-				comparison_tooltip: "Identify candidate EPO targets by comparing EPO-challenged to control cells or identify changes in gene expression across developmental stages within the treated or the control stress lineage.",
+				comparison_tooltip: "Identify candidate EPO targets by comparing EPO-challenged to control cells or identify changes in gene expression during differentiation within the treated or the control stress lineage.",
 				title: ["E1 (CFU-e) erythroid progenitors", "E2 (proerythroblasts) erythroid progenitors", "E3 cells (maturing erythroblasts)"],
 				search: ["dexp", "rank"]
 			}

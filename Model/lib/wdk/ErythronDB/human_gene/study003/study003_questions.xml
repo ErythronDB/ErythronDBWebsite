@@ -16,7 +16,7 @@
         <![CDATA[
                  <p>Find  EPO phosphorylation PTM targets in UT-7epo-E cells.</p>
 		 <p>These data come from the <a href="../../record/dataset/study003" target="blank">%%study003_name%%</a> study.</p>
-		 <p>First choose an experiment and a treatment to be compared against untreate control cells.</p>
+		 <p>First choose an experiment and a treatment to be compared against untreated control cells.</p>
 		 <p>Then choose the directionality and the magnitude of the (log2) fold difference. </p>
                 
 	]]>
