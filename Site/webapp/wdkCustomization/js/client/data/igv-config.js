@@ -19,15 +19,6 @@ const _mm_tracks = [
         type: "annotation",
         indexed: true
     }
-    /*,
-    {
-        name: "UniProt Signal Peptide",
-        url: '../../../data/mm10/UP000000589_10090_signal.bb',
-        order: 3,
-        format: "bigBed",
-        type: "annotation",
-        indexed: true
-    },*/
 ];
 
 const _mm_config = {
@@ -68,15 +59,6 @@ const _hs_tracks = [
         type: "annotation",
         indexed: true
     },
-    {
-        name: "UniProt Signal Peptides",
-        url: '../../../data/hg38/UP000005640_9606_proteome.bed.gz',
-        indexURL:  '../../../data/hg38/UP000005640_9606_proteome.bed.gz.tbi',
-        order: 2,
-        format: "bed",
-        type: "annotation",
-        indexed: true
-    }
 ];
 
 const _hs_config = {
