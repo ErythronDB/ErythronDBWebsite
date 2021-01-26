@@ -6,6 +6,10 @@ import { CompositeService as WdkService } from "wdk-client/Service/ServiceMixins
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 import { _resources } from '../../../data/resources';
 
 interface Resource {
@@ -18,27 +22,88 @@ interface Resource {
 
 const Resources: React.FC<{}> = () => {
     return (
-        <Row>
+        <Row className="mt-5">
             <Col>
-                <h1>ErythronDB Datasets</h1>
-                <h3>Transcriptomics</h3>
-                {_resources.map((res) => _buildResource(res, "Transcriptomics"))}
+            <h1>Data Sources</h1>
+                <Accordion >
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                ErythronDB Datasets: Transcriptomics
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <Card.Body>
+                                {_resources.map((res) => _buildResource(res, "Transcriptomics"))}
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                  
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                ErythronDB Datasets: Proteomics
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <Card.Body> 
+                                {_resources.map((res) => _buildResource(res, "Proteomics"))}
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
 
-                <h3 className="mt-4">Proteomics</h3>
-                {_resources.map((res) => _buildResource(res, "Proteomics"))}
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                                Gene Annotation
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <Card.Body> 
+                                {_resources.map((res) => _buildResource(res, "Gene Annotation"))}
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                    
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="3">
+                                Functional Annotation
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <Card.Body> 
+                                {_resources.map((res) => _buildResource(res, "Functional Annotation"))}
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
 
-                <h1>External Resources</h1>
-                <h3>Gene Annotation</h3>
-                {_resources.map((res) => _buildResource(res, "Gene Annotation"))}
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                                Array Annotation
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <Card.Body> 
+                                {_resources.map((res) => _buildResource(res, "Array Annotation"))}
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
 
-                <h3>Functional Annotation</h3>
-                {_resources.map((res) => _buildResource(res, "Functional Annotation"))}
-
-                <h3>Array Annotation</h3>
-                {_resources.map((res) => _buildResource(res, "Array Annotation"))}
-
-                <h3>Ontologies</h3>
-                {_resources.map((res) => _buildResource(res, "Ontologies"))}
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                                Ontologies
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <Card.Body> 
+                                {_resources.map((res) => _buildResource(res, "Ontology"))}
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                </Accordion>
 
             </Col>
         </Row>
@@ -59,7 +124,7 @@ const AboutPage: React.FC<RouteComponentProps<any>> = () => {
                 </Col>
             </Row>
 
-           
+
             <Resources />
         </Container>
     );

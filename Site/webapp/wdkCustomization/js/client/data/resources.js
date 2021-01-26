@@ -6,13 +6,7 @@ var _resources = [
         "category": "Array Annotation",
         "description": "annotation of the Affymetrix Mouse430 2.0 Array"
     },
-    {
-        "link": "http://www.affymetrix.com/support/technical/byproduct.affx?product=moe430A-20",
-        "name": "Affymetrix Mouse430A 2.0 Array Annotation - 36",
-        "route": null,
-        "category": "Array Annotation",
-        "description": "annotation of the Affymetrix Mouse430A 2.0 Array"
-    },
+ 
     {
         "link": "https://www.genome.jp/kegg/",
         "name": "KEGG: Kyoto Encyclopedia of Genes and Genomes - 2020-08-21",

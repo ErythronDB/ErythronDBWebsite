@@ -30,7 +30,6 @@ const FAQ: React.FC<{}> = () => {
 const FAQPage: React.FC<RouteComponentProps<any>> = () => {
 
 
-
     return (
         <Container fluid={true}>
             <Row>
