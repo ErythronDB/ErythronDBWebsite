@@ -95,7 +95,7 @@ export function RecordHeading(props) {
             <ul>
               {id[0].value == 'study001'
                 ? <li><a href={`../../search/mm/${id[0].value}_comparison`}>Compare cell stages within or across erythroid lineages</a></li>
-                : <li><a href={`../../search/mm/${id[0].value}_comparison`}>Compare EPO-challenged cells to controls</a></li>
+                : <li><a href={`../../search/${organism.toLowerCase()}/${id[0].value}_comparison`}>Compare EPO-challenged cells to controls</a></li>
               }
               {id[0].value != 'study003' &&
                 <li><a href={`../../search/mm/${id[0].value}_expression`}>Find genes by ranked expression level</a></li>
