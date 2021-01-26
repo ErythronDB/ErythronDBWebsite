@@ -116,7 +116,7 @@ const AboutPage: React.FC<RouteComponentProps<any>> = () => {
 
 
     return (
-        <Container fluid={true}>
+        <Container fluid={true} className="mb-5">
             <Row>
                 <Col>
                     <h1>About this Project</h1>
