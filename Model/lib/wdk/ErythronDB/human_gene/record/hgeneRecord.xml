@@ -51,7 +51,6 @@
       <!-- =============================================================== -->
 
       <stepAnalysisRef name="custom-go-enrichment"/>
-      <stepAnalysisRef name="gene-expression-heatmap"/>
       <stepAnalysisRef name="gene-network"/>
       <!-- <stepAnalysisRef name="pathway-enrichment" /> -->
       <!-- <stepAnalysisRef name="word-enrichment"/> -->

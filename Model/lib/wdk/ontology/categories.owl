@@ -983,6 +983,28 @@
         <obo:hasNarrowSynonym>Study003</obo:hasNarrowSynonym>
     </owl:Class>
 
+    <owl:Class rdf:about="http://edamontology.org/topic_3934">
+        <rdfs:label>Cytometry</rdfs:label>
+        <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
+    </owl:Class>
+
+      <owl:Class rdf:about="http://edamontology.org/data_3914">
+        <rdfs:label>Quality Control Report</rdfs:label>
+	<rdfs:subClassOf rdf:resource="http://edamontology.org/topic_3518"/>
+        <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
+      </owl:Class>
+
+        <owl:Class rdf:about="http://edamontology.org/topic_3518">
+        <rdfs:label>Microarray experiment</rdfs:label>
+        <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
+	</owl:Class>
+
+	<owl:Class rdf:about="http://edamontology.org/topic_3520">
+        <rdfs:label>Proteomics experiment</rdfs:label>
+        <obo:IAO_0000412 rdf:resource="http://edamontology.org/EDAM.owl"/>
+      </owl:Class>
+    
+
     
 </rdf:RDF>
 

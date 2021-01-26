@@ -13,6 +13,23 @@
 		</sqlQuery>
 
 
+		<sqlQuery name="ProtocolImages">
+		  <column name="dataset_id"/>
+		  <column name="image_file"/>
+		  <column name="image_caption"/>
+		  <sql>
+		      <![CDATA[
+			       WITH images AS (
+			       SELECT study_id AS dataset_id, jsonb_array_elements(images) AS ij
+			       FROM ErythronDB.FacsProtocol)
+			       SELECT dataset_id,
+			       ij->>'file' AS image_file, 
+			       ij->>'caption' AS image_caption
+			       FROM images
+		      ]]>
+		  </sql>
+		</sqlQuery>
+
 		<sqlQuery name="Datasets">
 			<column name="dataset_id"/>
 			<column name="child_dataset_id"/>

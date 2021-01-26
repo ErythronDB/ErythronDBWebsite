@@ -4,23 +4,23 @@ var _workspace = [
         route:"/workspace/strategies",
     },
     {
+        text: "Public Strategies",
+        route: "/workspace/strategies"
+    },
+    {
         text: "Upload Genes",
-        route: "/search/gene/upload",
+        route: "/upload",
     }
 ];
 
 var _about = [
     {
-        text: "Public Strategies",
-        route: "/workspace/strategies"
+        text: "About ErythronDB",
+        route: "/about"
     },
     {
-        text: "News",
-        url: "showXmlDataContent.do?name=XmlQuestions.News"
-    },
-    {
-        text: "Documentation",
-        url: "showXmlDataContent.do?name=XmlQuestions.Documentation"
+        text: "FAQ",
+        url: "/faq"
     },
     {
         text: "Contact Us",

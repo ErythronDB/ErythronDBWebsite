@@ -85,12 +85,17 @@ HumanGeneRecordClasses.HumanGeneRecordClass.study003_comparisons	http://www.cbil
 													
 ## Dataset Attributes ##													
 													
-DatasetRecordClasses.DatasetRecordClass.Datasets	http://edamontology.org/data_0916	Datasets	DatasetRecordClasses.DatasetRecordClass	table	Datasets						results	record	download
-DatasetRecordClasses.DatasetRecordClass.Searches	http://edamontology.org/data_0916	Searches	DatasetRecordClasses.DatasetRecordClass	table	Searches							record	
+DatasetRecordClasses.DatasetRecordClass.search_expression	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	search_expression							record-internal	
+DatasetRecordClasses.DatasetRecordClass.search_comparison	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	search_comparison							record-internal	
 DatasetRecordClasses.DatasetRecordClass.primary_contact	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_contact						results	record-internal	download
 DatasetRecordClasses.DatasetRecordClass.primary_publication	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_publication						results	record-internal	download
-DatasetRecordClasses.DatasetRecordClass.primary_publication_pubmed_url	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_publication						results	record-internal	download
-DatasetRecordClasses.DatasetRecordClass.bulk_download_url	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	bulk_download_url						results	record-internal	
 DatasetRecordClasses.DatasetRecordClass.organism	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	organism						results	record-internal	download
 DatasetRecordClasses.DatasetRecordClass.full_description	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	full_description						results	record-internal	download
 DatasetRecordClasses.DatasetRecordClass.data_type	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	data_type						results	record-internal	download
+DatasetRecordClasses.DatasetRecordClass.protocol_images	http://edamontology.org/topic_3934	Cytometry	DatasetRecordClasses.DatasetRecordClass	table	protocol_images					2		record	
+DatasetRecordClasses.DatasetRecordClass.protocol_description	http://edamontology.org/topic_3934	Cytometry	DatasetRecordClasses.DatasetRecordClass	attribute	protocol_description					1		record	
+DatasetRecordClasses.DatasetRecordClass.primary_publication_pubmed_url	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_publication						results	record-internal	download
+DatasetRecordClasses.DatasetRecordClass.microarray_datasets	http://edamontology.org/topic_3518	Microarray Experiment	DatasetRecordClasses.DatasetRecordClass	attribute	microarray_datasets							record-internal	
+DatasetRecordClasses.DatasetRecordClass.proteomics_datasets	http://edamontology.org/topic_3520	Proteomics Experiment	DatasetRecordClasses.DatasetRecordClass	attribute	proteomics_datasets								
+DatasetRecordClasses.DatasetRecordClass.bulk_download_url	http://edamontology.org/topic_3518	Microarray Experiment	DatasetRecordClasses.DatasetRecordClass	attribute	bulk_download_url							record-internal	
+DatasetRecordClasses.DatasetRecordClass.primary_contact	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	record_taxon							record-internal	

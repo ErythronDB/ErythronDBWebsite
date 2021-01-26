@@ -43,5 +43,36 @@ a {
   }
 }
 
+.protocol-image-caption {
+  width: 50%;
+}
+
+.font-size-9 {
+  font-size: 0.9em;
+}
+
+
+
+.erythrondb-RecordOverviewItem {
+  white-space: nowrap;
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.erythrondb-RecordOverviewItem, .erythrondb-RecordOverviewLink {
+  margin: .2em 0;
+  font-size: 1.2em;
+  max-width: 75em;
+}
+
+.erythrondb-RecordOverviewItem[data-label]:before {
+  content: attr(data-label) ": ";
+  font-weight: bold;
+}
+
+.erythrondb-RecordOverviewItem:empty {
+  display: none;
+}
 
 @import '../js/client/components/Components.scss';

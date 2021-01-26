@@ -1,194 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
-        <recordClassSet name="DatasetRecordClasses">
+  <recordClassSet name="DatasetRecordClasses">
 
-                <recordClass name="DatasetRecordClass" urlName="dataset" displayName="Dataset" displayNamePlural="Datasets" allRecordsQueryRef="DatasetTables.All" useBasket="false">
-
-
-                        <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
-                                <columnRef>dataset_id</columnRef>
-                        </primaryKey>
-
-                        <idAttribute name="primary_key" displayName="Dataset" help="Click on a dataset to view more information">
-                                <text>
-                                        <![CDATA[
-		       $$display_name$$
-	      ]]>
-                                </text>
-                        </idAttribute>
-
-                        
+    <recordClass name="DatasetRecordClass" urlName="dataset" displayName="Dataset" displayNamePlural="Datasets" allRecordsQueryRef="DatasetTables.All" useBasket="false">
 
 
-                        <!-- =============================================================== -->
-                        <!--   Reporters -->
-                        <!-- =============================================================== -->
+      <primaryKey aliasPluginClassName="org.gusdb.wdk.model.record.GenericRecordPrimaryKeyAliasPlugin">
+        <columnRef>dataset_id</columnRef>
+      </primaryKey>
 
-                        <!-- <reporter name="attributesTabular" displayName="Summary - tab delimited" scopes="results" implementation="org.gusdb.wdk.model.report.reporter.AttributesTabularReporter">
-             <property name="page_size">500</property>
-          </reporter> -->
+      <idAttribute name="primary_key" displayName="Dataset" help="Click on a dataset to view more information">
+        <text>
+          <![CDATA[
+		   $$long_display_name$$
+	  ]]>
+        </text>
+      </idAttribute>
 
-                        <!-- <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results"  -->
-                        <!-- implementation="org.gusdb.wdk.model.report.reporter.TableTabularReporter"> -->
-                        <!--    <property name="page_size">1000000</property>         -->
-                        <!-- huge page size to force no paging  -->
-                        <!-- </reporter> -->
-
-                        <!-- <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" scopes="record" implementation="org.gusdb.wdk.model.report.reporter.FullRecordReporter">
-          </reporter>
-
-          <reporter name="xml" displayName="XML: choose from columns and/or tables" scopes="" implementation="org.gusdb.wdk.model.report.reporter.XMLReporter">
-          </reporter> -->
-                        <reporter name="json" displayName="json: choose from columns and/or tables" scopes="" implementation="org.gusdb.wdk.model.report.reporter.JSONReporter">
-                        </reporter>
-
-                        <!-- =============================================================== -->
-                        <!--   Filters -->
-                        <!-- =============================================================== -->
-
-                        <!-- =============================================================== -->
-                        <!--   Text Attributes -->
-                        <!-- =============================================================== -->
-
-                        <attributeQueryRef ref="DatasetAttributes.Basic">
-                                <columnAttribute name="dataset_name" internal="true" displayName="Data Set Name" help="Name of the dataset."/>
-                                <columnAttribute name="long_display_name" internal="true" displayName="Dataset Name" removable="false"/>
-                                <columnAttribute name="display_name" internal="true"/>
-                                <columnAttribute name="summary" displayName="Summary" sortable="false" help= "A short description of the dataset."/>
-                                <columnAttribute name="full_description" displayName="Description" sortable="false" help="A full description of the dataset."/>
-                                <columnAttribute name="caveat" internal="true"/>
-                                <columnAttribute name="is_public" internal="true" inReportMaker="false"/>
-                                <columnAttribute name="study_access" internal="true" inReportMaker="false"/>
-                                <columnAttribute name="project_availability" internal="true" inReportMaker="false"/>
-                                <columnAttribute name="study_categories" inReportMaker="false" internal="true"/>
-                                <columnAttribute name="card_points" inReportMaker="false" internal="true"/>
-                                <columnAttribute name="type" internal="true"/>
-                                <columnAttribute name="subtype" internal="true"/>
-                                <columnAttribute name="organism" displayName="Organism" help="The organism used to generate the samples that were analyzed to produce this dataset.  The  genome build to which the the data were mapped is also specified where applicable."/>
-                                <columnAttribute name="data_type" displayName="Category" inReportMaker="false" help= "Datasets are assigned to categories based on the biological attributes of the data." />
-                                <columnAttribute name="download_url" internal="true" inReportMaker="false"/>
-                                <columnAttribute name="accession" displayName="Accession" inReportMaker="true"/>
-                        </attributeQueryRef>
-
-                        <linkAttribute name="bulk_download_url" displayName="Accession" internal="true">
-                                <displayText>$$accession$$</displayText>
-                                <url>$$download_url$$$$accession$$</url>
-                        </linkAttribute>
-
-                        <attributeQueryRef ref="DatasetAttributes.PrimaryContact">
-                                <columnAttribute name="primary_contact" displayName="Contact" help="primary contact for the dataset"/>
-                        </attributeQueryRef>
-
-                        <attributeQueryRef ref="DatasetAttributes.PrimaryPublication">
-                                <columnAttribute name="primary_publication" displayName="Publication" help="primary publication for the dataset"/>
-                        </attributeQueryRef>
-
-                        <!-- also platform -->
-                        <!-- studies within investigations -->
-
-                        <!--   <attributeQueryRef ref="DatasetAttributes.Protocol"> -->
-                        <!--     <columnAttribute name="protocol" internal="true"/> -->
-                        <!--   </attributeQueryRef> -->
-
-                        <!--   <attributeQueryRef ref="DatasetAttributes.Publications"> -->
-                        <!--   <columnAttribute name="pubmed_links" displayName="Publications" sortable="false" -->
-                        <!-- help="PubMed links related to the dataset."/> -->
-                        <!--   </attributeQueryRef> -->
-
-                        <!--   <attributeQueryRef ref="DatasetAttributes.Contact"> -->
-                        <!--     <columnAttribute name="contact" displayName="Contact"  -->
-                        <!-- help="The person or organization that serves as a source of information concerning this dataset."/>   -->
-                        <!--     <columnAttribute name="institution" displayName="Contact Institution" -->
-                        <!-- help="The institution where the Contact is located. "/>   -->
-                        <!--     <columnAttribute name="email" internal="true"/> -->
-                        <!--   </attributeQueryRef> -->
-
-                        <!-- sample data relationship graph -->
-                        <!-- heatmap -->
+      
+      <!-- =============================================================== -->
+      <!--   Reporters -->
+      <!-- =============================================================== -->
 
 
-                        <!-- =============================================================== -->
-                        <!--   Table Attributes -->
-                        <!-- =============================================================== -->
-                        <!--   <table name="Contacts" -->
-                        <!-- displayName="Principal Investigator and Collaborators" -->
-                        <!-- queryRef="DatasetTables.Contacts"> -->
-                        <!--     <columnAttribute name="dataset_id" inReportMaker="false" internal="true"/> -->
-                        <!--     <columnAttribute name="dataset_name" inReportMaker="false" internal="true"/> -->
-                        <!--     <columnAttribute name="contact_name" displayName="Investigator"/> -->
-                        <!--     <columnAttribute name="affiliation" displayName="Affiliation"/> -->
-                        <!--   </table> -->
+      <!-- =============================================================== -->
+      <!--   Header -->
+      <!-- =============================================================== -->
 
-                        <!--   <table name="Publications" -->
-                        <!-- displayName="Associated Publications" -->
-                        <!-- queryRef="DatasetTables.Publications"> -->
-                        <!--     <columnAttribute name="dataset_id" inReportMaker="false" internal="true"/> -->
-                        <!--     <columnAttribute name="pmid" displayName="Pubmed ID" internal="true"/> -->
-                        <!--     <columnAttribute name="citation" internal="true"/> -->
+      <attributeQueryRef ref="DatasetAttributes.Basic">
+        <columnAttribute name="dataset_name" internal="true" displayName="Data Set Name" help="Name of the dataset."/>
+        <columnAttribute name="long_display_name" internal="true" displayName="Dataset Name" removable="false"/>
+        <columnAttribute name="display_name" internal="true"/>
+        <columnAttribute name="summary" displayName="Summary" sortable="false" help= "A short description of the dataset."/>
+        <columnAttribute name="full_description" displayName="Description" sortable="false" help="A full description of the dataset."/>
+        <columnAttribute name="caveat" internal="true"/>
+        <columnAttribute name="is_public" internal="true" inReportMaker="false"/>
+        <columnAttribute name="study_access" internal="true" inReportMaker="false"/>
+        <columnAttribute name="project_availability" internal="true" inReportMaker="false"/>
+        <columnAttribute name="study_categories" inReportMaker="false" internal="true"/>
+        <columnAttribute name="card_points" inReportMaker="false" internal="true"/>
+        <columnAttribute name="type" internal="true"/>
+        <columnAttribute name="subtype" internal="true"/>
+        <columnAttribute name="organism" displayName="Organism" help="The organism used to generate the samples that were analyzed to produce this dataset.  The  genome build to which the the data were mapped is also specified where applicable."/>
+        <columnAttribute name="data_type" displayName="Category" inReportMaker="false" help= "Datasets are assigned to categories based on the biological attributes of the data." />
+        <columnAttribute name="download_url" internal="true" inReportMaker="false"/>
+        <columnAttribute name="accession" displayName="Accession" inReportMaker="true"/>
+	<columnAttribute name="record_taxon" internal="true" inReportMaker="false"/>
+      </attributeQueryRef>
 
+      
+      <attributeQueryRef ref="DatasetAttributes.PrimaryContact">
+        <columnAttribute name="primary_contact" displayName="Contact" help="primary contact for the dataset"/>
+      </attributeQueryRef>
 
-                        <!--     <linkAttribute name="pubmed_link" inReportMaker="false" internal="false" -->
-                        <!-- displayName="PMID"> -->
+      <attributeQueryRef ref="DatasetAttributes.PrimaryPublication">
+        <columnAttribute name="primary_publication" displayName="Publication" help="primary publication for the dataset"/>
+      </attributeQueryRef>
+      
 
-                        <!--          <displayText> -->
-                        <!--             <![CDATA[ -->
-                        <!--             $$citation$$ -->
-                        <!--             ]]> -->
-                        <!--          </displayText> -->
-                        <!--          <url> -->
-                        <!--             <![CDATA[ -->
-                        <!--                      @PUBMED_URL@/$$pmid$$ -->
-                        <!--             ]]> -->
-                        <!--          </url> -->
-                        <!--     </linkAttribute> -->
-                        <!-- </table>   -->
+      
+      <!-- =============================================================== -->
+      <!--   Experimental Design -->
+      <!-- =============================================================== -->
 
-                        <!-- <table name="HyperLinks" -->
-                        <!-- displayName="Link Outs" -->
-                        <!-- queryRef="DatasetTables.HyperLinks"> -->
-                        <!--   <columnAttribute name="dataset_id" inReportMaker="false" internal="true"/> -->
-                        <!--   <columnAttribute name="dataset_name" inReportMaker="false" internal="true"/> -->
-                        <!--   <columnAttribute name="text" displayName="Description"/> -->
-                        <!--   <columnAttribute name="url" internal="true"/> -->
+      <linkAttribute name="bulk_download_url" displayName="Accession" help="download these data from ArrayExpress" internal="true">
+        <displayText>$$accession$$</displayText>
+        <url>$$download_url$$$$accession$$</url>
+      </linkAttribute>
 
-                        <!--   <columnAttribute name="description" internal="true"/> -->
+           
+      <attributeQueryRef ref="DatasetAttributes.ProtocolDescription">
+        <columnAttribute name="protocol_description" displayName="Protocol Overview" inReportMaker="false" internal="true"/>
+      </attributeQueryRef>
 
+      <table name="protocol_images" displayName="Cell Stages"
+	     inReportMaker="false"
+	     queryRef="DatasetTables.ProtocolImages">
+	<columnAttribute name="dataset_id" internal="true"/>
+	<columnAttribute name="image_file" internal="true"/>
+	<columnAttribute name="image_caption" internal="true"/>
+	<textAttribute name="stages" displayName="Cell Stages">
+	  <text>
+	    <![CDATA[
+		     <figure class="protocol-image-container figure">
+		     <img class="protocol-image figure-img img-fluid rounded" src="../../../images/$$dataset_id$$/$$image_file$$"/>
+		     <figcaption class="figure-caption protocol-image-caption">$$image_caption$$</figcaption>
+		     </figure>
+	    ]]>
+	  </text>
+	</textAttribute>
+      </table>
 
-                        <!--   <linkAttribute name="hyper_link" inReportMaker="false" internal="false" -->
-                        <!-- displayName="Link Out"> -->
-
-                        <!--     <displayText> -->
-                        <!--       <![CDATA[ -->
-                        <!--                $$text$$ -->
-                        <!--       ]]> -->
-                        <!--     </displayText> -->
-                        <!--     <url> -->
-                        <!--       <![CDATA[ -->
-                        <!--                $$url$$ -->
-                        <!--       ]]> -->
-                        <!--     </url> -->
-                        <!--   </linkAttribute> -->
-                        <!-- </table>   -->
-
-
-                        <table name="Datasets" displayName="Dataset Overview" queryRef="DatasetTables.Datasets">
-                                <columnAttribute name="child_dataset_id" inReportMaker="false" internal="true"/>
-                                <columnAttribute name="dataset_name" displayName="Dataset" inReportMaker="false" internal="false"/>
-                                <columnAttribute name="dataset_summary" displayName="Summary" inReportMaker="false" internal="false"/>
-                        </table>
-                        
-                        <table name="Searches" displayName="Search Data" queryRef="DatasetTables.Searches">
-                                <columnAttribute name="search_display_name" inReportMaker="false" internal="true"/>
-                                <columnAttribute name="search_name" inReportMaker="false" internal="true"/>
-                                <columnAttribute name="taxon" inReportMaker="false" internal="true"/>
-
-                                <linkAttribute name="search_url" displayName="Search" internal="false">
-                                        <displayText><![CDATA[$$search_display_name$$ <i class="fa fa-arrow-circle-right"></i>]]></displayText>
-                                        <url>../../search/$$taxon$$/$$search_name$$</url>
-                                </linkAttribute>
-                        </table>
-                 
-                </recordClass>
-        </recordClassSet>
+    </recordClass>
+  </recordClassSet>
 </wdkModel>
-            
+

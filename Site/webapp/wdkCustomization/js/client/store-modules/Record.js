@@ -259,6 +259,6 @@ function getStorageKey(descriptor, record) {
 }
 
 function isGeneRecord(record) {
-  return record.recordClassName === 'GeneRecordClasses.GeneRecordClass';
+  return record.recordClassName != 'DatasetRecordClasses.DatasetRecordClass';
 }
 
