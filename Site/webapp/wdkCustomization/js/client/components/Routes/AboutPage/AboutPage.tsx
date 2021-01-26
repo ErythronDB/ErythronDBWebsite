@@ -23,12 +23,12 @@ interface Resource {
 const Resources: React.FC<{}> = () => {
     return (
         <Row className="mt-5">
-            <Col>
+            <Col xs={5}>
             <h1>Data Sources</h1>
                 <Accordion >
                     <Card>
                         <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                            <Accordion.Toggle as={Card.Header} eventKey="0">
                                 ErythronDB Datasets: Transcriptomics
                             </Accordion.Toggle>
                         </Card.Header>
@@ -41,11 +41,11 @@ const Resources: React.FC<{}> = () => {
                   
                     <Card>
                         <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                            <Accordion.Toggle as={Card.Header} eventKey="1">
                                 ErythronDB Datasets: Proteomics
                             </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey="0">
+                        <Accordion.Collapse eventKey="1">
                             <Card.Body> 
                                 {_resources.map((res) => _buildResource(res, "Proteomics"))}
                             </Card.Body>
@@ -54,11 +54,11 @@ const Resources: React.FC<{}> = () => {
 
                     <Card>
                         <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                            <Accordion.Toggle as={Card.Header} eventKey="2">
                                 Gene Annotation
                             </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey="0">
+                        <Accordion.Collapse eventKey="2">
                             <Card.Body> 
                                 {_resources.map((res) => _buildResource(res, "Gene Annotation"))}
                             </Card.Body>
@@ -67,11 +67,11 @@ const Resources: React.FC<{}> = () => {
                     
                     <Card>
                         <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="3">
+                            <Accordion.Toggle as={Card.Header}  eventKey="3">
                                 Functional Annotation
                             </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey="0">
+                        <Accordion.Collapse eventKey="3">
                             <Card.Body> 
                                 {_resources.map((res) => _buildResource(res, "Functional Annotation"))}
                             </Card.Body>
@@ -80,11 +80,11 @@ const Resources: React.FC<{}> = () => {
 
                     <Card>
                         <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                            <Accordion.Toggle as={Card.Header}  eventKey="4">
                                 Array Annotation
                             </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey="0">
+                        <Accordion.Collapse eventKey="4">
                             <Card.Body> 
                                 {_resources.map((res) => _buildResource(res, "Array Annotation"))}
                             </Card.Body>
@@ -93,11 +93,11 @@ const Resources: React.FC<{}> = () => {
 
                     <Card>
                         <Card.Header>
-                            <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                            <Accordion.Toggle as={Card.Header} eventKey="5">
                                 Ontologies
                             </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey="0">
+                        <Accordion.Collapse eventKey="5">
                             <Card.Body> 
                                 {_resources.map((res) => _buildResource(res, "Ontology"))}
                             </Card.Body>
