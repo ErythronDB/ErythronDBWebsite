@@ -343,7 +343,7 @@ export function SubmitButton(
 ) {
   return props.submitting
     ? <div className={cx('SubmittingIndicator')}></div>
-    : <button type="submit" className="btn">
+    : <button type="submit" className="btn btn-info">
         {getSubmitButtonText(props.submissionMetadata, props.submitButtonText)}
       </button>;
 }

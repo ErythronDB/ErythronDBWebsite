@@ -31,24 +31,26 @@ const STRINGNetwork: React.SFC<GeneNetworkResult> = props => {
     const { organism, genes, webAppUrl } = props;
 
     const [loading, setLoading] = useState(true);
-
+  
     useEffect(() => {
         if (genes) {
-
-            getSTRING('https://string-db.org', {
-                'ncbiTaxonId': organism,
+           getSTRING('https://string-db.org', {
+                'species': organism,
                 'identifiers': genes,
                 'network_flavor': 'confidence',
-                'caller_identity': webAppUrl
+                'caller_identity': webAppUrl,
+                'block_structure_pics_in_bubbles': 1
             }).then(function (val) { setLoading(false) }) // callback to set loading = false
         }
     }, []);
 
     return (
         <div>
-            <LoadingIndicator loading={loading}></LoadingIndicator>
-            <div id="stringEmbedded"></div>
+        <LoadingIndicator loading={loading}></LoadingIndicator>
+        <div id="stringEmbedded"></div>
         </div>
+     
+
     );
 }
 
