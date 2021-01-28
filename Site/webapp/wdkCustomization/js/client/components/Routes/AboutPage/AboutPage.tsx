@@ -4,8 +4,6 @@ import { Link as RouterLink } from "wdk-client/Components";
 import { safeHtml } from "wdk-client/Utils/ComponentUtils";
 import { CompositeService as WdkService } from "wdk-client/Service/ServiceMixins";
 
-import tocbot from 'tocbot';
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
