@@ -1,5 +1,7 @@
 package org.cbil.erythrondb.model.stepanalysis.enrichment;
 
+import org.cbil.erythrondb.model.stepanalysis.PluginUtil;
+
 import static org.gusdb.fgputil.FormatUtil.NL;
 import static org.gusdb.fgputil.FormatUtil.TAB;
 
@@ -18,7 +20,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,14 +35,11 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import org.apache.log4j.Logger;
-
-
 import org.gusdb.fgputil.FormatUtil;
 
 import org.gusdb.fgputil.db.runner.BasicResultSetHandler;
 import org.gusdb.fgputil.db.runner.SQLRunner;
 import org.gusdb.fgputil.db.runner.SingleLongResultSetHandler;
-import org.gusdb.fgputil.db.runner.SingleLongResultSetHandler.Status;
 
 import org.gusdb.fgputil.runtime.GusHome;
 
@@ -79,15 +77,15 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	private static final String INPUT_FILE_PREFIX = "goa_counts";
 
 
-	public ValidationBundle validateFormParams(Map<String, String[]> formParams) throws WdkModelException {
+	public ValidationBundle validateFormParams(Map<String, String> formParams) throws WdkModelException {
 
 		ValidationBundleBuilder errors = ValidationBundle.builder(ValidationLevel.SEMANTIC);
 
 		// validate pValueCutoff
-		EnrichmentPluginUtil.validatePValue(formParams, errors);
+		PluginUtil.validatePValue(formParams, errors);
 
 		// validate ontology
-		String ontology = EnrichmentPluginUtil.getSingleAllowableValueParam(GO_ASSOC_ONTOLOGY_PARAM_KEY, formParams,
+		String ontology = PluginUtil.getSingleAllowableValueParam(GO_ASSOC_ONTOLOGY_PARAM_KEY, formParams,
 				errors);
 
 		// only validate further if the above pass
@@ -111,28 +109,25 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	 */
 	private JSONObject getAnnotatedGeneCountTotals(String ontology) throws WdkModelException, WdkUserException {
 
-		String idSql = EnrichmentPluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
-		String organism = getFormParams().get(ORGANISM_PARAM_KEY)[0];
-
+		String idSql = PluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
+	
 		String sql = "SELECT *" + NL + "FROM (" + NL + "SELECT b.ontology_abbrev AS ontology," + NL
 				+ "(jsonb_build_object('background', b.num_annotated_genes) || "
 				+ "jsonb_build_object('result', r.num_annotated_genes))::text AS tallies" + NL + "FROM  " + GOA_TOTALS_TABLE
 				+ " b," + NL
 				+ "(SELECT goa_tc.ontology_abbrev AS ontology, COUNT(DISTINCT goa.source_id) AS num_annotated_genes" + NL
-				+ "FROM " + GOA_TRANSITIVE_CLOSURE_TABLE + " goa_tc, " + NL + GOA_TABLE + " goa," + NL // link through to make
-																																																// sure only get TC
-																																																// counts for terms
-																																																// directly annotated
+				+ "FROM " + GOA_TRANSITIVE_CLOSURE_TABLE + " goa_tc, " + NL + GOA_TABLE + " goa," + NL 
+				// link through to make sure only get TC counts for terms directly annotated
 				+ "(" + idSql + ") ids" + NL + "WHERE ids.source_id = goa.source_id" + NL
 				+ "AND ids.source_id = goa_tc.source_id" + NL + "AND goa.ontology_term_id = goa_tc.ontology_term_id" + NL
 				+ "AND goa.ontology_abbrev ='" + ontology + "'" + NL + "GROUP BY goa_tc.ontology_abbrev) r" + NL
-				+ "WHERE b.ontology_abbrev = r.ontology" + NL + "AND b.organism = ?) a";
+				+ "WHERE b.ontology_abbrev = r.ontology) a";
 
 		logger.debug("get-annotated-gene-counts SQL:" + sql);
 
 		DataSource ds = getWdkModel().getAppDb().getDataSource();
 		BasicResultSetHandler result = new SQLRunner(ds, sql, "count-filtered-go-terms")
-				.executeQuery(new Object[] { organism }, new Integer[] { Types.VARCHAR }, new BasicResultSetHandler());
+				.executeQuery(new BasicResultSetHandler());
 
 		if (result.getNumRows() < 1) {
 			throw new WdkModelException("No result found in count query: " + sql);
@@ -159,8 +154,8 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 
 		// TODO get GO Levels for pie Charts
 
-		String idSql = EnrichmentPluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
-		String organism = getFormParams().get(ORGANISM_PARAM_KEY)[0];
+		String idSql = PluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
+		String organism = PluginUtil.getSingleAllowableValueParam(ORGANISM_PARAM_KEY, getFormParams(), null);
 
 		String sql = "WITH r AS (" + idSql + ")," + NL
 
@@ -239,7 +234,7 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	
 	private void validateFilteredGoTerms(String ontology, ValidationBundleBuilder errors) throws WdkModelException {
 
-		String idSql = EnrichmentPluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
+		String idSql = PluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
 		// check against direct annotations
 		String sql = "SELECT COUNT(distinct goa.go_term_id) AS counts" + NL + "FROM " + GOA_TABLE + " goa," + NL + "("
 				+ idSql + ") r" + NL + "WHERE goa.source_id = r.source_id" + NL + "AND goa.ontology_abbrev='" + ontology
@@ -262,14 +257,10 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 
 	@Override
 	protected String[] getCommand(AnswerValue answerValue) throws WdkModelException, WdkUserException {
-		Map<String, String[]> params = getFormParams();
-		for (String pkey : params.keySet()) {
-			logger.debug("param: " + pkey);
-			logger.debug("value: " + Arrays.toString(params.get(pkey)));
-		}
-
-		String pValueCutoff = EnrichmentPluginUtil.getPvalueCutoff(params);
-		String ontology = EnrichmentPluginUtil.getSingleAllowableValueParam(GO_ASSOC_ONTOLOGY_PARAM_KEY, params, null);
+		Map<String, String> params = getFormParams();
+		
+		String pValueCutoff = PluginUtil.getPvalueCutoff(params);
+		String ontology = PluginUtil.getSingleAllowableValueParam(GO_ASSOC_ONTOLOGY_PARAM_KEY, params, null);
 
 		try {
 			String inputFile = generateTermCountFile(ontology);
@@ -366,12 +357,12 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		private List<ResultRow> _resultData;
 		private String _imageDownloadPath;
 		private String _downloadPath;
-		private Map<String, String[]> _formParams;
+		private Map<String, String> _formParams;
 		private String _goTermBaseUrl;
 		private String _revigoInputList;
 		private JSONArray _header;
 
-		public ResultViewModel(String downloadPath, List<ResultRow> resultData, Map<String, String[]> formParams,
+		public ResultViewModel(String downloadPath, List<ResultRow> resultData, Map<String, String> formParams,
 				String imageDownloadPath, String revigoInputList) {
 			this._downloadPath = downloadPath;
 			this._formParams = formParams;
@@ -417,11 +408,11 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		}
 
 		public String getPvalueCutoff() {
-			return EnrichmentPluginUtil.getPvalueCutoff(_formParams);
+			return PluginUtil.getPvalueCutoff(_formParams);
 		}
 
 		public String getGoOntologies() {
-			return FormatUtil.join(_formParams.get(GoEnrichmentPlugin.GO_ASSOC_ONTOLOGY_PARAM_KEY), ", ");
+			return PluginUtil.getArrayParamValueAsString(GO_ASSOC_ONTOLOGY_PARAM_KEY, _formParams, null);
 		}
 
 		public String getGoTermBaseUrl() {

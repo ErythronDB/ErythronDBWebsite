@@ -1,23 +1,23 @@
-package org.cbil.erythrondb.model.stepanalysis.enrichment;
+package org.cbil.erythrondb.model.stepanalysis;
 
 import static org.gusdb.fgputil.FormatUtil.NL;
 
+import java.util.List;
 import java.util.Map;
 
 import org.gusdb.fgputil.FormatUtil;
 import org.gusdb.wdk.model.WdkModelException;
-import org.gusdb.wdk.model.WdkUserException;
 
 import org.gusdb.fgputil.validation.ValidationBundle.ValidationBundleBuilder;
 
 import org.gusdb.wdk.model.answer.AnswerValue;
-
+import org.gusdb.wdk.model.query.param.AbstractEnumParam;
 import org.apache.log4j.Logger;
 
-public class EnrichmentPluginUtil {
+public class PluginUtil {
 
   // static class
-  private EnrichmentPluginUtil() {
+  private PluginUtil() {
   }
 
   private static final String PVALUE_PARAM_KEY = "pvalue_threshold";
@@ -25,7 +25,8 @@ public class EnrichmentPluginUtil {
 
   private static final String GENE_ATTRIBUTES_TABLE = "CBIL.GeneAttributes";
 
-  private static final Logger logger = Logger.getLogger(EnrichmentPluginUtil.class);
+  private static final Logger logger = Logger.getLogger(PluginUtil.class);
+
 
   /**
    * Return value for param where only one value is allowed, but is required
@@ -36,14 +37,18 @@ public class EnrichmentPluginUtil {
    * @return valid param value as String, or null if errors occurred
    */
   // @param errors may be null if the sources have been previously validated.
-  public static String getSingleAllowableValueParam(String paramKey, Map<String, String[]> formParams,
+  public static String getSingleAllowableValueParam(String paramKey, Map<String, String> formParams,
       ValidationBundleBuilder errors) {
-    String[] values = formParams.get(paramKey);
-    if ((values == null || values.length != 1) && errors != null) {
-      errors.addError(paramKey, "Missing required parameter, or more than one provided.");
+    List<String> values = AbstractEnumParam.convertToTerms(formParams.get(paramKey));
+    if (values.isEmpty()) {
+      errors.addError(paramKey, "Missing required parameter.");
       return null;
     }
-    return values[0];
+    if (values.size() > 1) {
+      errors.addError(paramKey, "Only one value allowed for this parameter.");
+      return null;
+    }
+    return values.get(0);
   }
 
   /**
@@ -58,40 +63,38 @@ public class EnrichmentPluginUtil {
    *                   appended
    * @return SQL compatible list string
    */
-  public static String getArrayParamValueAsString(String paramKey, Map<String, String[]> formParams,
+  public static String getArrayParamValueAsString(String paramKey, Map<String, String> formParams,
       ValidationBundleBuilder errors) {
-    String[] values = formParams.get(paramKey);
-    if ((values == null || values.length == 0) && errors != null) {
+    List<String> values = AbstractEnumParam.convertToTerms(formParams.get(paramKey));
+    if (values.isEmpty()) {
       errors.addError(paramKey, "Missing required parameter.");
     }
     return "'" + FormatUtil.join(values, "','") + "'";
   }
 
-  public static String getOrgSpecificIdSql(AnswerValue answerValue, Map<String, String[]> params)
+  public static String getOrgSpecificIdSql(AnswerValue answerValue, Map<String, String> params)
       throws WdkModelException {
     // must wrap idSql with code that filters by the passed organism param
-
+    String singleOrg = AbstractEnumParam.convertToTerms(params.get(ORGANISM_PARAM_KEY)).get(0);
     String idSQL = "SELECT ga.source_id FROM " + GENE_ATTRIBUTES_TABLE + " ga," + NL + "(" + answerValue.getIdSql()
         + ") r" + NL + "WHERE ga.source_id = r.source_id" + NL + "AND ga.organism ='"
-        + params.get(ORGANISM_PARAM_KEY)[0] + "'";
+        + singleOrg + "'";
 
     logger.debug("ORGANISM-SPECIFIC SQL: " + idSQL);
     return idSQL;
   }
 
-  public static String getPvalueCutoff(Map<String, String[]> params) {
-    logger.debug(PVALUE_PARAM_KEY);
-    logger.debug(params.toString());
-    return params.get(PVALUE_PARAM_KEY)[0];
+  public static String getPvalueCutoff(Map<String, String> params) {
+    return params.get(PVALUE_PARAM_KEY);
   }
-  
-  public static void validatePValue(Map<String, String[]> formParams, ValidationBundleBuilder errors) {
+
+  public static void validatePValue(Map<String, String> formParams, ValidationBundleBuilder errors) {
     if (!formParams.containsKey(PVALUE_PARAM_KEY)) {
       errors.addError(PVALUE_PARAM_KEY, "Missing required parameter.");
     }
     else {
       try {
-        float pValueCutoff = Float.parseFloat(formParams.get(PVALUE_PARAM_KEY)[0]);
+        float pValueCutoff = Float.parseFloat(formParams.get(PVALUE_PARAM_KEY));
         if (pValueCutoff <= 0 || pValueCutoff > 1) throw new NumberFormatException();
       }
       catch (NumberFormatException e) {
