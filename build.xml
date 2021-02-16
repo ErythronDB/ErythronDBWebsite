@@ -41,7 +41,7 @@
   </target>
 
 
-  <target name="ErythronDBWebsite/Model-Installation" >
+  <target name="ErythronDBWebsite/Model-Installation"> <!--depends="ErythronDB-WDKModel-Patch">-->
     <ant target="defaultComponentInstall">
       <property name="project" value="ErythronDBWebsite" />
       <property name="component" value="Model" />
@@ -140,7 +140,7 @@
 
 
   <!-- patch WDKWebsite/View, rebuild, and then build ErythronDBWebsite/Site -->
-  <target name="ErythronDBWebsite/Site-WebInstallation" depends="ErythronDB-Website-Patch"> 
+  <target name="ErythronDBWebsite/Site-WebInstallation"> <!-- depends="ErythronDB-Website-Patch"> -->
     <ant target="eupathWebComponentInstall">
       <property name="project" value="ErythronDBWebsite" />
       <property name="component" value="Site" />
