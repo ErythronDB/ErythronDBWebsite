@@ -5,12 +5,15 @@ import { get } from 'lodash';
 import { _studies } from '../../data/studies';
 import { _workspace, _about } from '../../data/menu';
 import { StateProps } from './Header';
-import AutoCompleteSearch from '../Components/AutoCompleteSearch/AutoCompleteSearch';
+import { AutoCompleteSearch, SearchResult, buildRouteFromResult, buildSummaryRoute } from '../Components/AutoCompleteSearch/AutoCompleteSearch';
 import { Link, HelpIcon, Icon } from 'wdk-client/Components';
 
 import { showLoginForm, showLogoutWarning } from 'wdk-client/Actions/UserSessionActions';
 import { DispatchAction } from 'wdk-client/Core/CommonTypes';
 import { User } from 'wdk-client/Utils/WdkUser';
+
+import { useGoto } from "../../hooks";
+
 
 import {
     SubmissionMetadata,
@@ -216,8 +219,10 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Menu
     constructor(props: MenuProps) {
         super(props)
     }
+    
 
     render() {
+        const goto = useGoto();
         const {
             projectId,
             user,
@@ -253,8 +258,13 @@ const Menu: React.ComponentClass<MenuProps> = class extends React.Component<Menu
                             <p>Click on the <i className="fa fa-upload"></i> button to upload a list of genes.</p>
                         </div>
                     </HelpIcon>
-                    <AutoCompleteSearch canGrow={true} />
-                    {/*<MenuSearch webAppUrl={webAppUrl} />*/}
+                    <AutoCompleteSearch canGrow={false}    
+                    onSelect={(value: SearchResult, searchTerm: string) =>
+                                            goto(
+                                                !value || value.type == "summary"
+                                                    ? buildSummaryRoute(searchTerm)
+                                                    : buildRouteFromResult(value)
+                                            )}/>
                 </div>
                 <Button variant="info" href={`${webAppUrl}/app/search/gene/upload`} id="menu-upload-button" title="Upload a list of genes." disabled>
                     <i className="fa fa-upload"></i>

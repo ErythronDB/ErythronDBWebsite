@@ -7,7 +7,7 @@ import FAQPageController from './controller/FAQPageController';
  * Wrap ErythronDB Routes
  */
 export const wrapRoutes = ebrcRoutes => [
-    {path: '/', component: HomePageController},
+    {path: '/', component: HomePageController, rootClassNameModifier: 'erythrondb-home'},
     { path: "/lookup", component: SiteSearchResultPageController },
     { path: "/about", component: AboutPageController },
     { path: "/faq", component: FAQPageController },

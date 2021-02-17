@@ -6,5 +6,5 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 initialize();
 
-import 'site/wdkCustomization/css/client.css'; 
+
 import 'site/wdkCustomization/sass/client.scss';
