@@ -16,15 +16,19 @@
     <param-value>/service</param-value>
   </context-param>
 
+<listener>
+    <listener-class>se.jiderhamn.classloader.leak.prevention.ClassLoaderLeakPreventorListener</listener-class>
+  </listener>
+
   <listener>
     <listener-class>org.cbil.erythrondb.controller.ApplicationInitListener</listener-class>
   </listener>
 
 
   <!-- add back in after moving away from stable branch 41 -->
-  <listener>
+  <!-- <listener>
     <listener-class>org.gusdb.wdk.controller.InitListenerForBeans</listener-class>
-  </listener>
+  </listener>        -->
 
   <listener>
     <listener-class>org.gusdb.wdk.jmx.JmxInitListener</listener-class>
@@ -42,6 +46,15 @@
   <filter-mapping>
     <filter-name>HttpResponseLogger</filter-name>
     <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>AssetBundlerFilter</filter-name>
+    <filter-class>org.eupathdb.common.controller.AssetBundleFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AssetBundlerFilter</filter-name>
+    <url-pattern>/bundles/*</url-pattern>
   </filter-mapping>
 
   <!-- UrlRewrite filter -->
@@ -94,7 +107,7 @@
   <!-- WDK RESTful client filter -->
   <servlet>
     <servlet-name>WDKClient</servlet-name>
-    <jsp-file>/WEB-INF/includes/client/index.jsp</jsp-file>
+    <jsp-file>/WEB-INF/includes/client.html</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>WDKClient</servlet-name>
@@ -134,7 +147,7 @@
 
   <!-- The Welcome File List -->
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+   <!-- <welcome-file>index.jsp</welcome-file> -->
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
