@@ -106,7 +106,7 @@ const StudyCard: React.SFC<StudyCardProps> = props => {
     const { webAppUrl, study } = props;
     return (
         <Card className="study-card border-info">
-            <Card.Header className="bg-primary text-light">
+            <Card.Header className="bg-dark text-light">
                 <Card.Title>{study.display_name}</Card.Title>
             </Card.Header>
 

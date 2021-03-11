@@ -1,9 +1,8 @@
-//@import '~eupathdb/wdkCustomization/css/client.scss'; 
-
 @import './variables';
 @import './mixins';
 @import './style';
 @import './wdk.scss';
+@import './records.scss';
 
 // Override default variables before the import
 //$body-bg: #000;
@@ -22,59 +21,5 @@ $theme-colors: (
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
 
-
-a {
-  &.btn-dark {
-    color: $primary-light !important;
-  }
-
-  &.btn-secondary {
-    color: white !important;
-  }
-
-  &.btn-primary {
-    color: $primary-light !important;
-  }
-
-  &.btn-light {
-    color: $primary-dark !important;
-  }
-  
-  &.btn-info {
-    color: $primary-dark !important;
-  }
-}
-
-.protocol-image-caption {
-  width: 50%;
-}
-
-.font-size-9 {
-  font-size: 0.9em;
-}
-
-
-
-.erythrondb-RecordOverviewItem {
-  white-space: nowrap;
-  width: 100%;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.erythrondb-RecordOverviewItem, .erythrondb-RecordOverviewLink {
-  margin: .2em 0;
-  font-size: 1.2em;
-  max-width: 75em;
-}
-
-.erythrondb-RecordOverviewItem[data-label]:before {
-  content: attr(data-label) ": ";
-  font-weight: bold;
-}
-
-.erythrondb-RecordOverviewItem:empty {
-  display: none;
-}
-
+// @import './buttons.scss';
 @import '../js/client/components/Components.scss';

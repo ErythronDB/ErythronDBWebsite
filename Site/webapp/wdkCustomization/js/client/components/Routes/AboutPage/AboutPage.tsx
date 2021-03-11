@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Link as RouterLink } from "wdk-client/Components";
-import { safeHtml } from "wdk-client/Utils/ComponentUtils";
-import { CompositeService as WdkService } from "wdk-client/Service/ServiceMixins";
+import { makeClassNameHelper } from "wdk-client/Utils/ComponentUtils";
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -14,6 +13,10 @@ import Nav from 'react-bootstrap/Nav';
 
 import { _resources } from '../../../data/resources';
 import { useWdkEffect } from "wdk-client/Service/WdkService";
+
+import "./AboutPage.scss";
+
+const cx = makeClassNameHelper('edb-about');
 
 const TOCBOT_OPTIONS = {
     tocSelector: '.js-toc',
@@ -38,7 +41,7 @@ interface Resource {
 const AboutPageNav: React.FC<{}> = () => {
     return (
 
-        <Nav defaultActiveKey="#about" className="mt-5 flex-column">
+        <Nav defaultActiveKey="#about" className={`mt-5 flex-column ${cx("side-nav")}`}>
             <Nav.Link href="#about">About ErythronDB</Nav.Link>
             <Nav.Link eventKey="#datasets">Datasets and External Resources</Nav.Link>
             <Nav.Link eventKey="#methods">Methods</Nav.Link>
@@ -131,11 +134,11 @@ const AboutSection: React.FC<{}> = () => {
         <Row>
             <Col md={10}>
                 <a href="about"></a><h2 className="mt-5">About the ErythronDB Project</h2>
-                <p>The Erythron Database (ErythronDB) is a resource dedicated to facilitating better understanding of the cellular and molecular underpinnings of mammalian erythropoiesis.  It provides a searchable database of murine gene expression during murine primitive, definitive, and stress erythroid cells at progressive stages of maturation.  ErythronDB also allows users to explore the role of erythropoietin (the principal hormone regulating erythropoiesis) and identify potential targets of EPO-signaling via comparison of rhEPO-treated versus control cells in mouse (microarray expression) and human (proteomics) datasets.</p>
+                <p className={cx("p")}>The Erythron Database (ErythronDB) is a resource dedicated to facilitating better understanding of the cellular and molecular underpinnings of mammalian erythropoiesis.  It provides a searchable database of murine gene expression during murine primitive, definitive, and stress erythroid cells at progressive stages of maturation.  ErythronDB also allows users to explore the role of erythropoietin (the principal hormone regulating erythropoiesis) and identify potential targets of EPO-signaling via comparison of rhEPO-treated versus control cells in mouse (microarray expression) and human (proteomics) datasets.</p>
                 <p>ErythronDB was developed by a team of researchers at the University of Pennsylvania, in collaboration with [Palis Lab] / [Wojchowski Lab].  </p>
-                <h3 className="mt-4">To Cite this Resource</h3>
+                <h3 className={`${cx("p")} mt-4`}>To Cite this Resource</h3>
                 <p>Kingsley P.D., Greenfest-Allen E., Frame J., Bushnell T., Malik J., McGrath K.E., Stoeckert C.J., and Palis J. Ontogeny of erythroid gene expression. eBlood. 2012. PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/23243273">23243273</a></p>
-                <h3 className="mt-4">Funding</h3>
+                <h3 className={`${cx("p")} mt-4`}>Funding</h3>
                 <p>National Institute of Diabetes and Digestive Kidney Diseases (Erythroid Lineage Molecular Toolbox); NIDDK R01 DK 071116</p>
 
             </Col>

@@ -14,18 +14,11 @@ import { User } from 'wdk-client/Utils/WdkUser';
 
 import { useGoto } from "../../hooks";
 
-
-import {
-    SubmissionMetadata,
-    submitQuestion,
-    updateParamValue,
-    updateActiveQuestion
-} from "wdk-client/Actions/QuestionActions";
-import { QuestionState } from "wdk-client/StoreModules/QuestionStoreModule";
-
 import Button from 'react-bootstrap/Button';
 
+import { makeClassNameHelper } from "wdk-client/Utils/ComponentUtils";
 
+const cx = makeClassNameHelper('edb-menu-');
 
 interface DispatchProps {
     actions?: {
@@ -194,88 +187,53 @@ const DropDownStudyMenu: React.ComponentClass<DropDownMenuProps> = class extends
     }
 }
 
-const MenuSearch: React.FC<{ webAppUrl: string }> = (props: { webAppUrl: string }) => {
+const Menu: React.FC<MenuProps> = ({ projectId, user, actions, webAppUrl }) => {
+    const {
+        showLoginForm,
+        showLogoutWarning
+    } = actions;
+
+    const goto = useGoto();
+    const isGuest = user && user.isGuest ? true : false;
+
     return (
-        <form className="form-inline my-2 my-lg-0" method="GET" action={`${props.webAppUrl}/app/search/gene/id`}>
-            <input type="hidden" name="autoRun" />
-            <label htmlFor="menu-search-input" className="mr-3">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <Link className="navbar-brand text-white" to="/">ErythronDB</Link>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu-collapse" aria-controls="menu-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="menu-collapse">
+                <ul className="navbar-nav mr-auto">
+                    <DropDownStudyMenu text="Transcriptomics (Mm)" studyItems={_studies} type="transcriptomics" webAppUrl={webAppUrl} />
+                    <DropDownStudyMenu text="Proteomics (Hs)" studyItems={_studies} type="proteomics" webAppUrl={webAppUrl} />
+                    <DropDownMenu text="Workspace" items={_workspace} webAppUrl={webAppUrl} />
+                    <DropDownMenu text="About" items={_about} webAppUrl={webAppUrl} />
+                    {!isGuest && <UserMenu user={user}></UserMenu>}
+                </ul>
                 <HelpIcon>
                     <div>
-                        <p>Search for a gene by entering the official gene symbol, NCBI Entrez Gene, MGI, or Ensembl gene identifier in the search box
-                    or click on the <i className="fa fa-upload"></i> button to upload a list of genes.</p>
-                        <p>Gene symbol searches are case sensitive; e.g., GATA1 - human, Gata1 - mouse.</p>
+                        <p>Search for a gene by keyword or identifier (official gene symbol, NCBI Entrez Gene, MGI, or Ensembl).</p>
+                        <p>Click on the <i className="fa fa-upload"></i> button to upload a list of genes.</p>
                     </div>
                 </HelpIcon>
-            </label>
-
-            <input id="menu-search-input" className="form-control" type="text" placeholder="Search for a gene..." name="param.generic_gene_identifier" aria-label="GeneSearch" />
-            <button type="submit" id="menu-search-submit" className="btn btn-info text-white"><i className="fa fa-search"></i></button>
-        </form>
-    )
-}
-
-
-const Menu: React.ComponentClass<MenuProps> = class extends React.Component<MenuProps> {
-    constructor(props: MenuProps) {
-        super(props)
-    }
-    
-
-    render() {
-        const goto = useGoto();
-        const {
-            projectId,
-            user,
-            actions,
-            webAppUrl
-        } = this.props;
-
-        const {
-            showLoginForm,
-            showLogoutWarning
-        } = actions;
-
-        // const isGuest = get(user, 'isGuest', false);
-        const isGuest = user && user.isGuest ? true : false;
-
-        return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <Link className="navbar-brand text-primary" to="/">ErythronDB</Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu-collapse" aria-controls="menu-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="menu-collapse">
-                    <ul className="navbar-nav mr-auto">
-                        <DropDownStudyMenu text="Transcriptomics (Mm)" studyItems={_studies} type="transcriptomics" webAppUrl={webAppUrl} />
-                        <DropDownStudyMenu text="Proteomics (Hs)" studyItems={_studies} type="proteomics" webAppUrl={webAppUrl} />
-                        <DropDownMenu text="Workspace" items={_workspace} webAppUrl={webAppUrl} />
-                        <DropDownMenu text="About" items={_about} webAppUrl={webAppUrl} />
-                        {!isGuest && <UserMenu user={user}></UserMenu>}
-                    </ul>
-                    <HelpIcon>
-                        <div>
-                            <p>Search for a gene by keyword or identifier (official gene symbol, NCBI Entrez Gene, MGI, or Ensembl).</p>
-                            <p>Click on the <i className="fa fa-upload"></i> button to upload a list of genes.</p>
-                        </div>
-                    </HelpIcon>
-                    <AutoCompleteSearch canGrow={false}    
+                <div className="edb-spacer mr-2"></div>
+                <AutoCompleteSearch canGrow={false}
                     onSelect={(value: SearchResult, searchTerm: string) =>
-                                            goto(
-                                                !value || value.type == "summary"
-                                                    ? buildSummaryRoute(searchTerm)
-                                                    : buildRouteFromResult(value)
-                                            )}/>
-                </div>
-                <Button variant="info" href={`${webAppUrl}/app/search/gene/upload`} id="menu-upload-button" title="Upload a list of genes." disabled>
-                    <i className="fa fa-upload"></i>
-                </Button>
-                {isGuest && <Button variant="link" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
-                {isGuest && <Button variant="outline-warning" href={`${webAppUrl}/app/user/registration`}>Sign Up</Button>}
+                        goto(
+                            !value || value.type == "summary"
+                                ? buildSummaryRoute(searchTerm)
+                                : buildRouteFromResult(value)
+                        )} />
+            </div>
+            <Button className={cx("button")} href={`${webAppUrl}/app/search/gene/upload`} id="menu-upload-button" title="Upload a list of genes." disabled>
+                <i className="fa fa-upload"></i>
+            </Button>
+            {isGuest && <Button className={cx("button")} onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
+            {isGuest && <Button className={cx("button")} href={`${webAppUrl}/app/user/registration`}>Sign Up</Button>}
 
-                {!isGuest && <Button variant="link" onClick={() => showLogoutWarning()}>Logout</Button>}
-            </nav>
-        )
-    }
+            {!isGuest && <Button className={cx("button")} onClick={() => showLogoutWarning()}>Logout</Button>}
+        </nav>
+    )
 }
 
 const mapDispatchToProps = (dispatch: DispatchAction): DispatchProps => ({

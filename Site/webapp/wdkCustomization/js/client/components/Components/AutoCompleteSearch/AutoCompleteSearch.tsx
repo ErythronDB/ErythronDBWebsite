@@ -34,7 +34,7 @@ export const AutoCompleteSearch: React.FC<MultiSearch> = ({ canGrow, onSelect })
             if (inputValue && inputValue.length > 2) {
                 setSearchInProgress(true);
                 service
-                    ._fetchJson<SearchResult[]>("get", `/search/site?term=${inputValue}`)
+                    ._fetchJson<SearchResult[]>("get", `/lookup/gene?query=${inputValue}`)
                     .then((res) => {
                         setSearchInProgress(false);
                         setOptions(
@@ -110,7 +110,8 @@ export const AutoCompleteSearch: React.FC<MultiSearch> = ({ canGrow, onSelect })
                         placeholder="Search by keyword or identifier"
                         {...rest}
                         {...InputProps}
-                        startAdornment={<Search fontSize={"small"} htmlColor={theme.palette.grey[600]} />}
+                        className="autocomplete-input"
+                        startAdornment={<Search fontSize={"small"} htmlColor="lightgrey" />}
                         endAdornment={searchInProgress ? <CircularProgress size={16} /> : null}
                     />
                 );

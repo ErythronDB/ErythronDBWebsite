@@ -25,9 +25,9 @@ const Header: React.ComponentClass<StateProps> = class extends React.Component<S
         } = this.props;
 
         return (
-            <div id="header">
+            <header className="ebrc-Header">
                 <Menu webAppUrl={webAppUrl} projectId={projectId} user={user} />
-            </div>
+            </header>
         )
     }
 }

@@ -7,6 +7,8 @@ import { CompositeService as WdkService } from "wdk-client/Service/ServiceMixins
 import { SearchResult, buildRouteFromResult } from "../../Components/AutoCompleteSearch/AutoCompleteSearch";
 import { chain, isEmpty, isObject, get } from "lodash";
 
+import "./SiteSearchResultPage.scss";
+
 interface SiteSearchResultPageNavProps {
     mm_genes: number;
     hs_genes: number;

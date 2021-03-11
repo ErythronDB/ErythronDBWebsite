@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="/ErythronDB/images/ErythronDB/favicon.ico" type="image/x-icon" rel="shortcut icon"/>
     <script>
-      window.__asset_path_remove_me_please__ = "${webapp_ctx}/bundles/";
+      window.__asset_path_remove_me_please__ = "/ErythronDB/bundles/";
 
       window.__SITE_CONFIG__ = {
         rootElement: "#wdk-container",
@@ -14,8 +14,7 @@
         endpoint: "/ErythronDB/service",
         displayName: "ErythronDB",
         projectId: "ErythronDB",
-        webAppUrl: "/ErythronDB/app"
-    
+        webAppUrl: "/ErythronDB"
       };
 
       <%-- Initialize google analytics. A pageview event will be sent in the JavaScript code. --%>
@@ -23,7 +22,7 @@
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      ga('create', '${gaId}', 'auto');
+      ga('create', 'UA-1423305-11', 'auto');
     </script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="/ErythronDB/bundles/modern/site-client.bundle.css"/>

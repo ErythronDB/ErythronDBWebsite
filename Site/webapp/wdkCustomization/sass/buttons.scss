@@ -1,0 +1,26 @@
+
+a {
+  &.btn-dark {
+    color: $primary-light !important;
+  }
+
+  &.btn-secondary {
+    color: white !important;
+  }
+
+  &.btn-primary {
+    color: $primary-light !important;
+  }
+
+  &.btn-light {
+    color: $primary-dark !important;
+  }
+  
+  &.btn-info {
+    color: $primary-dark !important;
+  }
+}
+
+.btn:not(.btn-link, .btn-primary, .btn-dark, .btn-light, .btn-info) { // style Eupath plain .btn
+  @extend .btn-info;
+}

@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import CardDeck from 'react-bootstrap/CardDeck';
 
+import "./HomePage.scss";
 interface HomePageProps {
     webAppUrl?: string;
 }
