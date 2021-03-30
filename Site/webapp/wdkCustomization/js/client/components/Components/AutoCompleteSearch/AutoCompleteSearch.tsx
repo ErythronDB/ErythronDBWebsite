@@ -130,7 +130,7 @@ export const AutoCompleteSearch: React.FC<MultiSearch> = ({ canGrow, onSelect })
 };
 
 export const buildRouteFromResult = (result: SearchResult) => `/record/${result.record_type}/${result.primary_key}`,
-    buildSummaryRoute = (searchTerm: string) => `/searchResults?searchTerm=${searchTerm}`;
+    buildSummaryRoute = (searchTerm: string) => `/lookup?searchTerm=${searchTerm}`;
 
 const _truncateMatch = (matchedTerm: string, searchTerm: string) => {
     const offset = matchedTerm.toLowerCase().indexOf(searchTerm.toLowerCase()),
