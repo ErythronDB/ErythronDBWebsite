@@ -4,6 +4,7 @@ import HeaderRecordActions from '../RecordHeaderActions';
 import { RecordHeaderAttributes, HeaderActions } from '../RecordProps';
 import { Link } from 'wdk-client/Components';
 import { HumanIgvBrowser } from '../../Visualizations/IgvBrowser';
+import { safeHtml } from "wdk-client/Utils/ComponentUtils";
 
 import Col from 'react-bootstrap/Col';
 
@@ -67,7 +68,7 @@ const HumanGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
                     {record.attributes.ortholog_record_link &&
                         <li>
                             <span className="label">Mouse Ortholog</span>:{" "}
-                            <Link to={record.attributes.ortholog_record_link.url}>{record.attributes.ortholog_record_link.displayText}</Link>
+                            {safeHtml(record.attributes.ortholog_record_link)}
                         </li>
                     }
                 </ul>

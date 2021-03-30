@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import HeaderRecordActions from '../RecordHeaderActions';
 import { RecordHeaderAttributes, HeaderActions } from '../RecordProps';
 import { Link } from 'wdk-client/Components';
+import { safeHtml } from "wdk-client/Utils/ComponentUtils";
 import { MouseIgvBrowser } from '../../Visualizations/IgvBrowser';
 
 import Col from 'react-bootstrap/Col';
@@ -66,7 +67,7 @@ const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
                     {record.attributes.ortholog_record_link &&
                         <li>
                             <span className="label">Human Ortholog</span>:{" "}
-                            <Link to={record.attributes.ortholog_record_link.url}>{record.attributes.ortholog_record_link.displayText}</Link>
+                            {safeHtml(record.attributes.ortholog_record_link)}
                         </li>
                     }
                 </ul>

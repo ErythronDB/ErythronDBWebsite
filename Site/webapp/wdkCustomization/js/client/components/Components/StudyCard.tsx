@@ -74,7 +74,7 @@ const SearchButton: React.SFC<SearchButtonProps> = props => {
                     </Popover>
                 }>
      
-                <Button id={`${study_id}_${search_type.internal}`} variant="secondary" className="card-search" 
+                <Button id={`${study_id}_${search_type.internal}`} className="card-search btn-icon" 
                         href={search_url}>
                     <i className={`fa ${search_type.icon}`}></i>
                 </Button>
