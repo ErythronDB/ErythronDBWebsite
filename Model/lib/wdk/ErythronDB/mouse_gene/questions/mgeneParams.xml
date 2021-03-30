@@ -19,6 +19,10 @@
       <suggest default="Epor,Gata1,Jak2,Stat3"/>
     </datasetParam>
 
+	  <answerParam name="mgene_answer" readonly="true" visible="false">
+			<recordClass ref="MouseGeneRecordClasses.MouseGeneRecordClass" />
+		</answerParam>
+
     <!-- =================================================================== -->
     <!-- Percentile -->
     <!-- =================================================================== -->

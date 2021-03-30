@@ -34,8 +34,6 @@
         <columnAttribute name="summary" displayName="Summary" sortable="false" help= "A short description of the dataset."/>
         <columnAttribute name="full_description" displayName="Description" sortable="false" help="A full description of the dataset."/>
         <columnAttribute name="caveat" internal="true"/>
-        <columnAttribute name="is_public" internal="true" inReportMaker="false"/>
-        <columnAttribute name="study_access" internal="true" inReportMaker="false"/>
         <columnAttribute name="project_availability" internal="true" inReportMaker="false"/>
         <columnAttribute name="study_categories" inReportMaker="false" internal="true"/>
         <columnAttribute name="card_points" inReportMaker="false" internal="true"/>

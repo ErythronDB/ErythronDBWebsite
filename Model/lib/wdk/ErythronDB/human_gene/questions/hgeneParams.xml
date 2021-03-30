@@ -19,6 +19,10 @@
       <suggest default="EPOR,GATA1,JAK2,STAT3"/>
     </datasetParam>
 
+    <answerParam name="hgene_answer" readonly="true" visible="false">
+			<recordClass ref="HumanGeneRecordClasses.HumanGeneRecordClass" />
+		</answerParam>
+
     <!-- =================================================================== -->
     <!-- Dataset -->
     <!-- =================================================================== -->

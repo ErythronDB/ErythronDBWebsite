@@ -59,34 +59,26 @@
 	  <column name="ortholog_taxon" columnType="string"/>
 	  <column name="ortholog_source_id" columnType="string"/>
 	  <column name="ortholog_symbol" columnType="string"/>
+	  <column name="ortholog_record_link" columnType="string"/>
 	  <sql>
 	    <![CDATA[
-		     WITH Human AS (	     
-		     SELECT gene_id, source_id, gene_symbol, annotation->>'mgd_id' AS mgi_id 
-		     FROM CBIL.GeneAttributes 
-		     WHERE organism = 'Human' and annotation->>'mgd_id' IS NOT NULL),
-		     Orthology AS (
-		     SELECT h.source_id AS human_source_id, h.gene_symbol AS human_gene_symbol,
-		     ga.source_id AS mouse_source_id, ga.gene_symbol AS mouse_gene_symbol, h.mgi_id AS mapping_mgi_id
-		     FROM CBIL.GeneAttributes ga,
-		     Human h
-		     WHERE annotation->>'mgi_id' = h.mgi_id),
-		     MappedOrthology AS (
-		     SELECT DISTINCT ga.source_id,
-		     CASE WHEN organism = 'Human' THEN mouse_source_id ELSE human_source_id END AS ortholog_source_id,
-		     CASE WHEN organism = 'Human' THEN mouse_gene_symbol ELSE human_gene_symbol END AS ortholog_symbol,
-		     CASE WHEN organism = 'Human' THEN 'Mm' ELSE 'Hs' END AS ortholog_taxon
-		     FROM 
-		     CBIL.GeneAttributes ga, 
-		     Orthology o
-		     WHERE o.human_source_id = ga.source_id
-		     OR o.mouse_source_id = ga.source_id)
-		     SELECT id.source_id, m.ortholog_source_id, m.ortholog_symbol, m.ortholog_taxon,
-		     '@PROJECT_ID@'::text AS project_id
-		     FROM (##WDK_ID_SQL##) id
-		     LEFT OUTER JOIN 
-		     MappedOrthology m
-		     ON id.source_id = m.source_id
+		  WITH id AS (##WDK_ID_SQL##),
+Ortholog AS (
+SELECT id.source_id, 
+CASE WHEN id.source_id = mouse.source_id THEN human.gene_symbol ELSE mouse.gene_symbol END AS ortholog_gene_symbol,
+CASE WHEN id.source_id = mouse.source_id THEN human.source_id ELSE mouse.source_id END AS ortholog_source_id,
+CASE WHEN id.source_id = mouse.source_id THEN 'Hs' ELSE 'Mm' END AS ortholog_taxon
+FROM CBIL.GeneAttributes human, 
+CBIL.GeneAttributes mouse, id
+WHERE mouse.annotation->>'mgi_id' = human.annotation->>'mgd_id'
+AND (human.source_id = id.source_id OR mouse.source_id = id.source_id))
+SELECT id.source_id, '@PROJECT_ID@'::text AS project_id, 
+string_agg(o.ortholog_gene_symbol, ' // ' ORDER BY o.ortholog_source_id) AS ortholog_symbol,
+string_agg(o.ortholog_source_id, ' // ' ORDER BY o.ortholog_source_id) AS ortholog_source_id,
+string_agg('<a href="/@WEBAPP@/app/record/' || lower(o.ortholog_taxon) || '/' || o.ortholog_source_id
+|| '">' || o.ortholog_gene_symbol || '</a>', ' // ' ORDER BY o.ortholog_source_id)  AS ortholog_record_link
+FROM Ortholog o RIGHT OUTER JOIN id ON id.source_id = o.source_id
+GROUP BY id.source_id, '@PROJECT_ID@'::text, o.ortholog_taxon
 	    ]]>
 		     
 	  </sql>

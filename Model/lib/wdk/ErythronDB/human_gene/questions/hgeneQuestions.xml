@@ -1,0 +1,45 @@
+<wdkModel>
+    <questionSet name="hs_transforms" displayName="Mm to Hs Orthologs">
+        <question name="mm_to_hs_transform" displayName="Transform to Hs Orthologs" shortDisplayName="Hs Orthologs" queryRef="hs_transform_queries.from_mm" recordClassRef="HumanGeneRecordClasses.HumanGeneRecordClass">
+
+            <description><![CDATA[
+                    Retrieve human (<em>Hs</em>) gene orthologs for the genes this search result.  After this transformation, the strategy can be extended further to compare against human proteomics datasets.
+                    Ortholog data (MGI -> HGNC mappings) are taken from the <a href="@HUGO_URL@">HUGO Gene Nomenclature Committe (HGNC)</a> approved human gene annotation.
+                  ]]>            </description>
+
+            <summary>
+	        Retrieve human gene orthologs for the genes this search result.
+            </summary>
+
+        </question>
+    </questionSet>
+
+
+    <querySet name="hs_transform_queries" queryType="id" isCacheable="true">
+
+        <sqlQuery name="from_mm">
+            <paramRef ref="mgeneParams.mgene_answer"/>
+            <column name="source_id"/>
+            <column name="project_id"/>
+            <column name="wdk_weight"/>
+            <sql>
+                <![CDATA[
+                        WITH result AS ($$mgene_answer$$) 
+
+                        SELECT DISTINCT first_value(human.source_id) OVER wnd AS source_id, 
+                        'ErythronDB'::text AS project_id, 
+                        first_value(result.wdk_weight) OVER wnd AS wdk_weight
+                        FROM CBIL.GeneAttributes human, 
+                        CBIL.GeneAttributes mouse, result
+                        WHERE mouse.annotation->>'mgi_id' = human.annotation->>'mgd_id'
+                        AND mouse.source_id = result.source_id
+
+                        WINDOW wnd AS ( -- transform only allows for 1 to 1 mappings
+		                PARTITION BY result.source_id ORDER BY (lower(mouse.gene_symbol) = lower(human.gene_symbol)) DESC
+		                ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+		                )                
+                ]]>
+            </sql>
+        </sqlQuery>
+    </querySet>
+</wdkModel>
