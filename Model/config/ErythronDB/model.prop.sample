@@ -21,4 +21,4 @@ REVIGO_BASE_URL=http://revigo.irb.hr/
 STRING_URL=https://string-db.org/
 REACTOME_PATHWAY_URL=https://reactome.org/content/detail/
 KEGG_PATHWAY_URL=https://www.kegg.jp/kegg-bin/show_pathway?
-
+HUGO_URL=https://www.genenames.org/
