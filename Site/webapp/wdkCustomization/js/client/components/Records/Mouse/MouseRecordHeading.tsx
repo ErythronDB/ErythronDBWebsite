@@ -70,6 +70,13 @@ const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
                             {safeHtml(record.attributes.ortholog_record_link)}
                         </li>
                     }
+
+                    {record.attributes.note &&
+                        <li>
+                            <span className="label">NOTE</span>:{" "}
+                            {safeHtml(record.attributes.note)}
+                        </li>
+                    }
                 </ul>
             </Col>
             <Col>

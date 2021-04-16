@@ -12,7 +12,8 @@ export interface RecordHeaderAttributes {
     location: string,
     chromosome: string
     start_min: number,
-    end_max: number
+    end_max: number,
+    note: string
 }
 }
 

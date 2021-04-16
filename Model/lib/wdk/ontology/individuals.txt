@@ -56,6 +56,7 @@ MouseGeneRecordClasses.MouseGeneRecordClass.study005_genotype_comparisons	http:/
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_treatment_comparisons	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_treatment_comparisons				gene	3		record	download
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_reporter_profiles	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_reporter_profiles				gene	2		record	
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_gene_profiles	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_gene_profiles				gene	1		record	
+MouseGeneRecordClasses.MouseGeneRecordClass.note	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	attribute	note				gene	1		record-internal	download
 													
 ## Human Gene Attributes ##													
 													

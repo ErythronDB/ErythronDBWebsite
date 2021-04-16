@@ -92,5 +92,18 @@ GROUP BY id.source_id, '@PROJECT_ID@'::text, o.ortholog_taxon
 
 			</sql>
 		</sqlQuery>
+
+		<sqlQuery name="Note">
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="note"/>
+			<sql>
+			<![CDATA[
+			SELECT ga.source_id, '@PROJECT_ID@'::text AS project_id, gn.note
+			FROM CBIL.GeneAttributes ga, ErythronDB.GeneNote gn
+			WHERE gn.gene_id = ga.gene_id
+			]]>
+			</sql>
+		</sqlQuery>
 	</querySet>
 </wdkModel>

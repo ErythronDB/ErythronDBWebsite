@@ -87,6 +87,11 @@
 				<columnAttribute name="ortholog_record_link" internal="false" inReportMaker="false" displayName="Human Ortholog" truncateTo="5000"/>
 			</attributeQueryRef>
 
+			<attributeQueryRef ref="GeneAttributes.Note">
+				<columnAttribute name="note" internal="true" />
+			</attributeQueryRef>
+
+
 			<!-- =================================================================== -->
 			<!-- Tables -->
 			<!-- =================================================================== -->
@@ -152,9 +157,7 @@
 			<!-- Comparisons: Study001 - Palis -->
 			<!-- =================================================================== -->
 
-			<!-- <attributeQueryRef ref="study001_attributes.Contaminant">
-				<columnAttribute name="study001_contaminant" internal="false" displayName="Contaminant?" help="" />
-			</attributeQueryRef> -->
+		
 
 			<table name="study001_within_lineage_comparisons" displayName="Within Lineage Comparisons" inReportMaker="true" queryRef="study001_GeneTables.WithinLineageComparisons">
 				<description>

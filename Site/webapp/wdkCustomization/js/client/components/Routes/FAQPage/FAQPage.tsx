@@ -20,7 +20,7 @@ const FAQ: React.FC<{}> = () => {
            
 
             <Col>
-               
+               <h1>Coming soon...</h1>
             </Col>
         </Row>
 
