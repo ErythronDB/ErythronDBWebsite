@@ -94,14 +94,17 @@ GROUP BY id.source_id, '@PROJECT_ID@'::text, o.ortholog_taxon
 		</sqlQuery>
 
 		<sqlQuery name="Note">
-			<column name="source_id"/>
-			<column name="project_id"/>
-			<column name="note"/>
+			<column name="source_id" columnType="string"/>
+			<column name="project_id" columnType="string"/>
+			<column name="note" columnType="string"/>
 			<sql>
 			<![CDATA[
-			SELECT ga.source_id, '@PROJECT_ID@'::text AS project_id, gn.note
+			WITH id AS (##WDK_ID_SQL##),
+			note AS (
+			SELECT ga.source_id,  gn.note
 			FROM CBIL.GeneAttributes ga, ErythronDB.GeneNote gn
-			WHERE gn.gene_id = ga.gene_id
+			WHERE gn.gene_id = ga.gene_id)
+			SELECT id.source_id, '@PROJECT_ID@'::text AS project_id, n.note FROM Note n RIGHT OUTER JOIN id ON id.source_id = n.source_id
 			]]>
 			</sql>
 		</sqlQuery>
