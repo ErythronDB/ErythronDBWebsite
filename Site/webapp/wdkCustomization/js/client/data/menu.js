@@ -8,8 +8,12 @@ var _workspace = [
         route: "/workspace/strategies"
     },
     {
-        text: "Upload Genes",
-        route: "/upload",
+        text: "Upload Mouse Genes",
+        route: "/search/mm/mm_upload",
+    },
+    {
+        text: "Upload Human Genes",
+        route: "/search/hs/hs_upload",
     }
 ];
 

@@ -10,3 +10,8 @@ cp $PROJECT_HOME/ErythronDBWebsite/patches/SearchInputSelector.tsx $PROJECT_HOME
 # echo "parameterHandlers.jsx - fix radioBox depended params"
 # cp $PROJECT_HOME/ErythronDBWebsite/patches/parameterHandlers.jsx $PROJECT_HOME/WDKWebsite/View/webapp/wdk/js/components/parameterHandlers.jsx
 
+echo "user registration"
+cp $PROJECT_HOME/ErythronDBWebsite/patches/UserRegistration.jsx $PROJECT_HOME/WDKClient/Client/src/Views/User/Profile/UserRegistration.jsx
+
+echo "logout message"
+cp $PROJECT_HOME/ErythronDBWebsite/patches/UserSessionStoreModule.ts $PROJECT_HOME/WDKClient/Client/src/StoreModules/UserSessionStoreModule.ts

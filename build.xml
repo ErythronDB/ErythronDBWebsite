@@ -134,6 +134,15 @@
                                                       ErythronDBWebsite-Installation,                                                      
                                                       ErythronDBWebsite/Site-WebInstallation"></target>
 
+  <replace dir="${webappTargetDir}/WEB-INF/includes"
+             propertyFile="${webPropFile}" >
+      <include name="client.html" />
+      <replacefilter token="@build@" property="projectId"/>
+      <replacefilter token="@assetPath@" property="assetPath" />
+      <replacefilter token="@googleAnalyticsId@" property="googleAnalyticsId" />
+      <replacefilter token="@webappCtx@" property="webappCtx" />
+    </replace>
+
  
   <target name="ErythronDB-Website-Patch">
     <echo message="Applying patches from ${projectsDir}/${project}/patches" />
@@ -144,6 +153,16 @@
     <property name="patch-full-path-wdkclient" location="${projectsDir}/${project}/patches/patch_WDKClient.bash" />
     <exec executable="${patch-full-path-wdkclient}" />
   </target>
+
+  <replace dir="${projectsDir}/EbrcWebsiteCommon/Site/webapp/wdkCustomization/js/client/components" propertyFile="${webPropFile}">
+    <include name="CookieBanner.jsx"/>
+    <replaceFilter token="@webappCtx@" property="webappCtx"/>
+  </replace>
+
+<replace dir="${projectsDir}/WDKClient/Client/src/Views/User/Profile" propertyFile="${webPropFile}">  
+    <include name="UserRegistration.jsx"/>
+    <replaceFilter token="@webappCtx@" property="webappCtx"/>
+  </replace>
 
 
   <!-- patch WDKWebsite/View, rebuild, and then build ErythronDBWebsite/Site -->

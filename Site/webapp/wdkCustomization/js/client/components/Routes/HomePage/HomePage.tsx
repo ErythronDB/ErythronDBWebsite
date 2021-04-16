@@ -44,12 +44,6 @@ const WelcomePanel: React.FC<HomePageProps> = props => {
 
                 <h3 className="mb-4 subtitle">A platform for exploring the cellular and molecular underpinnings of mammalian erythropoiesis</h3>
             </Col>
-            {/* <Col sm={2} className="my-auto">
-                <ButtonGroup vertical>
-                    <Button size="lg" variant="secondary" className="py-3" href="#studies">Browse Studies <i className="ml-3 fa fa-caret-right"></i></Button>
-                    <Button size="lg" variant="secondary" className="py-3" href={`${webAppUrl}/showQuestion.do?questionFullName=GeneQuestions.GeneUpload`}>Upload a list of Genes <i className="fa fa-upload"></i></Button>
-                </ButtonGroup>
-              </Col> */}
         </Row>
     )
 }
@@ -84,12 +78,8 @@ const HomePage: React.FC<HomePageProps> = props => {
 
     return (
         <Container fluid={true} className="home-page no-gutters px-0">
-
             <WelcomePanel webAppUrl={webAppUrl} />
-
-            {/*<StudyTitle title="Browse or mine results from Transcriptomics (Mm) and Proteomics (Hs) Studies" />*/}
             <StudyPanel webAppUrl={webAppUrl} studies={_studies} />
-
         </Container >
 
     )

@@ -5,9 +5,19 @@ $nav-text-color: $nav-color;
 $nav-text-color-active: $primary-light;
 // $nav-font-size: 14px;
 
-#menu-upload-button {
-  color: $primary-light !important;
-  margin-left: 5px;
+.menu-upload-button {
+  //color: $primary-light !important;
+  //margin-left: 5px;
+  border-bottom: none !important;
+  padding: 6px !important;
+  background-color: #ceafaa !important;
+  .fa {
+    font-size: 0.8rem !important;
+  }
+}
+
+.menu-button {
+  border-bottom: none !important;
 }
 
 .edb-menu-button {

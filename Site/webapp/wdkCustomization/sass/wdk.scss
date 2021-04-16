@@ -26,3 +26,7 @@ a:link {
 .wdk-RecordSidebar {
  //   left: -300px;
 }
+
+.wdk-QuestionFormQuestionHeader {
+    top: 0rem; // fix gap on sticky that scrolls the form above the title
+}

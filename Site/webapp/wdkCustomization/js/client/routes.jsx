@@ -3,6 +3,9 @@ import HomePageController from './controller/HomePageController';
 import SiteSearchResultPageController from './controller/SiteSearchResultPageController';
 import AboutPageController from './controller/AboutPageController';
 import FAQPageController from './controller/FAQPageController';
+import PrivacyPolicyPageController from './controller/PrivacyPolicyPageController';
+
+export const STATIC_ROUTE_PATH = '/static-content';
 /**
  * Wrap ErythronDB Routes
  */
@@ -11,5 +14,9 @@ export const wrapRoutes = ebrcRoutes => [
     { path: "/lookup", component: SiteSearchResultPageController },
     { path: "/about", component: AboutPageController },
     { path: "/faq", component: FAQPageController },
-  ...ebrcRoutes
+    { path: "/privacy-policy", component: PrivacyPolicyPageController },
+
+    ...ebrcRoutes,
+  
+
 ];

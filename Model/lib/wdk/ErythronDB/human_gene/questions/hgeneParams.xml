@@ -19,6 +19,16 @@
       <suggest default="EPOR,GATA1,JAK2,STAT3"/>
     </datasetParam>
 
+    <enumParam name="taxon" prompt="Taxon" displayType="checkBox" multiPick="false" quote="true" readonly="true">
+      <enumList>
+        <enumValue>
+          <term>Human (Hs)</term>
+          <internal>Human</internal>
+        </enumValue>
+      </enumList>
+      <help><![CDATA[Selected taxon; cannot be revised.  To search against mouse genes, please begin a <a href="/@WEBAPP@/app/search/gene/upload">new upload.</a>]]></help>
+    </enumParam>
+
     <answerParam name="hgene_answer" readonly="true" visible="false">
 			<recordClass ref="HumanGeneRecordClasses.HumanGeneRecordClass" />
 		</answerParam>

@@ -88,6 +88,7 @@ const SearchButtonGroup: React.SFC<SearchButtonGroupProps> = props => {
 
     return (
         <ButtonToolbar className="justify-content-md-center">
+            
             {study.individual_datasets && study.individual_datasets.search.map((item: string, index: any) => {
                 return (item === 'dexp' || item === 'mdexp'
                     ? <SearchButton webAppUrl={webAppUrl} key={index} searchKey={item} study_id={study.dataset_id} 
@@ -120,7 +121,8 @@ const StudyCard: React.SFC<StudyCardProps> = props => {
                 <Link to={`record/dataset/${study.dataset_id}`} className="card-link">View study details <i className="fa fa-caret-right"></i></Link>
             </Card.Body>
 
-            <Card.Footer className="bg-white text-primary">
+            <Card.Footer className="bg-white text-primary text-center">
+                <Card.Subtitle className="mb-2 attribution text-primary">Search Study Data</Card.Subtitle>
                 <SearchButtonGroup webAppUrl={webAppUrl} study={study} ></SearchButtonGroup>
             </Card.Footer>
         </Card >

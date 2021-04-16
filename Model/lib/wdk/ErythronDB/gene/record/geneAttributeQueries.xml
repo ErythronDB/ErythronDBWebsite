@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
-    <querySet name="GeneAttributes" queryType="attribute" isCacheable="false">
-	
-	<sqlQuery name="Basic">
-	    <column name="source_id"/>
-	    <column name="project_id"/>
-	    <column name="project"/>
-	    <column name="symbol"/>
-	    <column name="gene_type"/>
-	    <column name="chromosome"/>
-	    <column name="start_min"/>
-	    <column name="end_max"/>
-	    <column name="strand"/>
-	    <column name="organism"/>
-	    <column name="product"/>
-	    <column name="locus"/>
-	    <column name="location"/>
-	    <sql>
-	      <![CDATA[
+	<querySet name="GeneAttributes" queryType="attribute" isCacheable="false">
+		<sqlQuery name="GenericBasic">
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<sql>
+				<![CDATA[
+			SELECT source_id, '@PROJECT_ID@'::text AS project_id FROM CBIL.GeneAttributes
+			]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Basic">
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="project"/>
+			<column name="symbol"/>
+			<column name="gene_type"/>
+			<column name="chromosome"/>
+			<column name="start_min"/>
+			<column name="end_max"/>
+			<column name="strand"/>
+			<column name="organism"/>
+			<column name="product"/>
+			<column name="locus"/>
+			<column name="location"/>
+			<sql>
+				<![CDATA[
 		       SELECT source_id,
 		       '@PROJECT_ID@'::text AS project_id,
 		       '@PROJECT_ID@'::text AS project,
@@ -33,15 +42,15 @@
 		       chromosome || ':' || start_min::text || '-' || end_max::text || ':' || CASE WHEN is_reversed THEN '-' ELSE '+' END AS location
 		       FROM CBIL.GeneAttributes
 	      ]]>
-	    </sql>
-	</sqlQuery>
+			</sql>
+		</sqlQuery>
 
-	<sqlQuery name="Synonyms">
-	  <column name="source_id"/>
-	  <column name="project_id"/>
-	  <column name="synonym"/>
-	  <sql>
-	    <![CDATA[
+		<sqlQuery name="Synonyms">
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="synonym"/>
+			<sql>
+				<![CDATA[
 		     SELECT ga.source_id, '@PROJECT_ID@'::text AS project_id, 
 		     string_agg(gi.external_id, ', ' ORDER BY dbref_id DESC) AS synonym
 		     FROM
@@ -50,18 +59,18 @@
 		     AND gi.dbref_id IN ('prev_symbol', 'alias_symbol')
 		     GROUP BY gi.gene_id, ga.source_id
 	    ]]>
-	  </sql>
-	</sqlQuery>
-	
-	<sqlQuery name="Ortholog">
-	  <column name="source_id" columnType="string"/>
-	  <column name="project_id" columnType="string"/>
-	  <column name="ortholog_taxon" columnType="string"/>
-	  <column name="ortholog_source_id" columnType="string"/>
-	  <column name="ortholog_symbol" columnType="string"/>
-	  <column name="ortholog_record_link" columnType="string"/>
-	  <sql>
-	    <![CDATA[
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Ortholog">
+			<column name="source_id" columnType="string"/>
+			<column name="project_id" columnType="string"/>
+			<column name="ortholog_taxon" columnType="string"/>
+			<column name="ortholog_source_id" columnType="string"/>
+			<column name="ortholog_symbol" columnType="string"/>
+			<column name="ortholog_record_link" columnType="string"/>
+			<sql>
+				<![CDATA[
 		  WITH id AS (##WDK_ID_SQL##),
 Ortholog AS (
 SELECT id.source_id, 
@@ -80,8 +89,8 @@ string_agg('<a href="/@WEBAPP@/app/record/' || lower(o.ortholog_taxon) || '/' ||
 FROM Ortholog o RIGHT OUTER JOIN id ON id.source_id = o.source_id
 GROUP BY id.source_id, '@PROJECT_ID@'::text, o.ortholog_taxon
 	    ]]>
-		     
-	  </sql>
-	</sqlQuery>
-    </querySet>
+
+			</sql>
+		</sqlQuery>
+	</querySet>
 </wdkModel>

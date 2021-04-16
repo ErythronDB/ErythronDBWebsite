@@ -1,46 +1,96 @@
 <wdkModel>
-    <questionSet name="mm_transforms" displayName="Hs to Mm Orthologs">
-        <question name="hs_to_mm_transform" displayName="Transform to Mm Orthologs" shortDisplayName="Mm Orthologs" queryRef="mm_transform_queries.from_hs" recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+  <questionSet name="mm_questions" displayName="Mm questions">
+    
+    <question name="hs_to_mm_transform"
+	      displayName="Transform to Mm Orthologs"
+	      shortDisplayName="Mm Orthologs"
+	      queryRef="mm_question_queries.from_hs"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
 
-            <description><![CDATA[
-                    Retrieve mouse (<em>Mm</em>) gene orthologs for the genes this search result.  After this transformation, the strategy can be extended further to compare against murine transcriptomics datasets.
-                    Ortholog data (HGNC -> MGI mappings) are taken from the <a href="@HUGO_URL@">HUGO Gene Nomenclature Committe (HGNC)</a> approved human gene annotation.
-                  ]]>            </description>
+      <description>
+	<![CDATA[
+		 Retrieve mouse (<em>Mm</em>) gene orthologs for the genes this search result.  After this transformation, the strategy can be extended further to compare against murine transcriptomics datasets.
+		 Ortholog data (HGNC -> MGI mappings) are taken from the <a href="@HUGO_URL@">HUGO Gene Nomenclature Committe (HGNC)</a> approved human gene annotation.
+	]]>
+      </description>
 
-            <summary>
-	        Retrieve mouse gene orthologs for the genes this search result.
-            </summary>
-
-        
-        </question>
-    </questionSet>
+      <summary>
+	Retrieve mouse gene orthologs for the genes this search result.
+      </summary>    
+    </question>
 
 
-    <querySet name="mm_transform_queries" queryType="id" isCacheable="true">
+    <question name="mm_upload"
+	      displayName="User Gene List"
+	      shortDisplayName="Genes"
+	      queryRef="mm_question_queries.upload"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+      
+      <description>
+	<![CDATA[
+		 <p>Provide a list of genes/proteins of interest by entering a new line or comma separated list of genes below.</p>
+		 <p>Alternatively upload a text file containing a new line separated list of genes.</p>
+		 <p>Genes/proteins can be specified using Ensembl, Entrez, MGI, Uniprot, or Official Gene Symbol.  Symbols will map thru synonyms only if the <em>Include Synonyms?</em> option is set to <em>Yes</em>.</p> 
+	]]>
+      </description>
 
-        <sqlQuery name="from_hs">
-            <paramRef ref="hgeneParams.hgene_answer"/>
-            <column name="source_id"/>
-            <column name="project_id"/>
-            <column name="wdk_weight"/>
-            <sql>
-                <![CDATA[
-                        WITH result AS ($$hgene_answer$$) 
+      <summary>
+	Upload a custom gene list.
+      </summary>    
+    </question>
 
-                        SELECT DISTINCT first_value(mouse.source_id) OVER wnd AS source_id, 
-                        'ErythronDB'::text AS project_id, 
-                        first_value(result.wdk_weight) OVER wnd AS wdk_weight
-                        FROM CBIL.GeneAttributes human, 
-                        CBIL.GeneAttributes mouse, result
-                        WHERE mouse.annotation->>'mgi_id' = human.annotation->>'mgd_id'
-                        AND human.source_id = result.source_id
 
-                        WINDOW wnd AS ( -- transform only allows for 1 to 1 mappings
-		                PARTITION BY result.source_id ORDER BY (lower(mouse.gene_symbol) = lower(human.gene_symbol)) DESC
-		                ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-		                )                
-                ]]>
-            </sql>
-        </sqlQuery>
-    </querySet>
+    
+  </questionSet>
+
+
+  <querySet name="mm_question_queries" queryType="id" isCacheable="true">
+
+    <sqlQuery name="from_hs">
+      <paramRef ref="hgeneParams.hgene_answer"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="wdk_weight"/>
+      <sql>
+	<![CDATA[
+		 WITH result AS ($$hgene_answer$$) 
+		 
+		 SELECT DISTINCT first_value(mouse.source_id) OVER wnd AS source_id, 
+		 'ErythronDB'::text AS project_id, 
+		 first_value(result.wdk_weight) OVER wnd AS wdk_weight
+		 FROM CBIL.GeneAttributes human, 
+		 CBIL.GeneAttributes mouse, result
+		 WHERE mouse.annotation->>'mgi_id' = human.annotation->>'mgd_id'
+		 AND human.source_id = result.source_id
+		 
+		 WINDOW wnd AS ( -- transform only allows for 1 to 1 mappings
+		 PARTITION BY result.source_id ORDER BY (lower(mouse.gene_symbol) = lower(human.gene_symbol)) DESC
+		 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+		 )                
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="upload">
+      <paramRef ref="mgeneParams.taxon"/>
+      <paramRef ref="mgeneParams.ds_gene_identifiers"/>
+      <paramRef ref="geneParams.incl_synonyms"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="wdk_weight"/>
+      <sql>
+	<![CDATA[
+		 WITH ds AS ($$ds_gene_identifiers$$)
+		 SELECT ga.source_id, 
+		 '@PROJECT_ID@'::text AS project_id 
+		 FROM CBIL.GeneIdentifiers gi, ds, CBIL.GeneAttributes ga
+		 WHERE ds.source_id ILIKE gi.external_id
+		 AND ga.gene_id = gi.gene_id
+		 AND (CASE WHEN $$incl_synonyms$$ = 'yes' THEN TRUE ELSE gi.dbref_id NOT IN ('alias_symbol', 'prev_symbol') END)
+		 AND ga.organism = $$taxon$$
+	]]>
+      </sql>
+    </sqlQuery>
+    
+  </querySet>
 </wdkModel>

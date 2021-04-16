@@ -7,3 +7,6 @@ cp $PROJECT_HOME/ErythronDBWebsite/patches/DatasetRecordClasses.DatasetRecordCla
 
 echo "Announcements"
 cp $PROJECT_HOME/ErythronDBWebsite/patches/Announcements.jsx $PROJECT_HOME/EbrcWebsiteCommon/Site/webapp/wdkCustomization/js/client/components/Announcements.jsx
+
+echo "Cookie Banner"
+cp $PROJECT_HOME/ErythronDBWebsite/patches/CookieBanner.jsx $PROJECT_HOME/EbrcWebsiteCommon/Site/webapp/wdkCustomization/js/client/components/CookieBanner.jsx

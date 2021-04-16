@@ -213,7 +213,7 @@ const Menu: React.FC<MenuProps> = ({ projectId, user, actions, webAppUrl }) => {
                 <HelpIcon>
                     <div>
                         <p>Search for a gene by keyword or identifier (official gene symbol, NCBI Entrez Gene, MGI, or Ensembl).</p>
-                        <p>Click on the <i className="fa fa-upload"></i> button to upload a list of genes.</p>
+                        <p>An option to upload a list of genes is provided under the <strong>Workspace</strong> menu.</p>
                     </div>
                 </HelpIcon>
                 <div className="edb-spacer mr-2"></div>
@@ -225,13 +225,11 @@ const Menu: React.FC<MenuProps> = ({ projectId, user, actions, webAppUrl }) => {
                                 : buildRouteFromResult(value)
                         )} />
             </div>
-            <Button className={cx("button")} href={`${webAppUrl}/app/search/gene/upload`} id="menu-upload-button" title="Upload a list of genes." disabled>
-                <i className="fa fa-upload"></i>
-            </Button>
-            {isGuest && <Button className={cx("button")} onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
-            {isGuest && <Button className={cx("button")} href={`${webAppUrl}/app/user/registration`}>Sign Up</Button>}
+          
+            {isGuest && <Button className="menu-button" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
+            {isGuest && <Button className="menu-button" href={`${webAppUrl}/app/user/registration`}>Sign Up</Button>}
 
-            {!isGuest && <Button className={cx("button")} onClick={() => showLogoutWarning()}>Logout</Button>}
+            {!isGuest && <Button className="menu-button" onClick={() => showLogoutWarning()}>Logout</Button>}
         </nav>
     )
 }

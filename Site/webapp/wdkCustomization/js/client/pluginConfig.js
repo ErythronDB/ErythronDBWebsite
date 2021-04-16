@@ -10,17 +10,7 @@ import { StepAnalysisGeneNetworkResults } from "./components/StepAnalysis/StepAn
 import DefaultQuestionForm from "./components/Components/DefaultQuestionForm";
 
 export default [
-  /* {
-      type: 'questionFilter',
-      name: 'matched_transcript_filter_array',
-      component: MatchedTranscriptsFilterPlugin
-    },
-    {
-      type: 'questionFilter',
-      name: 'gene_boolean_filter_array',
-      component: MatchedTranscriptsFilterPlugin
-    },*/
-
+ 
   {
     type: "questionForm",
     component: DefaultQuestionForm,
