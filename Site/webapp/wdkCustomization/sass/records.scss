@@ -23,4 +23,12 @@
   .erythrondb-RecordOverviewItem:empty {
     display: none;
   }
+
+  .attribute-label {
+    font-weight:bold;
+
+    &.note {
+      margin-top:5px;
+    }
+  }
   

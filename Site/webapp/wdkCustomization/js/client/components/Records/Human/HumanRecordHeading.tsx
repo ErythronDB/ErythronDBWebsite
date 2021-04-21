@@ -36,9 +36,9 @@ const HumanGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
             <Col sm={3}>
 
                 <HeaderRecordActions record={record} recordClass={recordClass} headerActions={headerActions} />
-                <h1 className="record-heading mt-3">
-                    {record.attributes.symbol} - {record.displayName}
-                </h1>
+                <h3 className="record-heading mt-3">
+                    <strong>{record.attributes.symbol}</strong> / {record.displayName}
+                </h3>
                 <h2>
                     {record.attributes.product}
                 </h2>
@@ -46,20 +46,20 @@ const HumanGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
 
                     {record.attributes.synonym && (
                         <li>
-                            <span className="label">Also known as</span>: {record.attributes.synonym}
+                            <span className="attribute-label">Also known as</span>: {record.attributes.synonym}
                         </li>
                     )}
 
                     <li>
-                        <span className="label">Organism</span>: <em>Homo sapiens</em>
+                        <span className="attribute-label">Organism</span>: <em>Homo sapiens</em>
                     </li>
 
                     <li>
-                        <span className="label">Gene Type</span>: {record.attributes.gene_type}
+                        <span className="attribute-label">Gene Type</span>: {record.attributes.gene_type}
                     </li>
 
                     <li>
-                        <span className="label">Location</span>: {record.attributes.location}{" "}
+                        <span className="attribute-label">Location</span>: {record.attributes.location}{" "}
                         {record.attributes.locus
                             ? "/ ".concat(record.attributes.locus)
                             : ""}
@@ -67,7 +67,7 @@ const HumanGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
 
                     {record.attributes.ortholog_record_link &&
                         <li>
-                            <span className="label">Mouse Ortholog</span>:{" "}
+                            <span className="attribute-label">Mouse Ortholog</span>:{" "}
                             {safeHtml(record.attributes.ortholog_record_link)}
                         </li>
                     }

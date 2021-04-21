@@ -1,6 +1,10 @@
-.site-search-result {
-    &__section-title {
-        //font-variant: small-caps;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
+.edb-faq--question {
+    font-size: 1.4em;
+    color: #2696ac;
+    text-decoration:underline;
+}
+
+.edb-faq--text {
+    font-size:1.2em;
+    margin-top: 10px;
 }

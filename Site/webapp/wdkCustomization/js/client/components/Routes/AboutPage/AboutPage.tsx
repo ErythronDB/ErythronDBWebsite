@@ -38,13 +38,18 @@ interface Resource {
     category: string
 }
 
+interface Method {
+    name: string,
+    description: string
+}
+
 const AboutPageNav: React.FC<{}> = () => {
     return (
 
-        <Nav defaultActiveKey="#about" className={`mt-5 flex-column ${cx("side-nav")}`}>
-            <Nav.Link href="#about">About ErythronDB</Nav.Link>
-            <Nav.Link eventKey="#datasets">Datasets and External Resources</Nav.Link>
-            <Nav.Link eventKey="#methods">Methods</Nav.Link>
+        <Nav defaultActiveKey="about" className={`mt-5 flex-column ${cx("side-nav")}`}>
+            <Nav.Link href="#about" eventKey="about">About ErythronDB</Nav.Link>
+            <Nav.Link href="#datasets" eventKey="datasets">Datasets and External Resources</Nav.Link>
+            <Nav.Link href="#methods" eventKey="methods">Methods</Nav.Link>
         </Nav>
 
     );
@@ -55,7 +60,7 @@ const ResourcesSection: React.FC<{}> = () => {
     return (
         <Row className="mt-5">
             <Col>
-                <a href="datasets"></a><h2 className="mt-5">Data Sources</h2>
+                <a id="datasets"></a><h2 className="mt-5">Data Sources</h2>
                 <Accordion >
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -133,7 +138,7 @@ const AboutSection: React.FC<{}> = () => {
     return (
         <Row>
             <Col md={10}>
-                <a href="about"></a><h2 className="mt-5">About the ErythronDB Project</h2>
+                <a id="about"></a><h2 className="mt-5">About the ErythronDB Project</h2>
                 <p className={cx("p")}>The Erythron Database (ErythronDB) is a resource dedicated to facilitating better understanding of the cellular and molecular underpinnings of mammalian erythropoiesis.  It provides a searchable database of murine gene expression during murine primitive, definitive, and stress erythroid cells at progressive stages of maturation.  ErythronDB also allows users to explore the role of erythropoietin (the principal hormone regulating erythropoiesis) and identify potential targets of EPO-signaling via comparison of rhEPO-treated versus control cells in mouse (microarray expression) and human (proteomics) datasets.</p>
                 <p>ErythronDB was developed by a team of researchers at the University of Pennsylvania, in collaboration with [Palis Lab] / [Wojchowski Lab].  </p>
                 <h3 className={`${cx("p")} mt-4`}>To Cite this Resource</h3>
