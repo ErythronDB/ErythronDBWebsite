@@ -47,11 +47,9 @@
     <import file="ErythronDB/dataset/questions/datasetParams.xml" />
 
     <!-- import the gene related pieces -->
-    <import file="ErythronDB/gene/record/genericGeneRecord.xml" />
     <import file="ErythronDB/gene/record/geneTableQueries.xml" />
     <import file="ErythronDB/gene/record/geneAttributeQueries.xml" />
     <import file="ErythronDB/gene/questions/geneParams.xml" />
-    <import file="ErythronDB/gene/questions/geneUploadQuestions.xml" />
     
     <import file="ErythronDB/mouse_gene/record/mgeneRecord.xml" />
     <import file="ErythronDB/mouse_gene/record/mgeneAttributeQueries.xml" />
