@@ -5,13 +5,6 @@
   <!--===========================================================================-->
 
   <paramSet name="geneParams">
-    <datasetParam name="ds_gene_identifiers" recordClassRef="GeneRecordClasses.GeneRecordClass" prompt="Gene IDs">
-      <help>
-        <![CDATA[
-		 Enter a list of one or more comma or new-line separated gene identifiers, or select a file to upload.
-	]]>
-      </help>
-    </datasetParam>
 
     <enumParam name="taxon" prompt="Taxon" displayType="checkBox" multiPick="false" quote="true">
       <enumList>
