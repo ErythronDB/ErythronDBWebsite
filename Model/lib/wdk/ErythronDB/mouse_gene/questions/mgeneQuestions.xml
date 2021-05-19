@@ -57,7 +57,7 @@
 		 
 		 SELECT DISTINCT first_value(mouse.source_id) OVER wnd AS source_id, 
 		 'ErythronDB'::text AS project_id, 
-		 first_value(result.wdk_weight) OVER wnd AS wdk_weight
+		 1  AS wdk_weight
 		 FROM CBIL.GeneAttributes human, 
 		 CBIL.GeneAttributes mouse, result
 		 WHERE mouse.annotation->>'mgi_id' = human.annotation->>'mgd_id'
