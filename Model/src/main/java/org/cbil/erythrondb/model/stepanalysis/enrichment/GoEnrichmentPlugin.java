@@ -107,21 +107,28 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	 * @throws WdkModelException
 	 * @throws WdkUserException
 	 */
-	private JSONObject getAnnotatedGeneCountTotals(String ontology) throws WdkModelException, WdkUserException {
+	private JSONObject getAnnotatedGeneCountTotals(String ontology, String organism) throws WdkModelException, WdkUserException {
 
 		String idSql = PluginUtil.getOrgSpecificIdSql(getAnswerValue(), getFormParams());
 	
-		String sql = "SELECT *" + NL + "FROM (" + NL + "SELECT b.ontology_abbrev AS ontology," + NL
-				+ "(jsonb_build_object('background', b.num_annotated_genes) || "
-				+ "jsonb_build_object('result', r.num_annotated_genes))::text AS tallies" + NL + "FROM  " + GOA_TOTALS_TABLE
-				+ " b," + NL
-				+ "(SELECT goa_tc.ontology_abbrev AS ontology, COUNT(DISTINCT goa.source_id) AS num_annotated_genes" + NL
-				+ "FROM " + GOA_TRANSITIVE_CLOSURE_TABLE + " goa_tc, " + NL + GOA_TABLE + " goa," + NL 
+		String sql = "SELECT *" + NL 
+			+ "FROM (" + NL 
+			+ "SELECT b.ontology_abbrev AS ontology," + NL
+			+ "(jsonb_build_object('background', b.num_annotated_genes) || " + NL
+			+ "jsonb_build_object('result', r.num_annotated_genes))::text AS tallies" + NL 
+			+ "FROM  " + GOA_TOTALS_TABLE + " b," + NL
+			+ "(SELECT goa_tc.ontology_abbrev AS ontology, COUNT(DISTINCT goa.source_id) AS num_annotated_genes" + NL
+			+ "FROM " + GOA_TRANSITIVE_CLOSURE_TABLE + " goa_tc, " + NL 
+			+ GOA_TABLE + " goa," + NL 
 				// link through to make sure only get TC counts for terms directly annotated
-				+ "(" + idSql + ") ids" + NL + "WHERE ids.source_id = goa.source_id" + NL
-				+ "AND ids.source_id = goa_tc.source_id" + NL + "AND goa.ontology_term_id = goa_tc.ontology_term_id" + NL
-				+ "AND goa.ontology_abbrev ='" + ontology + "'" + NL + "GROUP BY goa_tc.ontology_abbrev) r" + NL
-				+ "WHERE b.ontology_abbrev = r.ontology) a";
+			+ "(" + idSql + ") ids" + NL 
+			+ "WHERE ids.source_id = goa.source_id" + NL
+			+ "AND ids.source_id = goa_tc.source_id" + NL 
+			+ "AND goa.ontology_term_id = goa_tc.ontology_term_id" + NL
+			+ "AND goa.ontology_abbrev ='" + ontology + "'" + NL
+			+ "GROUP BY goa_tc.ontology_abbrev) r" + NL
+			+ "WHERE b.ontology_abbrev = r.ontology" + NL 
+			+ "AND b.organism = " + organism + ") a";
 
 		logger.debug("get-annotated-gene-counts SQL:" + sql);
 
@@ -261,13 +268,13 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		
 		String pValueCutoff = PluginUtil.getPvalueCutoff(params);
 		String ontology = PluginUtil.getSingleAllowableValueParam(GO_ASSOC_ONTOLOGY_PARAM_KEY, params, null);
-
+		String organism = PluginUtil.getSingleAllowableValueParam(ORGANISM_PARAM_KEY, params, null);
 		try {
 			String inputFile = generateTermCountFile(ontology);
 
 			String qualifiedExe = Paths.get(GusHome.getGusHome(), "bin", "enrichmentAnalysis").toString();
 
-			JSONObject totals = getAnnotatedGeneCountTotals(ontology);
+			JSONObject totals = getAnnotatedGeneCountTotals(ontology, organism);
 
 			String[] cmd = new String[] { qualifiedExe, "-p", pValueCutoff, "-r", String.valueOf(totals.get("result")), "-b",
 					String.valueOf(totals.get("background")), "-i", inputFile, "-o",
