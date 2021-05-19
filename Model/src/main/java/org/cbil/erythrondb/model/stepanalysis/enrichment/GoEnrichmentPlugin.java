@@ -128,7 +128,7 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 			+ "AND goa.ontology_abbrev ='" + ontology + "'" + NL
 			+ "GROUP BY goa_tc.ontology_abbrev) r" + NL
 			+ "WHERE b.ontology_abbrev = r.ontology" + NL 
-			+ "AND lower(b.organism) = '" + organism + "') a";
+			+ "AND lower(b.organism) = lower('" + organism + "')) a";
 
 		logger.debug("get-annotated-gene-counts SQL:" + sql);
 
