@@ -33,6 +33,15 @@
 			<recordClass ref="HumanGeneRecordClasses.HumanGeneRecordClass" />
 		</answerParam>
 
+    <stringParam name="gene_list" number="true" prompt="Genes" readonly="true">
+      <help>Genes from GO or pathway encrichment</help>
+    </stringParam>
+
+    <stringParam name="annotation" number="true" prompt="Annotation" readonly="true">
+      <help>GO term or pathway associatd with the genes</help>
+    </stringParam>
+
+
     <!-- =================================================================== -->
     <!-- Dataset -->
     <!-- =================================================================== -->

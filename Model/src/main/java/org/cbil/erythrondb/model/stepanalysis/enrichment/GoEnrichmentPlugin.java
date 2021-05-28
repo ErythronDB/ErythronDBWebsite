@@ -341,11 +341,13 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		List<ResultRow> results = new ArrayList<>();
 		Path inputPath = getResultFilePath(TABBED_RESULT_FILE_NAME);
 		CSVParser parser = null;
+		String organism = PluginUtil.getSingleAllowableValueParam(ORGANISM_PARAM_KEY, getFormParams(), null);
+
 		try {
 			StringBuilder revigoInputLists = new StringBuilder();
 			parser = new CSVParser(new FileReader(inputPath.toFile()), CSVFormat.TDF.withHeader());
 			for (CSVRecord cr : parser) {
-				results.add(new ResultRow(cr, _webapp));
+				results.add(new ResultRow(cr, _webapp, organism));
 				String revigo = cr.get(Columns.GO_ID.key()) + " " + cr.get(Columns.P_VALUE.key()) + "\n";
 				revigoInputLists.append(revigo);
 			}
@@ -462,12 +464,16 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	public static class ResultRow {
 		Map<String, String> _fields;
 		private String _webapp;
+		private String _organism;
+
 		/*
 		 * ONTOLOGY, GO_ID, GO_TERM, RESULT_COUNTS, RESULT_RATIO, BACKGROUND_RATIO,
 		 * GENES_TRANSITIVE_CLOSURE, GENES, FOLD_ENRICHMENT, P_VALUE, FDR, ADJ_P_VALUE
 		 */
-		public ResultRow(CSVRecord cr, String webapp) {
+		public ResultRow(CSVRecord cr, String webapp, String organism) {
 			setWebapp(webapp);
+			setOrganism(organism);
+			
 			_fields = new HashMap<String, String>();
 			
 			String goID = cr.get(Columns.GO_ID.key());
@@ -496,6 +502,10 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 
 		public void setWebapp(String webapp) {
 			_webapp = webapp;
+		}
+
+		public void setOrganism(String org) {
+			_organism = org;
 		}
 
 		public void setField(String field, String value) {
@@ -540,20 +550,24 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		private String generateGeneLinks(String geneStr, String goId) {
 			String[] geneIds = geneStr.split(",");
 			String link = null;
-			if (geneIds.length > 1) {
+			String recordType = (_organism == "Mouse") ? "mm" : "hs";
+
+			if (geneIds.length > 1) {		
 				String pKeys = "";
 				for (String gene : geneIds) {
 					String[] ids = gene.split(";");
 					pKeys += ids[0] + ",";
 				}
-				link = "processQuestion.do?" + "questionFullName=GeneQuestions.GeneUpload" + "&ds_gene_identifiers_type=data"
-						+ "&array(include_synonyms)=No" + "&ds_gene_identifiers_data=" + pKeys + "&ds_gene_identifiers_parser=list"
-						+ "&customName=" + goId;
+				String params =  "param.gene_list=" + pKeys + "&param.annotation=" + _fields.get(Columns.GO_TERM.key()) + "&autoRun=true";
+				String question = recordType + "_internal_gene_list";
+				String href = "/" + _webapp + "/app/record/search/" + recordType + "/" + question + "?" + params; 
+				link = "<a href=\"" + href + "\">View</a>";
 
-				link = "<a href=\"" + link + "\">View</a>";
-			} else {
+			} 
+			else {
 				String[] ids = geneIds[0].split(";");
-				link = "<a href=\"/" + _webapp + "/app/record/gene/" + ids[0] + "\">" + ids[1] + "</a>";
+				String href = "/" + _webapp + "/app/record/" + recordType + "/" + ids[0];
+				link = "<a href=\"" + href + "\">" + ids[1] + "</a>";
 			}
 			return link;
 		}

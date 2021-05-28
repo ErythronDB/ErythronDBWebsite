@@ -39,6 +39,25 @@
       </summary>    
     </question>
 
+	   <question name="mm_internal_gene_list"
+	      displayName="Annotated Genes"
+	      shortDisplayName="Genes"
+	      queryRef="mm_question_queries.gene_list"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+      
+      <description>
+		List of genes associated with a GO term or pathway in an enrichment analysis
+      </description>
+
+      <summary>
+		List of genes associated with a GO term or pathway in an enrichment analysis
+      </summary>    
+	   <dynamicAttributes>
+        <columnAttribute name="annotation" displayName="Linked Annotation" align="center" inReportMaker="false" help="associated GO term or pathway"/>
+		</dynamicAttributes>
+    </question>
+
+
 
     
   </questionSet>
@@ -89,6 +108,19 @@
 		 AND (CASE WHEN $$incl_synonyms$$ = 'yes' THEN TRUE ELSE gi.dbref_id NOT IN ('alias_symbol', 'prev_symbol') END)
 		 AND ga.organism = $$taxon$$
 	]]>
+      </sql>
+    </sqlQuery>
+
+	 <sqlQuery name="gene_list">
+      <paramRef ref="mgeneParams.gene_list"/>
+	  <paramRef ref="mgeneParams.annotation"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+	  <column name="annotation"/>
+      <sql>
+	<![CDATA[
+		SELECT unnest(string_to_array($$gene_list$$::text, ',')) AS source_id, '@PROJECT_ID@'::text AS project_id, $$annotation$$::text AS annotation
+		]]>
       </sql>
     </sqlQuery>
     
