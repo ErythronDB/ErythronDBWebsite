@@ -4,6 +4,7 @@ import Menu from './Menu';
 
 import { User } from 'wdk-client/Utils/WdkUser';
 import { RootState } from 'wdk-client/Core/State/Types';
+import Announcements from 'ebrc-client/components/Announcements';
 
 export interface StateProps {
     user?: User,
@@ -26,7 +27,9 @@ const Header: React.ComponentClass<StateProps> = class extends React.Component<S
 
         return (
             <header className="ebrc-Header">
+                
                 <Menu webAppUrl={webAppUrl} projectId={projectId} user={user} />
+                <Announcements/>
             </header>
         )
     }
