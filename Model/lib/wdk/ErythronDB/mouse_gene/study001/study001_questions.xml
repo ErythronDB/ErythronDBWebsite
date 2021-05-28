@@ -27,6 +27,12 @@
                  For example, selecting up-regulated with a fold difference of 2 will only show results where the expression level 
 		 of the comparator is twice that of the reference. </p>
 		 <p>If a comparison returns no result with a high-confidence filter, rerun setting the confidence value to 'Any'.</p>
+
+		 <br/>
+		 <p>Differential expression analysis was performed using the standalone PaGE (Patterns from Gene Expression) non-parameteric test of differential expression
+		 (see Manduchi et al. Bioinformatics. 2000; PMID: <a href="@PUBMED_URL@11099255">11099255</a>).</p>
+		 <p>Using this approach, <em>p</em>-value significance is qualified by a false discovery rate-based confidence level. 
+		 Comparisons supported by an FDR <= 0.2 are considered to have "high-confidence".</p>
        	]]>
       </description>
 

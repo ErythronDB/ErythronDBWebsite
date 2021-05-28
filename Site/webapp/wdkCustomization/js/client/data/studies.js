@@ -50,7 +50,7 @@ const _studies =
 		},
 
 		{
-			name: "Investigation: Epo-regulated targets in murine E1 cells with a truncated erthropoietin receptor (EpoR)",
+			name: "Investigation: EPO-regulated targets in murine E1 cells with a truncated erthropoietin receptor (EpoR)",
 			type: "transcriptomics",
 			type_display: "Transcriptomics",
 			dataset_id: "study005",
@@ -59,8 +59,8 @@ const _studies =
 			display_name: "Epo-targets in E1 cells with a truncated Epo receptor",
 			taxon_abbrev: "Mm",
 			display_summary: "Gene expression profiling of  control and EPO-challenged bone marrow-derived erythroid progenitor cells from wtEpoR and EpoR-H mice at the E1 (CFU-e) stage.",
-			short_display_name: "Epo targets: wtEpoR and EpoR-H E1 (CFU-e) cells",
-			menu_text: "Epo targets: EpoR-H CFU-e",
+			short_display_name: "EPO targets: wtEpoR and EpoR-H E1 (CFU-e) cells",
+			menu_text: "EPO targets: EpoR-H CFU-e",
 
 
 			individual_datasets: {

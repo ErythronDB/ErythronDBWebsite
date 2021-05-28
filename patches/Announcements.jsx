@@ -90,11 +90,11 @@ const siteAnnouncements = [
     id: 'beta-genomics',
     renderDisplay: props => {
       // We want this on all genomic home pages running this code
-      if ( isGenomicHomePage(props.projectId, props.location) ) return (
+      if ( /*isGenomicHomePage(props.projectId, props.location)*/ true) return (
          <div key="live-beta">
             Welcome to {props.displayName} <i>beta</i> where you will find the newest versions of our interface, features, tools and data.  
             While we transition to making this beta site permanent, the <a target="_blank" href={`https://www.cbil.upenn.edu/ErythronDB`}>legacy ErythronDB</a> is still available. 
-            Please explore the site and contact us <a target="_blank" href="https://upenn.co1.qualtrics.com/jfe/form/SV_9pLxBX08qvoPnxA"> with your feedback.</a>.
+            Please explore the site and <a target="_blank" href="https://upenn.co1.qualtrics.com/jfe/form/SV_9pLxBX08qvoPnxA">contact us </a> with your feedback.
           </div>
        
       );
@@ -365,7 +365,7 @@ function param(name, { search = '' }) {
 function isGenomicSite(projectId) {
   return !/ClinEpiDB|MicrobiomeDB/i.test(projectId);
 }
-function isSite() {
+function isBetaSite() {
   return window.location.pathname.includes("beta");
 }
 function isGalaxy(routerLocation) {

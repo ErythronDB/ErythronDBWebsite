@@ -37,10 +37,6 @@ interface Resource {
   category: string;
 }
 
-interface Method {
-  name: string;
-  description: string;
-}
 
 const AboutPageNav: React.FC<{}> = () => {
   return (
@@ -54,42 +50,17 @@ const AboutPageNav: React.FC<{}> = () => {
       <Nav.Link href="#datasets" eventKey="datasets">
         Datasets and External Resources
       </Nav.Link>
-      <Nav.Link href="#methods" eventKey="methods">
-        Methods
-      </Nav.Link>
     </Nav>
   );
 };
 
-const MethodsSection: React.FC<{}> = () => {
-  return (
-    <Row className="mt-5">
-      <Col>
-        <a id="datasets"></a>
-        <h2 className="mt-5">Data Sources</h2>
-        <Accordion>
-          <Card>
-            <Accordion.Toggle as={Card.Header} eventKey="0">
-              Methods
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>
-              
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-      </Col>
-    </Row>
-  );
-};
 
 const ResourcesSection: React.FC<{}> = () => {
   return (
     <Row className="mt-5">
       <Col>
         <a id="datasets"></a>
-        <h2 className="mt-5">Data Sources</h2>
+        <h2 className="mt-5">Datasets and External Resources</h2>
         <Accordion>
           <Card>
             <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -190,7 +161,7 @@ const AboutSection: React.FC<{}> = () => {
         </p>
         <p>
           ErythronDB was developed by a team of researchers at the University of
-          Pennsylvania, in collaboration with [Palis Lab] / [Wojchowski Lab].{" "}
+          Pennsylvania.{" "}
         </p>
         <h3 className={`${cx("p")} mt-4`}>To Cite this Resource</h3>
         <p>
