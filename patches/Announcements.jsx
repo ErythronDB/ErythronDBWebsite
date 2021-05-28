@@ -50,7 +50,7 @@ const siteAnnouncements = [
     }
   },
 
-  { 
+  /* { 
     id: 'live-beta',
     renderDisplay: props => {
       if ( isGenomicHomePage(props.projectId, props.location) ) {
@@ -63,7 +63,7 @@ const siteAnnouncements = [
        
       }
     }
-  },
+  }, */
 
  // clinepi workshop
 /*
@@ -84,22 +84,23 @@ const siteAnnouncements = [
 
 
   // beta
-  //  /*isBetaSite() || */
-/*
+  isBetaSite() ||
+
   {
     id: 'beta-genomics',
     renderDisplay: props => {
       // We want this on all genomic home pages running this code
       if ( isGenomicHomePage(props.projectId, props.location) ) return (
-        <div key="beta">
-          {props.displayName} <em>beta</em> is available for early community review!
-          &nbsp;&nbsp;Please explore the site and <Link to="/contact-us" target="_blank">contact us</Link> with feedback.
-          &nbsp;<a rel="noreferrer" href={`https://${props.projectId.toLowerCase()}.${props.projectId === 'SchistoDB' ? 'net' : 'org'}?useBetaSite=0`}>Click here to return to the legacy site.</a>
-        </div>
+         <div key="live-beta">
+            Welcome to {props.displayName} <i>beta</i> where you will find the newest versions of our interface, features, tools and data.  
+            While we transition to making this beta site permanent, the <a target="_blank" href={`https://www.cbil.upenn.edu/ErythronDB`}>legacy ErythronDB</a> is still available. 
+            Please explore the site and contact us <a target="_blank" href="https://upenn.co1.qualtrics.com/jfe/form/SV_9pLxBX08qvoPnxA"> with your feedback.</a>.
+          </div>
+       
       );
     }
   },
-*/
+
 
 /*
   {
@@ -364,8 +365,8 @@ function param(name, { search = '' }) {
 function isGenomicSite(projectId) {
   return !/ClinEpiDB|MicrobiomeDB/i.test(projectId);
 }
-function isBetaSite() {
-  return param('beta', window.location) === 'true' || /^(beta|b1|b2)/.test(window.location.hostname);
+function isSite() {
+  return window.location.pathname.includes("beta");
 }
 function isGalaxy(routerLocation) {
   return routerLocation.pathname.startsWith('/galaxy-orientation');
