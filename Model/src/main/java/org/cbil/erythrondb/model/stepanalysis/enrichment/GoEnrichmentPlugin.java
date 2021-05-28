@@ -76,6 +76,8 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 	private static final String DOWNLOAD_IMAGE_RESULT_FILE_NAME = RESULT_FILE_PREFIX + "_wordcloud.png";
 	private static final String INPUT_FILE_PREFIX = "goa_counts";
 
+	private String _webapp;
+
 
 	public ValidationBundle validateFormParams(Map<String, String> formParams) throws WdkModelException {
 
@@ -335,6 +337,7 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 
 	@Override
 	public JSONObject getResultViewModelJson() throws WdkModelException {
+		_setWebapp();
 		List<ResultRow> results = new ArrayList<>();
 		Path inputPath = getResultFilePath(TABBED_RESULT_FILE_NAME);
 		CSVParser parser = null;
@@ -342,7 +345,7 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 			StringBuilder revigoInputLists = new StringBuilder();
 			parser = new CSVParser(new FileReader(inputPath.toFile()), CSVFormat.TDF.withHeader());
 			for (CSVRecord cr : parser) {
-				results.add(new ResultRow(cr));
+				results.add(new ResultRow(cr, _webapp));
 				String revigo = cr.get(Columns.GO_ID.key()) + " " + cr.get(Columns.P_VALUE.key()) + "\n";
 				revigoInputLists.append(revigo);
 			}
@@ -357,6 +360,10 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 
 	private Path getResultFilePath(String file) {
 		return Paths.get(getStorageDirectory().toString(), file);
+	}
+
+	private void _setWebapp() {
+		_webapp = getWdkModel().getProperties().get("WEBAPP");
 	}
 
 	public static class ResultViewModel {
@@ -454,14 +461,15 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 
 	public static class ResultRow {
 		Map<String, String> _fields;
-
+		private String _webapp;
 		/*
 		 * ONTOLOGY, GO_ID, GO_TERM, RESULT_COUNTS, RESULT_RATIO, BACKGROUND_RATIO,
 		 * GENES_TRANSITIVE_CLOSURE, GENES, FOLD_ENRICHMENT, P_VALUE, FDR, ADJ_P_VALUE
 		 */
-		public ResultRow(CSVRecord cr) {
+		public ResultRow(CSVRecord cr, String webapp) {
+			setWebapp(webapp);
 			_fields = new HashMap<String, String>();
-
+			
 			String goID = cr.get(Columns.GO_ID.key());
 			_fields.put(Columns.GO_ID.key(), goID);
 			_fields.put(Columns.GO_TERM.key(), cr.get(Columns.GO_TERM.key()));
@@ -484,6 +492,10 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 
 		public ResultRow() {
 			_fields = new HashMap<String, String>();
+		}
+
+		public void setWebapp(String webapp) {
+			_webapp = webapp;
 		}
 
 		public void setField(String field, String value) {
@@ -541,7 +553,7 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 				link = "<a href=\"" + link + "\">View</a>";
 			} else {
 				String[] ids = geneIds[0].split(";");
-				link = "<a href=\"app/record/gene/" + ids[0] + "\">" + ids[1] + "</a>";
+				link = "<a href=\"/" + _webapp + "/app/record/gene/" + ids[0] + "\">" + ids[1] + "</a>";
 			}
 			return link;
 		}

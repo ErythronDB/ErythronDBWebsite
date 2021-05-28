@@ -27,7 +27,7 @@ const FAQPageNav: React.FC<{}> = () => {
   return (
     <Nav
       defaultActiveKey="about"
-      className={`mt-5 flex-column ${cx("side-nav")}`}
+      className={`mt-5 mb-5 flex-column ${cx("side-nav")}`}
     >
 
     {_faq.map((f) => _buildNav(f))}
@@ -53,7 +53,7 @@ const FAQPage: React.FC<RouteComponentProps<any>> = () => {
 
 const _buildNav = ( faq: FAQ) => {
     return (
-        <Nav.Link key={faq.anchor} href={`#${faq.anchor}`} eventKey={faq.anchor}>{faq.question}</Nav.Link>
+        <Nav.Link key={faq.anchor} className={cx("--nav")} href={`#${faq.anchor}`} eventKey={faq.anchor}>{faq.question}</Nav.Link>
     )
 }
 

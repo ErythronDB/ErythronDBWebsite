@@ -5,6 +5,8 @@ import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import { StepAnalysisButtonArray } from './StepAnalysisButtonArray';
 
 require('script-loader!../../../lib/stringdb_combined_embedded_network_v2.0.2.js');
 
@@ -26,6 +28,18 @@ const LoadingIndicator: React.SFC<LoadingIndicatorProps> = props => {
         : null;
 }
 
+const stepAnalysisButtonConfigFactory = (
+    genes: string,
+) => [
+        {
+            key: 'stringdb',
+            href: `https://string-db.org/cgi/network.pl?identifiers=${genes}`,
+            iconClassName: 'fa fa-external-link blue-text',
+            contents: 'View on STRING'
+        }
+    ];
+
+
 // to set loading flag need to use useState hook
 const STRINGNetwork: React.SFC<GeneNetworkResult> = props => {
     const { organism, genes, webAppUrl } = props;
@@ -45,12 +59,11 @@ const STRINGNetwork: React.SFC<GeneNetworkResult> = props => {
     }, []);
 
     return (
-        <div>
-        <LoadingIndicator loading={loading}></LoadingIndicator>
-        <div id="stringEmbedded"></div>
-        </div>
-     
-
+        <Fragment>
+            <StepAnalysisButtonArray configs={stepAnalysisButtonConfigFactory(genes)}/>
+            <LoadingIndicator loading={loading}></LoadingIndicator>
+            <div id="stringEmbedded"></div>
+        </Fragment>
     );
 }
 
@@ -67,7 +80,7 @@ export const StepAnalysisGeneNetworkResults: React.FC<StepAnalysisResultPluginPr
                     <Col>
                         {analysisResult.exceedsLimit ?
                             <Alert variant="warning"> The number of Genes in your result exceeds the display limit (50 IDs). <br />
-                                To analyze your gene list with STRING, you can modify your search or <strong>Download</strong> your search result to analyze directly on the STRING website.</Alert>
+                                To analyze your gene list with STRING, use the button to view directly on STRING, or <strong>Download</strong> your search result to analyze directly on the STRING website.</Alert>
                             :
                             <STRINGNetwork genes={analysisResult.genes} organism={analysisResult.organism} webAppUrl={webAppUrl} />}
                     </Col>

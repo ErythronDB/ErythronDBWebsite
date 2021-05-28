@@ -24,7 +24,7 @@ var _about = [
     },
     {
         text: "FAQ",
-        url: "/faq"
+        route: "/faq"
     },
     {
         text: "Contact Us",
