@@ -1,4 +1,18 @@
 # This file contains macros used in model.xml
+# Properties defined here can be referenced in model XML files.
+# For example, this line: NAME=value
+# will cause the WDK to replace  all occurrences of "@NAME@" in the model XML with "value".
+
+# NOTE:
+# ===========================================================================================================
+# All External URLS (including references to other NIAGADS resources) must be defined in this 
+# file and assigned a name ending in "_URL".  After updating/adding new _URL macros, please 
+# run `python $PROJECT_HOME/ErythronDBWebsite/Model/bin/generateExternalUrlConstantsJson` to regenerate 
+# the external url constant file for the front end, setting the --modelPropFile option to this file and the 
+# --outputFile option to $PROJECT_HOME/ErythronDBWebsite/Site/webapp/wdkCustomization/js/client/data/_externalUrls.js.
+# The updated model.prop.sample & externalUrls.js can then be committed to the repository
+
+
 PROJECT_ID=ErythronDB
 
 HIDE_PRIVATE_DATA=true
@@ -22,3 +36,7 @@ STRING_URL=https://string-db.org/
 REACTOME_PATHWAY_URL=https://reactome.org/content/detail/
 KEGG_PATHWAY_URL=https://www.kegg.jp/kegg-bin/show_pathway?
 HUGO_URL=https://www.genenames.org/
+
+
+MOUSE_UCSC_BROWSER_URL=http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&position=
+HUMAN_UCSC_BROWSER_URL=http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=

@@ -340,28 +340,6 @@ hyphenate-style-name@^1.0.3:
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.4.tgz#691879af8e220aea5750e8827db4ef62a54e361d"
   integrity sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==
 
-"igv-ui@github:igvteam/igv-ui#23d667e6":
-  version "1.0.3"
-  resolved "https://codeload.github.com/igvteam/igv-ui/tar.gz/23d667e64b1207d762b583d4d0826cb0148b4d49"
-  dependencies:
-    igv-utils "github:igvteam/igv-utils#36c425bb"
-
-"igv-utils@github:igvteam/igv-utils#0e7dbafb":
-  version "1.1.0"
-  resolved "https://codeload.github.com/igvteam/igv-utils/tar.gz/0e7dbafb3d0ce556596c2d8e6e78c9b15dc208b4"
-
-"igv-utils@github:igvteam/igv-utils#36c425bb":
-  version "1.1.0"
-  resolved "https://codeload.github.com/igvteam/igv-utils/tar.gz/36c425bb3e02d5a0e821e39dd1cf510c550f29e5"
-
-igv@^2.7.4:
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/igv/-/igv-2.7.4.tgz#42e5b76f4accf2113999e343dc78816d15f6b069"
-  integrity sha512-ITTV7GTDPpTmxDpBfDACwarIHr6sDuXv9yTYaMgosdq3p2jEK7GzjxO5w2stUm4vxA+gSI/hoF6DFNzll1cClw==
-  dependencies:
-    igv-ui "github:igvteam/igv-ui#23d667e6"
-    igv-utils "github:igvteam/igv-utils#0e7dbafb"
-
 indefinite-observable@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/indefinite-observable/-/indefinite-observable-2.0.1.tgz#574af29bfbc17eb5947793797bddc94c9d859400"

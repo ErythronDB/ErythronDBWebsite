@@ -4,20 +4,18 @@ import HeaderRecordActions from '../RecordHeaderActions';
 import { RecordHeaderAttributes, HeaderActions } from '../RecordProps';
 import { Link } from 'wdk-client/Components';
 import { safeHtml } from "wdk-client/Utils/ComponentUtils";
-import { MouseIgvBrowser } from '../../Visualizations/IgvBrowser';
 
 import Col from 'react-bootstrap/Col';
 
+import { _externalUrls } from '../../../data/_externalUrls'
 
 //import { IgvBrowser } from "../../../Visualizations";
 
 interface StoreProps {
-    externalUrls: { [key: string]: any };
     webAppUrl: string;
 }
 
 const enhance = connect<StoreProps, any, RecordHeading>((state: any) => ({
-    externalUrls: state.globalData.siteConfig.externalUrls,
     webAppUrl: state.globalData.siteConfig.webAppUrl,
 }));
 
@@ -30,6 +28,9 @@ interface RecordHeading {
 type GeneRecordSummary = StoreProps & RecordHeaderAttributes;
 
 const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record, recordClass, headerActions, webAppUrl }) => {
+    const flankedStart = +record.attributes.start_min - 10000;
+    const flankedEnd = +record.attributes.end_max + 10000;
+
     return (
         <>
             <Col sm={3}>
@@ -60,10 +61,11 @@ const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
                     </li>
 
                     <li>
-                        <span className="attribute-label">Location</span>: {record.attributes.location}{" "}
+                        <span className="attribute-label">Location</span>: {record.attributes.location}
                         {record.attributes.locus
-                            ? "/ ".concat(record.attributes.locus)
+                            ? " / ".concat(record.attributes.locus)
                             : ""}
+                        {" / "}<a target="_blank" href={`${_externalUrls.MOUSE_UCSC_BROWSER_URL}${record.attributes.chromosome}:${flankedStart}-${flankedEnd}`} >View on UCSC Genome Browser</a>
                     </li>
 
                     {record.attributes.ortholog_record_link &&
@@ -81,9 +83,7 @@ const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
                     }
                 </ul>
             </Col>
-            <Col>
-               <MouseIgvBrowser webAppUrl={webAppUrl} defaultLocus={record.attributes.source_id}/>
-            </Col>
+            
         </>
     );
 };
