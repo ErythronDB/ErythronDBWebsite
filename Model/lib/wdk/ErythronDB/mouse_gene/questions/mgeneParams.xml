@@ -33,13 +33,37 @@
       <recordClass ref="MouseGeneRecordClasses.MouseGeneRecordClass" />
     </answerParam>
 
-     <stringParam name="gene_list" number="true" prompt="Genes" readonly="true">
+     <stringParam name="gene_list" number="false" prompt="Genes" readonly="true">
       <help>Genes from GO or pathway encrichment</help>
     </stringParam>
 
-    <stringParam name="annotation" number="true" prompt="Annotation" readonly="true">
+    <stringParam name="annotation" number="false" prompt="Annotation" readonly="true">
       <help>GO term or pathway associatd with the genes</help>
     </stringParam>
+
+    <stringParam name="keyword" number="false" prompt="Search Term" readonly="false">
+      <help>Term or phrase to match; use asterisk (*) to indicated wild card matches.</help>
+    </stringParam>
+
+    <enumParam name="keyword_field" prompt="Search/Filter Field" displayType="checkBox" multiPick="true" quote="true">
+      <enumList>
+	<enumValue>
+	  <display>Identifier (symbol/name/description)</display>
+	  <term>identifier</term>
+	  <internal>identifier</internal>
+	</enumValue>
+	<enumValue>
+	  <display>Gene Ontology (GO) Term or ID</display>
+	  <term>go_term</term>
+	  <internal>go_term</internal>
+	</enumValue>
+	<enumValue>
+	  <display>Gene Type</display>
+	  <term>gene_type</term>
+	  <internal>gene_type</internal>
+	</enumValue>
+      </enumList>
+    </enumParam>
 
     <!-- =================================================================== -->
     <!-- Percentile -->

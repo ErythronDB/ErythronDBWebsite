@@ -7,12 +7,10 @@ TextCategory					TextCategory	Text				1
 													
 ## Gene Questions ##													
 													
-HumanGeneRecordClasses.HumanGeneRecordClass.HumanGeneQuestions.upload	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	search	HumanGeneQuestions.upload						results	menu	webservice
-MouseGeneRecordClasses.MouseGeneRecordClass.MouseGeneQuestions.upload	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	search	MouseGeneQuestions.upload						results	menu	webservice
-MouseGeneRecordClasses.MouseGeneRecordClass.MouseGeneQuestions.go	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	search	MouseGeneQuestions.go						results	menu	webservice
-HumanGeneRecordClasses.HumanGeneRecordClass.HumanGeneQuestions.go	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	search	HumanGeneQuestions.go						results	menu	webservice
-MouseGeneRecordClasses.MouseGeneRecordClass.MouseGeneQuestions.pathways	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	search	MouseGeneQuestions.pathways						results	menu	webservice
-HumanGeneRecordClasses.HumanGeneRecordClass.HumanGeneQuestions.pathways	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	search	HumanGeneQuestions.pathways						results	menu	webservice
+HumanGeneRecordClasses.HumanGeneRecordClass.hs_questions.hs_upload	TextCategory	TextCategory	HumanGeneRecordClasses.HumanGeneRecordClass	search	hs_questions.hs_upload					2	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.mm_questions.mm_upload	TextCategory	TextCategory	MouseGeneRecordClasses.MouseGeneRecordClass	search	mm_questions.mm_upload					2	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.mm_questions.mm_gene_keyword	TextCategory	TextCategory	MouseGeneRecordClasses.MouseGeneRecordClass	search	mm_questions.mm_gene_keyword					1	results	menu	webservice
+HumanGeneRecordClasses.HumanGeneRecordClass.hs_questions.hs_gene_keyword	TextCategory	TextCategory	HumanGeneRecordClasses.HumanGeneRecordClass	search	hs_questions.hs_gene_keyword					1	results	menu	webservice
 HumanGeneRecordClasses.HumanGeneRecordClass.study003_questions.study003_comparison	http://www.cbil.upenn.edu/ErythronDB/study003_q	EPO phosphorylation PTM targets in UT-7epo-E cells	HumanGeneRecordClasses.HumanGeneRecordClass	search	study003_questions.study003_comparison						results	menu	webservice
 MouseGeneRecordClasses.MouseGeneRecordClass.study001_questions.study001_comparison	http://www.cbil.upenn.edu/ErythronDB/study001_q	Ontogeny of erythroid gene expression	MouseGeneRecordClasses.MouseGeneRecordClass	search	study001_questions.study001_comparison					1	results	menu	webservice
 MouseGeneRecordClasses.MouseGeneRecordClass.study001_questions.study001_expression	http://www.cbil.upenn.edu/ErythronDB/study001_q	Ontogeny of erythroid gene expression	MouseGeneRecordClasses.MouseGeneRecordClass	search	study001_questions.study001_expression					2	results	menu	webservice

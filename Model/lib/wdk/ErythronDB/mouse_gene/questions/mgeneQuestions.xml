@@ -20,6 +20,24 @@
     </question>
 
 
+    <question name="mm_gene_keyword"
+	      displayName="Keyword Search/Filter"
+	      shortDisplayName="Filter"
+	      queryRef="mm_question_queries.filter"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+      <description>
+	<![CDATA[<p>Search for genes by keyword or (when adding a step to a strategy) filter result by free text search on gene identifiers (symbol/name), gene type (e.g., protein coding), or direct Gene Ontology (GO) annotations (by term or GO ID; e.g. GO:0004674).</p>
+		 <p>Search will match all terms in phrase.</p>
+		 <p>Asterisks (*) may be used to indicate wild cards.]]>
+      </description>
+
+      <summary>
+	Filter result by free text search.
+      </summary>    
+      
+    </question>
+
+
     <question name="mm_upload"
 	      displayName="User Gene List"
 	      shortDisplayName="Genes"
@@ -90,6 +108,31 @@
       </sql>
     </sqlQuery>
 
+    <sqlQuery name="filter">
+      <paramRef ref="mgeneParams.keyword"/>
+      <paramRef ref="mgeneParams.keyword_field"/>
+       <column name="source_id"/>
+       <column name="project_id"/>
+       <sql>
+	 <![CDATA[
+		  WITH term AS (SELECT '%' || TRIM(REPLACE(REGEXP_REPLACE($$keyword$$, '\s+', ' ', 'g'), '*', '%')) || '%' as term)
+		  SELECT DISTINCT ga.source_id, '@PROJECT_ID@'::text AS project_id
+		  FROM CBIL.GeneIdentifiers gi, CBIL.GoAssociation go,
+		  CBIL.GeneAttributes ga, term t
+		  WHERE gi.gene_id = ga.gene_id 
+		  AND go.gene_id = ga.gene_id
+		  AND ga.organism = 'Mouse'
+		  AND (
+		  ($$keyword_field$$ = 'gene_type' AND ga.gene_type ILIKE t.term)
+		  OR 
+		  ($$keyword_field$$ = 'identifier' AND gi.external_id ILIKE t.term)
+		  OR 
+		  ($$keyword_field$$ = 'go_term' AND (go.go_term ILIKE t.term OR go.go_term_id = REPLACE(t.term, '%', '')))
+		  ) 
+	 ]]>
+       </sql>
+    </sqlQuery>
+
     <sqlQuery name="upload">
       <paramRef ref="mgeneParams.taxon"/>
       <paramRef ref="mgeneParams.ds_gene_identifiers"/>
@@ -111,16 +154,17 @@
       </sql>
     </sqlQuery>
 
-	 <sqlQuery name="gene_list">
+    <sqlQuery name="gene_list">
       <paramRef ref="mgeneParams.gene_list"/>
-	  <paramRef ref="mgeneParams.annotation"/>
+      <paramRef ref="mgeneParams.annotation"/>
       <column name="source_id"/>
       <column name="project_id"/>
 	  <column name="annotation"/>
-      <sql>
-	<![CDATA[
-		SELECT unnest(string_to_array($$gene_list$$::text, ',')) AS source_id, '@PROJECT_ID@'::text AS project_id, $$annotation$$::text AS annotation
-		]]>
+	  <sql>
+	    <![CDATA[
+		     SELECT unnest(string_to_array($$gene_list$$::text, ',')) AS source_id, 
+		     '@PROJECT_ID@'::text AS project_id, $$annotation$$::text AS annotation
+	    ]]>
       </sql>
     </sqlQuery>
     

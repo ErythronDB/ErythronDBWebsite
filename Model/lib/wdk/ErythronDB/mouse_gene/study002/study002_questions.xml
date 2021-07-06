@@ -90,8 +90,8 @@
       <dynamicAttributes>
         <columnAttribute name="sample" displayName="Sample" align="center" inReportMaker="false" help="sample associated with top-ranked expression (out of selected samples in search)"/>
         <columnAttribute name="percentile" displayName="Percentile" align="center" inReportMaker="false" help="ranked percentile across all genes expressed in this condition for the experiment"/>
-        <columnAttribute name="mean_expression" displayName="Log2 Mean Expression" help="mean log2 mRNA expression level  for the selected condition" align="center"/>
-        <columnAttribute name="standard_error" displayName="Std Error" help="standard error on the mean log2 expression" align="center"/>
+        <columnAttribute name="mean_expression" displayName="Mean Expression Level" help="mean (normalized raw) mRNA expression level  for the selected condition" align="center"/>
+        <columnAttribute name="standard_error" displayName="Std Error" help="standard error on the mean expression" align="center"/>
 
       </dynamicAttributes>
     </question>

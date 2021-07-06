@@ -37,6 +37,24 @@
     </question>
 
 
+    <question name="hs_gene_keyword"
+	      displayName="Keyword Search/Filter"
+	      shortDisplayName="Filter"
+	      queryRef="hs_question_queries.filter"
+	      recordClassRef="HumanGeneRecordClasses.HumanGeneRecordClass">
+      <description>
+	<![CDATA[<p>Search for genes by keyword or (when adding a step to a strategy) filter result by free text search on gene identifiers (symbol/name), gene type (e.g., protein coding), or direct Gene Ontology (GO) annotations (by term or GO ID; e.g. GO:0004674).</p>
+		 <p>Search will match all terms in phrase.</p>
+		 <p>Asterisks (*) may be used to indicate wild cards.]]>
+      </description>
+
+      <summary>
+	Filter result by free text search.
+      </summary>    
+      
+    </question>
+    
+
      <question name="hs_internal_gene_list"
 	      displayName="Annotated Genes"
 	      shortDisplayName="Genes"
@@ -86,6 +104,32 @@
       </sql>
     </sqlQuery>
 
+
+ <sqlQuery name="filter">
+      <paramRef ref="hgeneParams.keyword"/>
+      <paramRef ref="hgeneParams.keyword_field"/>
+       <column name="source_id"/>
+       <column name="project_id"/>
+       <sql>
+	 <![CDATA[
+		  WITH term AS (SELECT '%' || TRIM(REPLACE(REGEXP_REPLACE($$keyword$$, '\s+', ' ', 'g'), '*', '%')) || '%' as term)
+		  SELECT DISTINCT ga.source_id, '@PROJECT_ID@'::text AS project_id
+		  FROM CBIL.GeneIdentifiers gi, CBIL.GoAssociation go,
+		  CBIL.GeneAttributes ga, term t
+		  WHERE gi.gene_id = ga.gene_id 
+		  AND go.gene_id = ga.gene_id
+		  AND ga.organism = 'Human'
+		  AND (
+		  ($$keyword_field$$ = 'gene_type' AND ga.gene_type ILIKE t.term)
+		  OR 
+		  ($$keyword_field$$ = 'identifier' AND gi.external_id ILIKE t.term)
+		  OR 
+		  ($$keyword_field$$ = 'go_term' AND (go.go_term ILIKE t.term OR go.go_term_id = REPLACE(t.term, '%', '')))
+		  ) 
+	 ]]>
+       </sql>
+    </sqlQuery>
+    
     <sqlQuery name="upload">
       <paramRef ref="hgeneParams.taxon"/>
       <paramRef ref="hgeneParams.ds_gene_identifiers"/>
