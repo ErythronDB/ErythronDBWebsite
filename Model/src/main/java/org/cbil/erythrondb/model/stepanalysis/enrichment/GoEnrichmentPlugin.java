@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -553,18 +554,20 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 			String link = null;
 			String recordType = (_organism.equals("Mouse")) ? "mm" : "hs";
 
-			if (geneIds.length > 1) {		
-				String pKeys = "";
+			if (geneIds.length > 1) {	
+				HashSet<String> pkSet = new HashSet<String>(); // need to make sure we have unique ids
+
 				for (String gene : geneIds) {
 					String[] ids = gene.split(";");
-					pKeys += ids[0] + ",";
+					pkSet.add(ids[0]);
 				}
-				pKeys = pKeys.replaceAll(",$", ""); // remove trailing comma
+
+				String pKeys = String.join(",", pkSet);
 
 				String annotationValue =  _fields.get(Columns.GO_TERM.key()) + (isTC ? " (w/transitive closure)" : " (direct annotations only)");
-
 				String params =  "param.gene_list=" + pKeys + "&param.annotation=" + annotationValue + "&autoRun=true";
 				String question = recordType + "_internal_gene_list";
+				
 				String href = "/" + _webapp + "/app/search/" + recordType + "/" + question + "?" + params; 
 				link = "<a href=\"" + href + "\">View</a>";
 			} 
