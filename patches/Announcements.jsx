@@ -31,66 +31,11 @@ const infoIcon = (
 // a unique id for the announcement, and a function that takes props and returns a React Element.
 // Use props as an opportunity to determine if the message should be displayed for the given context.
 const siteAnnouncements = [
-  // alpha
-  {
-    id: 'alpha',
-    renderDisplay: props => {
-      if (param('alpha', props.location) === 'true' || /^(alpha|a1|a2)/.test(window.location.hostname)) {
-        return (
-          <div key="alpha">
-            This pre-release version of {props.projectId} is available for early community review.
-            Your searches and strategies saved in this alpha release will not be available in the
-            official release.
-            Please explore the site and <Link to="/contact-us" target="_blank">contact us</Link> with your feedback.
-            This site is under active development so there may be incomplete or
-            inaccurate data and occasional site outages can be expected.
-          </div>
-        );
-      }
-    }
-  },
-
-  /* { 
-    id: 'live-beta',
-    renderDisplay: props => {
-      if ( isGenomicHomePage(props.projectId, props.location) ) {
-
-          <div key="live-beta">
-            Welcome to {props.displayName} <i>beta</i> where you will find the newest versions of our interface, features, tools and data.  
-            While we transition to making this beta site permanent, the <a target="_blank" href={`https://www.cbil.upenn.edu/ErythronDB`}>legacy ErythronDB</a> is still available. 
-            Please report feedback on this beta site to our <a target="_blank" href="https://github.com/ErythronDB/ErythronDBWebsite/issues">GitHub issue tracker</a>.
-          </div>
-       
-      }
-    }
-  }, */
-
- // clinepi workshop
-/*
-  {
-    id: 'clinepi-workshop',
-    renderDisplay: (props) => {
-    if (props.projectId == 'ClinEpiDB' || props.projectId == 'AllClinEpiDB' ) {
-        return (
-          <div>
-            WEBINAR Dec 9, 10am EST: We present <span style={{fontWeight: 'bold'}}>Clinical and Epidemiologic Data Exploration for Genomic Researchers</span>. We will cover key features and studies in ClinEpiDB that may be of interest to biologists working on infectious diseases. <a target="_blank" href="https://attendee.gotowebinar.com/register/3656141554042311437">Register here.</a>
-          </div>
-        );
-      }
-      return null;
-    }
-  },
-*/
-
-
-  // beta
-  isBetaSite() ||
-
   {
     id: 'beta-genomics',
     renderDisplay: props => {
       // We want this on all genomic home pages running this code
-      if ( /*isGenomicHomePage(props.projectId, props.location)*/ true) return (
+      return (
          <div key="live-beta">
             Welcome to {props.displayName} <i>beta</i> where you will find the newest versions of our interface, features, tools and data.  
             While we transition to making this beta site permanent, the <a target="_blank" href={`https://www.cbil.upenn.edu/ErythronDB`}>legacy ErythronDB</a> is still available. 
@@ -99,80 +44,7 @@ const siteAnnouncements = [
        
       );
     }
-  },
-
-
-/*
-  {
-    id: 'strategies-beta',
-    category: 'degraded',
-    renderDisplay: props => {
-      if ( isGenomicSite(props.projectId) && ( isStrategies(props.location) || isBasket(props.location) || isFavorites(props.location) ) ) return (
-        <div key="strategies-beta">
-          Strategies, baskets and favorites you save on this <i>beta</i> site are not permanent. 
-          {
-            props.projectId !== 'VectorBase' &&
-            <React.Fragment>
-              {' '}
-              Use the <a rel="noreferrer" href={`https://${props.projectId.toLowerCase()}.${props.projectId === 'SchistoDB' ? 'net' : 'org'}`}>legacy site</a> to save them permanently.
-            </React.Fragment>
-          }
-        </div>
-      )
-    }
-  },
-*/
-/*
-  { 
-    id: 'apollo-galaxy-off',
-    category: 'degraded',
-    renderDisplay: props => {
-      if ( isGalaxy(props.location) || isApollo(props.location) ) return (
-        <div>
-          Apollo and the Galaxy Data export to VEuPathDB are currently <b>unavailable</b>.  We are working on fixing this issue and hope to have the export service back ASAP.
-        </div>
-      )
-    }
-  },
-*/
-
-  // TriTryp gene page for Bodo saltans strain Lake Konstanz
-  {
-    id: 'geneFungi',
-    renderDisplay: props => { 
-      if ( (props.projectId == 'TriTrypDB') && 
-           ( (props.location.pathname.indexOf("/record/gene/BS") > -1)    ||
-             (props.location.pathname.indexOf("/record/gene/BSAL_") > -1)
-           )  
-         ) 
-      {
-        return (
-          <div key="geneFungi">
-            This <i>Bodo saltans</i> genome sequence and annotation represents a draft version. Please carefully consider gene models and genome structure before drawing conclusions.
-          </div>
-        );
-      }
-      return null;
-    }
-  },
-
-  // OrthoMCL enzyme/compound
-  {
-    id: 'ortho-enzyme',
-    renderDisplay: (props) => {
-      if (props.projectId == 'OrthoMCL' && (/(enzyme|compound)/i).test(window.location.href)) {
-        return (
-          <div key="ortho-enzyme">
-            Note: the Enzyme Commission (EC) numbers associated with proteins were
-            obtained only from UniProt. In future releases we expect to include EC
-            numbers from multiple sources including the annotation.
-          </div>
-        );
-      }
-      return null;
-    }
   }
-
 ];
 
 const fetchAnnouncementsData = async wdkService => {
