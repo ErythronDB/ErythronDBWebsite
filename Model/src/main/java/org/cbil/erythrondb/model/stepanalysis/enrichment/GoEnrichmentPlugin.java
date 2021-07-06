@@ -490,9 +490,10 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 			_fields.put(Columns.ADJ_P_VALUE.key(), cr.get(Columns.ADJ_P_VALUE.key()));
 			_fields.put(Columns.FDR.key(), cr.get(Columns.FDR.key()));
 
-			String geneStr = generateGeneLinks(cr.get(Columns.GENES.key() + "_display"), goID);
+			String geneStr = generateGeneLinks(cr.get(Columns.GENES.key() + "_display"), goID, false);
 			_fields.put(Columns.GENES.key(), geneStr);
-			geneStr = generateGeneLinks(cr.get(Columns.GENES_TRANSITIVE_CLOSURE.key() + "_display"), goID);
+
+			geneStr = generateGeneLinks(cr.get(Columns.GENES_TRANSITIVE_CLOSURE.key() + "_display"), goID, true);
 			_fields.put(Columns.GENES_TRANSITIVE_CLOSURE.key(), geneStr);
 		}
 
@@ -547,10 +548,10 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		 * @return a single link if number of genes = 1, otherwise a link to run a
 		 *         GeneUpload query to fetch the gene list
 		 */
-		private String generateGeneLinks(String geneStr, String goId) {
+		private String generateGeneLinks(String geneStr, String goId, Boolean isTC) {
 			String[] geneIds = geneStr.split(",");
 			String link = null;
-			String recordType = (_organism == "Mouse") ? "mm" : "hs";
+			String recordType = (_organism.equals("Mouse")) ? "mm" : "hs";
 
 			if (geneIds.length > 1) {		
 				String pKeys = "";
@@ -558,11 +559,14 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 					String[] ids = gene.split(";");
 					pKeys += ids[0] + ",";
 				}
-				String params =  "param.gene_list=" + pKeys + "&param.annotation=" + _fields.get(Columns.GO_TERM.key()) + "&autoRun=true";
-				String question = recordType + "_internal_gene_list";
-				String href = "/" + _webapp + "/app/record/search/" + recordType + "/" + question + "?" + params; 
-				link = "<a href=\"" + href + "\">View</a>";
+				pKeys = pKeys.replaceAll(",$", ""); // remove trailing comma
 
+				String annotationValue =  _fields.get(Columns.GO_TERM.key()) + (isTC ? " (w/transitive closure)" : " (direct annotations only)");
+
+				String params =  "param.gene_list=" + pKeys + "&param.annotation=" + annotationValue + "&autoRun=true";
+				String question = recordType + "_internal_gene_list";
+				String href = "/" + _webapp + "/app/search/" + recordType + "/" + question + "?" + params; 
+				link = "<a href=\"" + href + "\">View</a>";
 			} 
 			else {
 				String[] ids = geneIds[0].split(";");
@@ -588,37 +592,37 @@ public class GoEnrichmentPlugin extends AbstractSimpleProcessAnalyzer {
 		GO_TERM("TERM", "Term", "Gene Ontology Term", "html", true, null),
 		RESULT_COUNTS("COUNT", "Result Count",
 				"Number of genes in your result directly annotated by this term, "
-						+ "not including those inferred by transitive closure (see methods for more information)",
+						+ "not including those inferred by transitive closure (does not incude genes annotated by children of this term in GO)",
 				null, true, "number"),
 		RESULT_COUNTS_TRANSITIVE_CLOSURE("COUNT_INCL_CLOSURE", "Result Count (TC)",
 				"Number of genes in your result annotated by this term, "
-						+ "including those inferred by transitive closure (see methods for more information)",
+						+ "including those inferred by transitive closure (includes genes annotated by children of this term in GO)",
 				null, true, "number"),
 		BACKGROUND_COUNTS("BACKGROUND_COUNT", "Background Count",
 				"Number of genes in the background  annotated by this term, "
-						+ "including those inferred by transitive closure (see methods for more information)",
+						+ "including those inferred by transitive closure (genes annotated by children of this term in GO)",
 				null, true, "number"),
 		RESULT_RATIO("RESULT_RATIO", "Result Ratio",
 				"Ratio of the annotated genes in your result set annotated by this term to total number of annotated genes in the result set, "
-						+ "inclding those inferred by transitive closure (see methods for more information)",
+						+ "inclding those inferred by transitive closure (genes annotated by children of this term in GO)",
 				null, true, null),
 		BACKGROUND_RATIO("BACKGROUND_RATIO", "Background Ratio",
 				"Ratio of genes annotated by this gene in the background set to total number of annotated genes in the background set, "
-						+ "inclding those inferred by transitive closure (see methods for more information)",
+						+ "inclding those inferred by transitive closure (genes annotated by children of this term in GO)",
 				null, true, null),
 		RESULT_PERCENT("RESULT_PERCENT", "Result Percent",
 				"Fraction of the annotated genes in your result set annotated by this term, "
-						+ "inclding those inferred by transitive closure (see methods for more information)",
+						+ "inclding those inferred by transitive closure (genes annotated by children of this term in GO)(see methods for more information)",
 				"float_1", true, "number"),
 		BACKGROUND_PERCENT("BACKGROUND_PERCENT", "Background Percent",
 				"Fraction of genes annotated by this gene in the background set, "
-						+ "inclding those inferred by transitive closure (see methods for more information)",
+						+ "inclding those inferred by transitive closure (genes annotated by children of this term in GO)",
 				"float_1", true, "number"),
 		GENES_TRANSITIVE_CLOSURE("GENES_INCL_CLOSURE", "Genes (TC)",
-				"All genes in your result annotated by this term, including those inferrred via transitive closure (see methods for more information)",
+				"All genes in your result annotated by this term, including those inferrred via transitive closure (genes annotated by children of this term in GO)",
 				"html", false, null),
 		GENES("GENES", "Genes",
-				"Genes in your result directly annotated by this term, not including those inferred via transitive closure (see methods for more information)",
+				"Genes in your result directly annotated by this term, not including those inferred via transitive closure (does not include genes annotated by children of this term in GO)",
 				"html", false, null),
 		FOLD_ENRICHMENT("FOLD_ENRICHMENT", "Fold Enrichment",
 				"odds ratio of the fraction of genes annotated by this term in your result set to the fraction of genes annotated by the term in the background",
