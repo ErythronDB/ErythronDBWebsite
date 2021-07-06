@@ -81,6 +81,11 @@ const MouseGeneRecordSummary: React.SFC<RecordHeading & StoreProps> = ({ record,
                             {safeHtml(record.attributes.note)}
                         </li>
                     }
+                    {record.attributes.gene_type === 'protein coding' && 
+                    <li>
+                        <span className="attribute-label">Known Interactants</span>: <a target="_blank" href={`${_externalUrls.STRING_URL}network/mus_musculus/${record.attributes.source_id}`}>View on STRING</a>
+                    </li>
+                    }
                 </ul>
             </Col>
             

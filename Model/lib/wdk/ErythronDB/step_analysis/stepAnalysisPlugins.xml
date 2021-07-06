@@ -15,7 +15,7 @@
       <paramRef ref="geneNetworkAnalysisParams.organism"/>
 
       <shortDescription>
-        <![CDATA[Generate a STRINGdb interaction network from the genes in the search result.]]>
+        <![CDATA[Generate a STRING interaction network from the genes in the search result.]]>
       </shortDescription>
       <description>
         <![CDATA[

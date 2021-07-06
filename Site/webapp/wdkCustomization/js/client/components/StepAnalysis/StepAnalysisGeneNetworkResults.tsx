@@ -5,16 +5,43 @@ import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import { StepAnalysisButtonArray } from './StepAnalysisButtonArray';
+
+import { _externalUrls } from "../../data/_externalUrls";
 
 require('script-loader!../../../lib/stringdb_combined_embedded_network_v2.0.2.js');
 
 // import './StepAnalysisGeneNetworkResult.css';
 
+
+//@ts-ignore
+const SvgInline = props => {
+    const [svg, setSvg] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isErrored, setIsErrored] = useState(false);
+
+    useEffect(() => {
+        fetch(props.url)
+            .then(res => res.text())
+            .then(setSvg)
+            .catch(setIsErrored)
+            .then(() => setIsLoaded(true))
+    }, [props.url]);
+
+    return (
+        <>
+        <LoadingIndicator loading={!isLoaded}></LoadingIndicator>
+        <div 
+            className={`svgInline svgInline--${isLoaded ? 'loaded' : 'loading'} ${isErrored ? 'svgInline--errored' : ''}`}
+            dangerouslySetInnerHTML={{ __html: svg }}
+        />
+        </>
+    );
+}
+
 interface GeneNetworkResult {
     organism: string;
-    genes: string;
+    genes: String[];
     webAppUrl: string;
 }
 
@@ -29,13 +56,13 @@ const LoadingIndicator: React.SFC<LoadingIndicatorProps> = props => {
 }
 
 const stepAnalysisButtonConfigFactory = (
-    genes: string,
+    genes: String[], organism: string
 ) => [
         {
             key: 'stringdb',
-            href: `https://string-db.org/cgi/network.pl?identifiers=${genes}`,
+            href: `${_externalUrls.STRING_URL}cgi/network.pl?species=${organism}&identifiers=${genes.join("%0d")}`,
             iconClassName: 'fa fa-external-link blue-text',
-            contents: 'View on STRING'
+            contents: 'View at STRING'
         }
     ];
 
@@ -44,25 +71,12 @@ const stepAnalysisButtonConfigFactory = (
 const STRINGNetwork: React.SFC<GeneNetworkResult> = props => {
     const { organism, genes, webAppUrl } = props;
 
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-        if (genes) {
-           getSTRING('https://string-db.org', {
-                'species': organism,
-                'identifiers': genes,
-                'network_flavor': 'confidence',
-                'caller_identity': webAppUrl,
-                'block_structure_pics_in_bubbles': 1
-            }).then(function (val) { setLoading(false) }) // callback to set loading = false
-        }
-    }, []);
-
+    const optionalParams = "network_flavor=confidence&block_structure_pics_in_bubbles=1&caller_identity=ErythronDB";
+    const url = _externalUrls.STRING_URL + "api/svg/network?species=" + organism + "&identifiers=" + genes.join("%0d") + "&" + optionalParams;
+     
     return (
         <Fragment>
-            <StepAnalysisButtonArray configs={stepAnalysisButtonConfigFactory(genes)}/>
-            <LoadingIndicator loading={loading}></LoadingIndicator>
-            <div id="stringEmbedded"></div>
+            <SvgInline url={url}/>
         </Fragment>
     );
 }
@@ -78,6 +92,7 @@ export const StepAnalysisGeneNetworkResults: React.FC<StepAnalysisResultPluginPr
             <Container fluid={true}>
                 <Row>
                     <Col>
+                        <StepAnalysisButtonArray configs={stepAnalysisButtonConfigFactory(analysisResult.genes, analysisResult.organism)}/>
                         {analysisResult.exceedsLimit ?
                             <Alert variant="warning"> The number of Genes in your result exceeds the display limit (50 IDs). <br />
                                 To analyze your gene list with STRING, use the button to view directly on STRING, or <strong>Download</strong> your search result to analyze directly on the STRING website.</Alert>
