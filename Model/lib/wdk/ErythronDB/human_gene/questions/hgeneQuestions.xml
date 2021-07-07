@@ -50,7 +50,11 @@
 
       <summary>
 	Filter result by free text search.
-      </summary>    
+      </summary>
+
+      <dynamicAttributes>
+        <columnAttribute name="match" displayName="Matched ID/Term" align="center" inReportMaker="true" help="term or identifier matched by filter criteria"/>
+      </dynamicAttributes>
       
     </question>
     
@@ -110,10 +114,17 @@
       <paramRef ref="hgeneParams.keyword_field"/>
        <column name="source_id"/>
        <column name="project_id"/>
+       <column name="match"/>
        <sql>
 	 <![CDATA[
 		  WITH term AS (SELECT '%' || TRIM(REPLACE(REGEXP_REPLACE($$keyword$$, '\s+', ' ', 'g'), '*', '%')) || '%' as term)
-		  SELECT DISTINCT ga.source_id, '@PROJECT_ID@'::text AS project_id
+		  SELECT DISTINCT ga.source_id, '@PROJECT_ID@'::text AS project_id,
+		  string_agg(DISTINCT
+		  CASE WHEN $$keyword_field$$ = 'gene_type' THEN ga.gene_type
+		  WHEN $$keyword_field$$ = 'identifier' THEN gi.external_id
+		  WHEN $$keyword_field$$ = 'go_term' THEN
+		    CASE WHEN go.go_term_id = REPLACE(t.term, '%', '') THEN go.go_term_id ELSE go.go_term END
+		  END, ' // ') AS match
 		  FROM CBIL.GeneIdentifiers gi, CBIL.GoAssociation go,
 		  CBIL.GeneAttributes ga, term t
 		  WHERE gi.gene_id = ga.gene_id 
@@ -126,6 +137,7 @@
 		  OR 
 		  ($$keyword_field$$ = 'go_term' AND (go.go_term ILIKE t.term OR go.go_term_id = REPLACE(t.term, '%', '')))
 		  ) 
+		  GROUP BY ga.source_id, '@PROJECT_ID@'::text
 	 ]]>
        </sql>
     </sqlQuery>
