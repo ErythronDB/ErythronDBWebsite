@@ -13,6 +13,8 @@ require('script-loader!../../../lib/stringdb_combined_embedded_network_v2.0.2.js
 
 // import './StepAnalysisGeneNetworkResult.css';
 
+const RESULT_SIZE_LIMIT = 200;
+
 
 //@ts-ignore
 const SvgInline = props => {
@@ -30,11 +32,11 @@ const SvgInline = props => {
 
     return (
         <>
-        <LoadingIndicator loading={!isLoaded}></LoadingIndicator>
-        <div 
-            className={`svgInline svgInline--${isLoaded ? 'loaded' : 'loading'} ${isErrored ? 'svgInline--errored' : ''}`}
-            dangerouslySetInnerHTML={{ __html: svg }}
-        />
+            <LoadingIndicator loading={!isLoaded}></LoadingIndicator>
+            <div
+                className={`svgInline svgInline--${isLoaded ? 'loaded' : 'loading'} ${isErrored ? 'svgInline--errored' : ''}`}
+                dangerouslySetInnerHTML={{ __html: svg }}
+            />
         </>
     );
 }
@@ -73,10 +75,10 @@ const STRINGNetwork: React.SFC<GeneNetworkResult> = props => {
 
     const optionalParams = "network_flavor=confidence&block_structure_pics_in_bubbles=1&caller_identity=ErythronDB";
     const url = _externalUrls.STRING_URL + "api/svg/network?species=" + organism + "&identifiers=" + genes.join("%0d") + "&" + optionalParams;
-     
+
     return (
         <Fragment>
-            <SvgInline url={url}/>
+            <SvgInline url={url} />
         </Fragment>
     );
 }
@@ -92,12 +94,15 @@ export const StepAnalysisGeneNetworkResults: React.FC<StepAnalysisResultPluginPr
             <Container fluid={true}>
                 <Row>
                     <Col>
-                        <StepAnalysisButtonArray configs={stepAnalysisButtonConfigFactory(analysisResult.genes, analysisResult.organism)}/>
                         {analysisResult.exceedsLimit ?
-                            <Alert variant="warning"> The number of Genes in your result exceeds the display limit (50 IDs). <br />
-                                To analyze your gene list with STRING, use the button to view directly on STRING, or <strong>Download</strong> your search result to analyze directly on the STRING website.</Alert>
+                            <Alert variant="warning"> The number of Genes in your result exceeds the display limit ({RESULT_SIZE_LIMIT} IDs). <br />
+                                Please filter your result set or or <strong>Download</strong> your search result to get the full list of gene identifiers and analyze directly on the STRING website.</Alert>
                             :
-                            <STRINGNetwork genes={analysisResult.genes} organism={analysisResult.organism} webAppUrl={webAppUrl} />}
+                            <div>
+                                <STRINGNetwork genes={analysisResult.genes} organism={analysisResult.organism} webAppUrl={webAppUrl} />
+                                <StepAnalysisButtonArray configs={stepAnalysisButtonConfigFactory(analysisResult.genes, analysisResult.organism)} />
+                            </div>
+                        }
                     </Col>
                 </Row>
             </Container>
