@@ -57,6 +57,7 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 	private static final String RESULT_FILE_PREFIX = "dendro_heatmap_";
 	private static final String TREE_FILE_NAME = RESULT_FILE_PREFIX + "tree";
 	private static final String RESULT_FILE_NAME = RESULT_FILE_PREFIX + "complete";
+	private static final String DENDRO_HEATMAP_IMG_FILE_NAME = RESULT_FILE_PREFIX + "img";
 	private static final String INPUT_FILE_PREFIX = "expression_";
 	private static final String INPUT_FILE_NAME = INPUT_FILE_PREFIX + "internal_";
 	private static final String DOWNLOAD_EXPRESSION_FILE_NAME = INPUT_FILE_PREFIX;
