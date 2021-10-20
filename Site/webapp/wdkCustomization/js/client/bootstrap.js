@@ -1,5 +1,4 @@
 import { initialize as initializeEbrc } from 'ebrc-client/bootstrap';
-//import * as componentWrappers from './componentWrappers';
 import * as componentWrappers from "./component-wrappers";
 import wrapStoreModules from "./wrapStoreModules";
 

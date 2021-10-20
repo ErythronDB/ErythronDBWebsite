@@ -245,7 +245,7 @@ def enrichmentAnalysis():
 
             # generate word cloud
             generate_word_cloud(results.TERM)
-            generate_term_word_cloud(results.TERM, results.COUNT_INCL_CLOSURE, results.ADJ_P)
+            # generate_term_word_cloud(results.TERM, results.COUNT_INCL_CLOSURE, results.ADJ_P) # EGA - NOT WORKING ON EMMA
             
         else: # handle case when no terms meet the enrichment cutoff
             genes =  ['GENES_display', 'GENES_INCL_CLOSURE_display']
@@ -278,6 +278,5 @@ if __name__ == "__main__":
                         help="input file has header?")
 
     args = parser.parse_args()
-
 
     enrichmentAnalysis()

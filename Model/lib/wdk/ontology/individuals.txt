@@ -7,19 +7,17 @@ TextCategory					TextCategory	Text				1
 													
 ## Gene Questions ##													
 													
-HumanGeneRecordClasses.HumanGeneRecordClass.HumanGeneQuestions.upload	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	search	HumanGeneQuestions.upload						menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.MouseGeneQuestions.upload	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	search	MouseGeneQuestions.upload						menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.MouseGeneQuestions.go	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	search	MouseGeneQuestions.go						menu		
-HumanGeneRecordClasses.HumanGeneRecordClass.HumanGeneQuestions.go	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	search	HumanGeneQuestions.go						menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.MouseGeneQuestions.pathways	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	search	MouseGeneQuestions.pathways						menu		
-HumanGeneRecordClasses.HumanGeneRecordClass.HumanGeneQuestions.pathways	http://edamontology.org/topic_0219	Curation and Annotation	HumanGeneRecordClasses.HumanGeneRecordClass	search	HumanGeneQuestions.pathways						menu		
-HumanGeneRecordClasses.HumanGeneRecordClass.study003_questions.study003_comparison	http://www.cbil.upenn.edu/ErythronDB/study003	EPO phosphorylation PTM targets in UT-7epo-E cells	HumanGeneRecordClasses.HumanGeneRecordClass	search	study003_questions.study003_comparison						menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.study001_questions.study001_comparison	http://www.cbil.upenn.edu/ErythronDB/study001	Ontogeny of erythroid gene expression	MouseGeneRecordClasses.MouseGeneRecordClass	search	study001_questions.study001_comparison					1	menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.study001_questions.study001_expression	http://www.cbil.upenn.edu/ErythronDB/study001	Ontogeny of erythroid gene expression	MouseGeneRecordClasses.MouseGeneRecordClass	search	study001_questions.study001_expression					2	menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.study002_questions.study002_comparison	http://www.cbil.upenn.edu/ErythronDB/study002	EPO-regulated targets in erythroid progenitors	MouseGeneRecordClasses.MouseGeneRecordClass	search	study002_questions.study002_comparison					3	menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.study002_questions.study002_expression	http://www.cbil.upenn.edu/ErythronDB/study002	EPO-regulated targets in erythroid progenitors	MouseGeneRecordClasses.MouseGeneRecordClass	search	study002_questions.study002_expression					4	menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.study005_questions.study005_comparison	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	search	study005_questions.study005_comparison					5	menu		
-MouseGeneRecordClasses.MouseGeneRecordClass.study005_questions.study005_expression	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	search	study005_questions.study005_expression					6	menu		
+HumanGeneRecordClasses.HumanGeneRecordClass.hs_questions.hs_upload	TextCategory	TextCategory	HumanGeneRecordClasses.HumanGeneRecordClass	search	hs_questions.hs_upload					2	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.mm_questions.mm_upload	TextCategory	TextCategory	MouseGeneRecordClasses.MouseGeneRecordClass	search	mm_questions.mm_upload					2	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.mm_questions.mm_gene_keyword	TextCategory	TextCategory	MouseGeneRecordClasses.MouseGeneRecordClass	search	mm_questions.mm_gene_keyword					1	results	menu	webservice
+HumanGeneRecordClasses.HumanGeneRecordClass.hs_questions.hs_gene_keyword	TextCategory	TextCategory	HumanGeneRecordClasses.HumanGeneRecordClass	search	hs_questions.hs_gene_keyword					1	results	menu	webservice
+HumanGeneRecordClasses.HumanGeneRecordClass.study003_questions.study003_comparison	http://www.cbil.upenn.edu/ErythronDB/study003_q	EPO phosphorylation PTM targets in UT-7epo-E cells	HumanGeneRecordClasses.HumanGeneRecordClass	search	study003_questions.study003_comparison						results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.study001_questions.study001_comparison	http://www.cbil.upenn.edu/ErythronDB/study001_q	Ontogeny of erythroid gene expression	MouseGeneRecordClasses.MouseGeneRecordClass	search	study001_questions.study001_comparison					1	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.study001_questions.study001_expression	http://www.cbil.upenn.edu/ErythronDB/study001_q	Ontogeny of erythroid gene expression	MouseGeneRecordClasses.MouseGeneRecordClass	search	study001_questions.study001_expression					2	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.study002_questions.study002_comparison	http://www.cbil.upenn.edu/ErythronDB/study002_q	EPO-regulated targets in erythroid progenitors	MouseGeneRecordClasses.MouseGeneRecordClass	search	study002_questions.study002_comparison					3	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.study002_questions.study002_expression	http://www.cbil.upenn.edu/ErythronDB/study002_q	EPO-regulated targets in erythroid progenitors	MouseGeneRecordClasses.MouseGeneRecordClass	search	study002_questions.study002_expression					4	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.study005_questions.study005_comparison	http://www.cbil.upenn.edu/ErythronDB/study005_q	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	search	study005_questions.study005_comparison					5	results	menu	webservice
+MouseGeneRecordClasses.MouseGeneRecordClass.study005_questions.study005_expression	http://www.cbil.upenn.edu/ErythronDB/study005_q	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	search	study005_questions.study005_expression					6	results	menu	webservice
 													
 ## Mouse Gene Attributes ##													
 													
@@ -56,6 +54,7 @@ MouseGeneRecordClasses.MouseGeneRecordClass.study005_genotype_comparisons	http:/
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_treatment_comparisons	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_treatment_comparisons				gene	3		record	download
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_reporter_profiles	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_reporter_profiles				gene	2		record	
 MouseGeneRecordClasses.MouseGeneRecordClass.study005_gene_profiles	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	MouseGeneRecordClasses.MouseGeneRecordClass	table	study005_gene_profiles				gene	1		record	
+MouseGeneRecordClasses.MouseGeneRecordClass.note	http://edamontology.org/topic_0219	Curation and Annotation	MouseGeneRecordClasses.MouseGeneRecordClass	attribute	note				gene	1		record-internal	download
 													
 ## Human Gene Attributes ##													
 													
@@ -94,8 +93,9 @@ DatasetRecordClasses.DatasetRecordClass.full_description	http://edamontology.org
 DatasetRecordClasses.DatasetRecordClass.data_type	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	data_type						results	record-internal	download
 DatasetRecordClasses.DatasetRecordClass.protocol_images	http://edamontology.org/topic_3934	Cytometry	DatasetRecordClasses.DatasetRecordClass	table	protocol_images					2		record	
 DatasetRecordClasses.DatasetRecordClass.protocol_description	http://edamontology.org/topic_3934	Cytometry	DatasetRecordClasses.DatasetRecordClass	attribute	protocol_description					1		record	
-DatasetRecordClasses.DatasetRecordClass.primary_publication_pubmed_url	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_publication						results	record-internal	download
+DatasetRecordClasses.DatasetRecordClass.primary_publication	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	primary_publication						results	record-internal	download
 DatasetRecordClasses.DatasetRecordClass.microarray_datasets	http://edamontology.org/topic_3518	Microarray Experiment	DatasetRecordClasses.DatasetRecordClass	attribute	microarray_datasets							record-internal	
 DatasetRecordClasses.DatasetRecordClass.proteomics_datasets	http://edamontology.org/topic_3520	Proteomics Experiment	DatasetRecordClasses.DatasetRecordClass	attribute	proteomics_datasets								
 DatasetRecordClasses.DatasetRecordClass.bulk_download_url	http://edamontology.org/topic_3518	Microarray Experiment	DatasetRecordClasses.DatasetRecordClass	attribute	bulk_download_url							record-internal	
-DatasetRecordClasses.DatasetRecordClass.primary_contact	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	record_taxon							record-internal	
+DatasetRecordClasses.DatasetRecordClass.record_taxon	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	record_taxon							record-internal	
+DatasetRecordClasses.DatasetRecordClass.study_access	http://edamontology.org/topic_3068	Summary	DatasetRecordClasses.DatasetRecordClass	attribute	study_access								

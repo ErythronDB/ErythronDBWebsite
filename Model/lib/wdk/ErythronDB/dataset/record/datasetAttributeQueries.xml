@@ -16,8 +16,6 @@
       <column name="attribution"/>
       <column name="caveat"/>
       <column name="summary"/>
-      <column name="is_public"/>
-      <column name="study_access"/>
       <column name="study_categories"/>
       <column name="project_availability"/>
       <column name="card_points"/>

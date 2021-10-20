@@ -26,7 +26,7 @@ public class GeneNetworkPlugin extends AbstractSimpleProcessAnalyzer {
     private static final Logger logger = Logger.getLogger(GeneNetworkPlugin.class);
 
     private static final String ORGANISM_PARAM_KEY = "organism";
-    private static final Integer GENE_LIST_SIZE_LIMIT = 50;
+    private static final Integer GENE_LIST_SIZE_LIMIT = 200;
 
 
     @Override
@@ -41,7 +41,7 @@ public class GeneNetworkPlugin extends AbstractSimpleProcessAnalyzer {
     public org.json.JSONObject getResultViewModelJson() throws WdkModelException {
         JSONObject resultViewModel = new JSONObject();
         
-        String organism = getFormParams().get(ORGANISM_PARAM_KEY)[0];
+        String organism = PluginUtil.getSingleAllowableValueParam(ORGANISM_PARAM_KEY, getFormParams(), null);
         resultViewModel.put("organism", organism);
 
         String idSql = getAnswerValue().getIdSql();

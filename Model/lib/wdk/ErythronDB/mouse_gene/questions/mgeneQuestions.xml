@@ -1,0 +1,184 @@
+<wdkModel>
+  <questionSet name="mm_questions" displayName="Mm questions">
+    
+    <question name="hs_to_mm_transform"
+	      displayName="Transform to Mm Orthologs"
+	      shortDisplayName="Mm Orthologs"
+	      queryRef="mm_question_queries.from_hs"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+
+      <description>
+	<![CDATA[
+		 Retrieve mouse (<em>Mm</em>) gene orthologs for the genes this search result.  After this transformation, the strategy can be extended further to compare against murine transcriptomics datasets.
+		 Ortholog data (HGNC -> MGI mappings) are taken from the <a href="@HUGO_URL@">HUGO Gene Nomenclature Committe (HGNC)</a> approved human gene annotation.
+	]]>
+      </description>
+
+      <summary>
+	Retrieve mouse gene orthologs for the genes this search result.
+      </summary>    
+    </question>
+
+
+    <question name="mm_gene_keyword"
+	      displayName="Keyword Search/Filter"
+	      shortDisplayName="Filter"
+	      queryRef="mm_question_queries.filter"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+      <description>
+	<![CDATA[<p>Search for genes by keyword or (when adding a step to a strategy) filter result by free text search on gene identifiers (symbol/name), gene type (e.g., protein coding), or direct Gene Ontology (GO) annotations (by term or GO ID; e.g. GO:0004674).</p>
+		 <p>Search will match all terms in phrase.</p>
+		 <p>Asterisks (*) may be used to indicate wild cards.]]>
+      </description>
+
+      <summary>
+	Filter result by free text search.
+      </summary>
+
+      <dynamicAttributes>
+        <columnAttribute name="match" displayName="Matched ID/Term" align="center" inReportMaker="true" help="term or identifier matched by filter criteria"/>
+      </dynamicAttributes>
+      
+    </question>
+
+
+    <question name="mm_upload"
+	      displayName="User Gene List"
+	      shortDisplayName="Genes"
+	      queryRef="mm_question_queries.upload"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+      
+      <description>
+	<![CDATA[
+		 <p>Provide a list of genes/proteins of interest by entering a new line or comma separated list of genes below.</p>
+		 <p>Alternatively upload a text file containing a new line separated list of genes.</p>
+		 <p>Genes/proteins can be specified using Ensembl, Entrez, MGI, Uniprot, or Official Gene Symbol.  Symbols will map thru synonyms only if the <em>Include Synonyms?</em> option is set to <em>Yes</em>.</p> 
+	]]>
+      </description>
+
+      <summary>
+	Upload a custom gene list.
+      </summary>    
+    </question>
+
+    <question name="mm_internal_gene_list"
+	      displayName="Annotated Genes"
+	      shortDisplayName="Genes"
+	      queryRef="mm_question_queries.gene_list"
+	      recordClassRef="MouseGeneRecordClasses.MouseGeneRecordClass">
+      
+      <description>
+	List of genes associated with a GO term or pathway in an enrichment analysis
+      </description>
+
+      <summary>
+	List of genes associated with a GO term or pathway in an enrichment analysis
+      </summary>    
+      <dynamicAttributes>
+        <columnAttribute name="annotation" displayName="Linked Annotation" align="center" inReportMaker="false" help="associated GO term or pathway"/>
+      </dynamicAttributes>
+    </question>
+
+
+
+    
+  </questionSet>
+
+
+  <querySet name="mm_question_queries" queryType="id" isCacheable="true">
+
+    <sqlQuery name="from_hs">
+      <paramRef ref="hgeneParams.hgene_answer"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="wdk_weight"/>
+      <sql>
+	<![CDATA[
+		 WITH result AS ($$hgene_answer$$) 
+		 
+		 SELECT DISTINCT first_value(mouse.source_id) OVER wnd AS source_id, 
+		 'ErythronDB'::text AS project_id, 
+		 1  AS wdk_weight
+		 FROM CBIL.GeneAttributes human, 
+		 CBIL.GeneAttributes mouse, result
+		 WHERE mouse.annotation->>'mgi_id' = human.annotation->>'mgd_id'
+		 AND human.source_id = result.source_id
+		 
+		 WINDOW wnd AS ( -- transform only allows for 1 to 1 mappings
+		 PARTITION BY result.source_id ORDER BY (lower(mouse.gene_symbol) = lower(human.gene_symbol)) DESC
+		 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+		 )                
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="filter">
+      <paramRef ref="mgeneParams.keyword"/>
+      <paramRef ref="mgeneParams.keyword_field"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="match"/>
+      <sql>
+	<![CDATA[
+		 WITH term AS (SELECT '%' || TRIM(REPLACE(REGEXP_REPLACE($$keyword$$, '\s+', ' ', 'g'), '*', '%')) || '%' as term)
+		 SELECT DISTINCT ga.source_id, '@PROJECT_ID@'::text AS project_id,
+		 string_agg(DISTINCT 
+		 CASE WHEN $$keyword_field$$ = 'gene_type' THEN ga.gene_type
+		 WHEN $$keyword_field$$ = 'identifier' THEN gi.external_id
+		 WHEN $$keyword_field$$ = 'go_term' THEN
+		   CASE WHEN go.go_term_id = REPLACE(t.term, '%', '') THEN go.go_term_id ELSE go.go_term END
+		 END, ' // ') AS match
+		 FROM CBIL.GeneIdentifiers gi, CBIL.GoAssociation go,
+		 CBIL.GeneAttributes ga, term t
+		 WHERE gi.gene_id = ga.gene_id 
+		 AND go.gene_id = ga.gene_id
+		 AND ga.organism = 'Mouse'
+		 AND (
+		 ($$keyword_field$$ = 'gene_type' AND ga.gene_type ILIKE t.term)
+		 OR 
+		 ($$keyword_field$$ = 'identifier' AND gi.external_id ILIKE t.term)
+		 OR 
+		 ($$keyword_field$$ = 'go_term' AND (go.go_term ILIKE t.term OR go.go_term_id = REPLACE(t.term, '%', '')))
+		 ) 
+		 GROUP BY ga.source_id, '@PROJECT_ID@'::text
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="upload">
+      <paramRef ref="mgeneParams.taxon"/>
+      <paramRef ref="mgeneParams.ds_gene_identifiers"/>
+      <paramRef ref="geneParams.incl_synonyms"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="wdk_weight"/>
+      <sql>
+	<![CDATA[
+		 WITH ds AS ($$ds_gene_identifiers$$)
+		 SELECT ga.source_id, 
+		 '@PROJECT_ID@'::text AS project_id 
+		 FROM CBIL.GeneIdentifiers gi, ds, CBIL.GeneAttributes ga
+		 WHERE ds.source_id ILIKE gi.external_id
+		 AND ga.gene_id = gi.gene_id
+		 AND (CASE WHEN $$incl_synonyms$$ = 'yes' THEN TRUE ELSE gi.dbref_id NOT IN ('alias_symbol', 'prev_symbol') END)
+		 AND ga.organism = $$taxon$$
+	]]>
+      </sql>
+    </sqlQuery>
+
+    <sqlQuery name="gene_list">
+      <paramRef ref="mgeneParams.gene_list"/>
+      <paramRef ref="mgeneParams.annotation"/>
+      <column name="source_id"/>
+      <column name="project_id"/>
+      <column name="annotation"/>
+      <sql>
+	<![CDATA[
+		 SELECT unnest(string_to_array($$gene_list$$::text, ',')) AS source_id, 
+		 '@PROJECT_ID@'::text AS project_id, $$annotation$$::text AS annotation
+	]]>
+      </sql>
+    </sqlQuery>
+    
+  </querySet>
+</wdkModel>

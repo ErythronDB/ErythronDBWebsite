@@ -66,7 +66,11 @@ Study001	http://www.cbil.upenn.edu/ErythronDB/study001	Ontogeny of erythroid gen
 Study002	http://www.cbil.upenn.edu/ErythronDB/study002	EPO-regulated targets in erythroid progenitors	901
 Study005	http://www.cbil.upenn.edu/ErythronDB/study005	EPO-targets in E1 cells with a truncated Epo receptor	902
 Study003	http://www.cbil.upenn.edu/ErythronDB/study003	EPO phosphorylation PTM targets in UT-7epo-E cells	950
-Cytometry	http://edamontology.org/topic_3934	Cell Stage Definitions and Sorting Criteria	50
+Cytometry	http://edamontology.org/topic_3934	Cytometry	50
 Quality Control Report	http://edamontology.org/data_3914	QC Report	55
 Microarray Experiment	http://edamontology.org/topic_3518	Microarray Experiment	52
 Proteomics Experiment	http://edamontology.org/topic_3520	Proteomics Experiment	53
+Study001 Questions	http://www.cbil.upenn.edu/ErythronDB/study001_q	Ontogeny of erythroid gene expression	960
+Study002 Questions	http://www.cbil.upenn.edu/ErythronDB/study002_q	EPO-regulated targets in erythroid progenitors	961
+Study005 Questions	http://www.cbil.upenn.edu/ErythronDB/study005_q	EPO-targets in E1 cells with a truncated Epo receptor	962
+Study003 Questions	http://www.cbil.upenn.edu/ErythronDB/study003_q	EPO phosphorylation PTM targets in UT-7epo-E cells	963

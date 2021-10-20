@@ -44,6 +44,7 @@ import pandas as pd
 from scipy.cluster.hierarchy import linkage, to_tree
 from scipy.spatial.distance import pdist
 
+import seaborn as sns
 import numpy as np
 
 def warning(*objs):
@@ -80,9 +81,18 @@ def linkage_to_newick(Z, labels):
     return build_newick(tree, "", tree.dist, labels)
 
 
+def generate_image(by, transpose=False):
+    """ use seaborn to generate a downloadable heatmap """
+    rowCluster = True if (by == 'row' or by = 'both') else False
+    colCluster = True if (by == 'column' or by = 'both') else False
+
+    plot = sns.clustermap(data, standard_scale =0, metric="correlation", row_cluster = rowCluster, col_cluster = colCluster, cmap='viridis')
+    plot.savefig(args.img + ".png")
+    plot.savefig(args.img + ".svg")
+
+
 def cluster(labels, transpose = False):
     """ cluster data by gene/row """
-
     if args.verbose: warning("Tree labels:", labels)
 
     # calc correlation/as pdist object from transposed matrix
@@ -111,6 +121,7 @@ if __name__ == "__main__":
                         help="input file name and full path", required=True)
     parser.add_argument('-o', '--output',
                         help="output file name and full path", required=True)
+    parser.add_argument('--img', help="img file name and full path")
     parser.add_argument('-r', '--rows',
                         help="cluster rows only", action="store_true")
     parser.add_argument('-c', '--cluster', choices=['row', 'column', 'both'],
@@ -136,6 +147,13 @@ if __name__ == "__main__":
         result['rowTree'] = cluster(get_labels("row"))
     if args.cluster in ['column', 'both']:
         result['colTree'] = cluster(get_labels("column"), transpose=True)
+
+    if args.cluster = 'row':
+        generate_image(by='row')
+    if args.cluster = 'column':
+        generate_image(by='column')
+    if args.cluster = 'both':
+        generate_image(by='both')
 
     with open(args.output, 'w') as of:
         json.dump(result, of)

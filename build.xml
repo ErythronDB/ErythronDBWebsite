@@ -41,11 +41,18 @@
   </target>
 
 
-  <target name="ErythronDBWebsite/Model-Installation" >
+  <target name="ErythronDBWebsite/Model-Installation">    <!--depends="ErythronDB-WDKModel-Patch">-->
     <ant target="defaultComponentInstall">
       <property name="project" value="ErythronDBWebsite" />
       <property name="component" value="Model" />
     </ant>
+
+    <echo message="Copying ${projectsDir}/${project}/Model/lib/wdk/ontology/annotation.txt to ${targetDir}/lib/wdk/ontology/annotation.txt"/>
+    <copy file="${projectsDir}/${project}/Model/lib/wdk/ontology/annotation.txt" tofile="${targetDir}/lib/wdk/ontology/annotation.txt" overwrite="true"/>
+
+    <echo message="Copying ${projectsDir}/${project}/Model/lib/wdk/ontology/categories.owl to ${targetDir}/lib/wdk/ontology/categories.owl"/>
+    <copy file="${projectsDir}/${project}/Model/lib/wdk/ontology/categories.owl" tofile="${targetDir}/lib/wdk/ontology/categories.owl" overwrite="true"/>
+
 
     <!-- the following four commands generate the website ontology -->
     <java failonerror="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
@@ -54,7 +61,7 @@
         <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
         <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
         <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/lib/java/ontology-logging/log4j-1.2.17.jar" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
@@ -65,7 +72,7 @@
         <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
         <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
         <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/lib/java/ontology-logging/log4j-1.2.17.jar" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
@@ -77,7 +84,7 @@
         <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
         <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
         <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/lib/java/ontology-logging/log4j-1.2.17.jar" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
@@ -88,7 +95,7 @@
         <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
         <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
         <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/lib/java/ontology-logging/log4j-1.2.17.jar" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
@@ -125,9 +132,9 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <target name="ErythronDBWebsite-WebInstallation" depends="EbrcWebSvcCommon-WebInstallation,
                                                       ErythronDBWebsite-Installation,                                                      
-                                                      ErythronDBWebsite/Site-WebInstallation"></target>
+                                                      ErythronDBWebsite/Site-WebInstallation">
+  </target>
 
- 
   <target name="ErythronDB-Website-Patch">
     <echo message="Applying patches from ${projectsDir}/${project}/patches" />
     <echo message="Patching: EbrcWebsiteCommon" />
@@ -136,15 +143,32 @@
     <echo message="Patching: WDKClient" />
     <property name="patch-full-path-wdkclient" location="${projectsDir}/${project}/patches/patch_WDKClient.bash" />
     <exec executable="${patch-full-path-wdkclient}" />
+
+    <replace dir="${projectsDir}/EbrcWebsiteCommon/Site/webapp/wdkCustomization/js/client/components" propertyFile="${webPropFile}">
+      <include name="CookieBanner.jsx"/>
+      <replaceFilter token="@webappCtx@" property="webappCtx"/>
+    </replace>
+
+    <replace dir="${projectsDir}/WDKClient/Client/src/Views/User/Profile" propertyFile="${webPropFile}">
+      <include name="UserRegistration.jsx"/>
+      <replaceFilter token="@webappCtx@" property="webappCtx"/>
+    </replace>
   </target>
 
-
   <!-- patch WDKWebsite/View, rebuild, and then build ErythronDBWebsite/Site -->
-  <target name="ErythronDBWebsite/Site-WebInstallation" depends="ErythronDB-Website-Patch"> 
+  <target name="ErythronDBWebsite/Site-WebInstallation" depends="ErythronDB-Website-Patch">
     <ant target="eupathWebComponentInstall">
       <property name="project" value="ErythronDBWebsite" />
       <property name="component" value="Site" />
     </ant>
+
+    <replace dir="${webappTargetDir}/WEB-INF/includes" propertyFile="${webPropFile}">
+      <include name="client.html" />
+      <replacefilter token="@build@" property="projectId"/>
+      <replacefilter token="@assetPath@" property="assetPath" />
+      <replacefilter token="@googleAnalyticsId@" property="googleAnalyticsId" />
+      <replacefilter token="@webappCtx@" property="webappCtx" />
+    </replace>
   </target>
 
 

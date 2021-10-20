@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wdkModel>
   <recordClassSet name="HumanGeneRecordClasses">
-    <recordClass name="HumanGeneRecordClass" urlName="hs" displayName="Gene (Hs)" displayNamePlural="Genes (Hs)"
-		 shortDisplayName="Gene" shortDisplayNamePlural="Genes">
+    <recordClass name="HumanGeneRecordClass" urlName="hs" displayName="Gene (Hs)" displayNamePlural="Genes (Hs)" shortDisplayName="Gene" shortDisplayNamePlural="Genes">
       <!-- =================================================================== -->
       <!-- Primary Key -->
       <!-- =================================================================== -->
@@ -21,28 +20,23 @@
       <!-- Reporters -->
       <!-- =================================================================== -->
 
-      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" scopes="record"
-		implementation="org.gusdb.wdk.model.report.reporter.FullRecordReporter"/>
+      <reporter name="fullRecord" displayName="%%fullReporterDisplayName%%" scopes="record" implementation="org.gusdb.wdk.model.report.reporter.FullRecordReporter"/>
 
-      <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results"
-		implementation="org.gusdb.wdk.model.report.reporter.AttributesTabularReporter">
+      <reporter name="attributesTabular" displayName="%%attributesReporterDisplayName%%" scopes="results" implementation="org.gusdb.wdk.model.report.reporter.AttributesTabularReporter">
         <description>%%attributesReporterDescription%%</description>
         <property name="page_size">1000000</property>
       </reporter>
 
-      <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results"
-		implementation="org.gusdb.wdk.model.report.reporter.TableTabularReporter">
+      <reporter name="tableTabular" displayName="%%tableReporterDisplayName%%" scopes="results" implementation="org.gusdb.wdk.model.report.reporter.TableTabularReporter">
         <description>%%tableReporterDescription%%</description>
         <property name="page_size">1000000</property>
       </reporter>
 
-      
-      <reporter name="xml" displayName="XML: choose from columns and/or tables" scopes=""
-		implementation="org.gusdb.wdk.model.report.reporter.XMLReporter">
+
+      <reporter name="xml" displayName="XML: choose from columns and/or tables" scopes="" implementation="org.gusdb.wdk.model.report.reporter.XMLReporter">
       </reporter>
 
-      <reporter name="json" displayName="JSON: choose from columns and/or tables" scopes=""
-		implementation="org.gusdb.wdk.model.report.reporter.JSONReporter">
+      <reporter name="json" displayName="JSON: choose from columns and/or tables" scopes="" implementation="org.gusdb.wdk.model.report.reporter.JSONReporter">
       </reporter>
 
 
@@ -65,10 +59,9 @@
         <columnAttribute name="chromosome" displayName="Chromosome" />
         <columnAttribute name="gene_type" displayName="Gene Type" internal="false" help="Gene product category" />
         <columnAttribute name="symbol" displayName="Symbol" removable="false" internal="false" align="center"/>
-	
+
         <columnAttribute name="product" displayName="Name" internal="false" help="official gene name/protein product for this gene">
-	  <reporter name="wordCloud" displayName="Word Cloud" scopes=""
-                    implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
+          <reporter name="wordCloud" displayName="Word Cloud" scopes="" implementation="org.eupathdb.common.model.report.EbrcWordCloudAttributeReporter">
             <description>
               <![CDATA[ Display the terms in the attribute as word clouds ]]>
             </description>
@@ -79,29 +72,26 @@
         <columnAttribute name="end_max" displayName="End Location" internal="true" />
         <columnAttribute name="strand" displayName="Strand" internal="true" />
         <columnAttribute name="locus" displayName="Locus"/>
-	<columnAttribute name="location" displayName="Genomic Location" help="chromosome:start-end:strand"/> 
+        <columnAttribute name="location" displayName="Genomic Location" help="chromosome:start-end:strand"/>
         <columnAttribute name="organism" displayName="Organism" inReportMaker="true" internal="false"/>
       </attributeQueryRef>
 
       <attributeQueryRef ref="GeneAttributes.Synonyms">
-	<columnAttribute name="synonym" internal="false" displayName="Synonyms" />
+        <columnAttribute name="synonym" internal="false" displayName="Synonyms" />
       </attributeQueryRef>
 
       <attributeQueryRef ref="GeneAttributes.Ortholog">
         <columnAttribute name="ortholog_source_id" internal="true" inReportMaker="true" displayName="Mouse Ortholog (Ensembl ID)"/>
         <columnAttribute name="ortholog_symbol" internal="true" inReportMaker="true" displayName="Mouse Ortholog (Symbol)"/>
-
-	<linkAttribute name="ortholog_record_link" displayName="Mouse Ortholog" truncateTo="5000" inReportMaker="false">
-	  <displayText>$$ortholog_symbol$$</displayText>
-	  <url><![CDATA[../mm/$$ortholog_source_id$$]]></url>
-	</linkAttribute>
+	      <columnAttribute name="ortholog_record_link" internal="false" inReportMaker="false" displayName="Mouse Ortholog" truncateTo="5000"/>
+       
       </attributeQueryRef>
 
       <!-- =================================================================== -->
       <!-- Tables -->
       <!-- =================================================================== -->
 
-      
+
       <table name="gene_link_outs" displayName="Genes" inReportMaker="false" queryRef="GeneTables.DbRefs_Gene">
         <columnAttribute name="external_id" displayName="External ID" internal="false"/>
         <columnAttribute name="external_links" displayName="Resources" internal="false" truncateTo="5000"/>
@@ -148,27 +138,25 @@
       </table>
 
       <table name="pathways" displayName="Pathway Membership" queryRef="GeneTables.Pathways">
-      	<columnAttribute name="pathway_name" displayName="Pathway"/>
-      	<columnAttribute name="pathway_source" displayName="Source"/>
-      	<columnAttribute name="pathway_id" displayName="Pathway ID" internal="true" inReportMaker="true"/>
-      	<columnAttribute name="pathway_url" internal="true" inReportMaker="false"/>
-	<columnAttribute name="pathway_url_param" internal="true" inReportMaker="false"/>
-      	<linkAttribute name="pathway_link" displayName="View Pathway" inReportMaker="false" help="view pathway at KEGG or Reactome">
-      	  <displayText>$$pathway_id$$</displayText>
-      	  <url><![CDATA[$$pathway_url$$$$pathway_url_param$$]]></url>
-      	</linkAttribute>
-	<columnAttribute name="evidence" displayName="Evidence Code" inReportMaker="true" help="Gene ontology (GO) evidence code supporting how the pathway annotation was determined; available only for Reactome pathways"/>
+        <columnAttribute name="pathway_name" displayName="Pathway"/>
+        <columnAttribute name="pathway_source" displayName="Source"/>
+        <columnAttribute name="pathway_id" displayName="Pathway ID" internal="true" inReportMaker="true"/>
+        <columnAttribute name="pathway_url" internal="true" inReportMaker="false"/>
+        <columnAttribute name="pathway_url_param" internal="true" inReportMaker="false"/>
+        <linkAttribute name="pathway_link" displayName="View Pathway" inReportMaker="false" help="view pathway at KEGG or Reactome">
+          <displayText>$$pathway_id$$</displayText>
+          <url><![CDATA[$$pathway_url$$$$pathway_url_param$$]]></url>
+        </linkAttribute>
+        <columnAttribute name="evidence" displayName="Evidence Code" inReportMaker="true" help="Gene ontology (GO) evidence code supporting how the pathway annotation was determined; available only for Reactome pathways"/>
       </table>
-      
+
       <!-- =================================================================== -->
       <!-- PTM: Study003 - EPO Targets -->
       <!-- =================================================================== -->
-      <table name="study003_ptm" displayName="Post Translational Modifications"
-	     inReportMaker="false"
-	     queryRef="study003_GeneTables.PTM">
+      <table name="study003_ptm" displayName="Post Translational Modifications" inReportMaker="false" queryRef="study003_GeneTables.PTM">
 
-	<description>
-	  <![CDATA[
+        <description>
+          <![CDATA[
 		   <p>EPO phosphorylation post-translational modifications associated with this gene's products.</p>
 		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
@@ -179,7 +167,7 @@
 		   </div>
 		   </div>
 	  ]]>
-	</description>
+        </description>
 
         <columnAttribute displayName="Protein ID" name="protein_id" internal="true"/>
         <linkAttribute displayName="Protein ID" name="protein_link" inReportMaker="false">
@@ -193,23 +181,22 @@
         <columnAttribute name="peptide" displayName="Peptide" align="center"/>
         <columnAttribute name="modification_type" displayName="Modification Type"/>
         <columnAttribute name="modification_site" displayName="Modification Site" align="center"/>
-	<columnAttribute name="digest" displayName="Digest"/>
-	<columnAttribute name="antibody" displayName="Antibody Motif"/>
+        <columnAttribute name="digest" displayName="Digest"/>
+        <columnAttribute name="antibody" displayName="Antibody Motif"/>
         <columnAttribute name="molecular_weight" displayName="kD" help="translated molecular weight of the assigned protein"/>
         <columnAttribute name="charge" displayName="Charge" help="observed charge state for the peptide"/>
         <columnAttribute name="mass_to_charge_ratio" displayName="m/Z" help="calculated mass to charge ratio of the peptide determined from the primary amino acid sequence and the associated modifications"/>
 
       </table>
-      
+
       <!-- =================================================================== -->
       <!-- Comparisons: Study003 - EPO Targets -->
       <!-- =================================================================== -->
 
 
-      <table name="study003_comparisons" displayName="Comparisons"
-	     inReportMaker="true" queryRef="study003_GeneTables.Comparisons">
-	<description>
-	  <![CDATA[
+      <table name="study003_comparisons" displayName="Comparisons" inReportMaker="true" queryRef="study003_GeneTables.Comparisons">
+        <description>
+          <![CDATA[
 		   <p>Comparisons between treated (EPO) UT-7epo-E cells in which a protein/post-translation modification associated with this gene was significantly differentially expressed (adj. p-value &le; 0.05).</p>
 		   <div class="btn-toolbar" role="toolbar" aria-label="explore study toolbar">
 		   <div class="btn-group mr-2" role="group" aria-label="Browse">
@@ -220,11 +207,11 @@
 		   </div>
 		   </div>
 	  ]]>
-	</description>
-	
+        </description>
+
         <columnAttribute name="treatment" displayName="Treatment" help="treatment compared to control samples"/>
-	<columnAttribute name="digest" displayName="Digest"/>
-	<columnAttribute name="antibody" displayName="Antibody Motif"/>
+        <columnAttribute name="digest" displayName="Digest"/>
+        <columnAttribute name="antibody" displayName="Antibody Motif"/>
         <columnAttribute displayName="Protein ID" name="protein_id" internal="true"/>
         <linkAttribute displayName="Protein ID" name="protein_link" inReportMaker="false">
           <displayText>
@@ -241,6 +228,6 @@
         <columnAttribute name="adj_fold_change" displayName="Median Adj FC" help="log2-median adjusted fold change"/>
       </table>
 
-</recordClass>
-</recordClassSet>
+    </recordClass>
+  </recordClassSet>
 </wdkModel>

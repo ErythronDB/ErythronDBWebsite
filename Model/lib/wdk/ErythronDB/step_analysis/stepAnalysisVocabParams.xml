@@ -51,7 +51,7 @@
             SELECT DISTINCT p.dataset_id
             FROM ErythronDB.Profile p, Study.Study s,
             ($$stepParamValuesSql$$) pv
-            WHERE pv.name = 'experiment' AND pv.value = s.source_id
+            WHERE pv.name = 'experiment' AND pv.value = '["' || s.source_id || '"]'
             AND s.study_id = p.dataset_id
             AND ((p.title LIKE '%Gene%' or p.title LIKE '%Protein%') AND p.title NOT LIKE '%Average%')),
     
@@ -93,7 +93,7 @@
             || CASE WHEN (p.display->>'record')::boolean THEN '' ELSE '*' END AS display
             FROM ErythronDB.Profile p, Study.Study s,
             ($$stepParamValuesSql$$) pv
-            WHERE pv.name = 'experiment' AND pv.value = s.source_id
+            WHERE pv.name = 'experiment' AND pv.value = '["' || s.source_id || '"]' -- value is in format ["id"]
             AND s.study_id = p.dataset_id
             AND ((p.title LIKE '%Gene%' or p.title LIKE '%Protein%') AND p.title NOT LIKE '%Average%'))
             SELECT * FROM re

@@ -5,14 +5,45 @@ import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { StepAnalysisButtonArray } from './StepAnalysisButtonArray';
+
+import { _externalUrls } from "../../data/_externalUrls";
 
 require('script-loader!../../../lib/stringdb_combined_embedded_network_v2.0.2.js');
 
 // import './StepAnalysisGeneNetworkResult.css';
 
+const RESULT_SIZE_LIMIT = 200;
+
+
+//@ts-ignore
+const SvgInline = props => {
+    const [svg, setSvg] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isErrored, setIsErrored] = useState(false);
+
+    useEffect(() => {
+        fetch(props.url)
+            .then(res => res.text())
+            .then(setSvg)
+            .catch(setIsErrored)
+            .then(() => setIsLoaded(true))
+    }, [props.url]);
+
+    return (
+        <>
+            <LoadingIndicator loading={!isLoaded}></LoadingIndicator>
+            <div
+                className={`svgInline svgInline--${isLoaded ? 'loaded' : 'loading'} ${isErrored ? 'svgInline--errored' : ''}`}
+                dangerouslySetInnerHTML={{ __html: svg }}
+            />
+        </>
+    );
+}
+
 interface GeneNetworkResult {
     organism: string;
-    genes: string;
+    genes: String[];
     webAppUrl: string;
 }
 
@@ -26,31 +57,29 @@ const LoadingIndicator: React.SFC<LoadingIndicatorProps> = props => {
         : null;
 }
 
+const stepAnalysisButtonConfigFactory = (
+    genes: String[], organism: string
+) => [
+        {
+            key: 'stringdb',
+            href: `${_externalUrls.STRING_URL}cgi/network.pl?species=${organism}&identifiers=${genes.join("%0d")}`,
+            iconClassName: 'fa fa-external-link blue-text',
+            contents: 'View at STRING'
+        }
+    ];
+
+
 // to set loading flag need to use useState hook
 const STRINGNetwork: React.SFC<GeneNetworkResult> = props => {
     const { organism, genes, webAppUrl } = props;
 
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-        if (genes) {
-           getSTRING('https://string-db.org', {
-                'species': organism,
-                'identifiers': genes,
-                'network_flavor': 'confidence',
-                'caller_identity': webAppUrl,
-                'block_structure_pics_in_bubbles': 1
-            }).then(function (val) { setLoading(false) }) // callback to set loading = false
-        }
-    }, []);
+    const optionalParams = "network_flavor=confidence&block_structure_pics_in_bubbles=1&caller_identity=ErythronDB";
+    const url = _externalUrls.STRING_URL + "api/svg/network?species=" + organism + "&identifiers=" + genes.join("%0d") + "&" + optionalParams;
 
     return (
-        <div>
-        <LoadingIndicator loading={loading}></LoadingIndicator>
-        <div id="stringEmbedded"></div>
-        </div>
-     
-
+        <Fragment>
+            <SvgInline url={url} />
+        </Fragment>
     );
 }
 
@@ -66,10 +95,14 @@ export const StepAnalysisGeneNetworkResults: React.FC<StepAnalysisResultPluginPr
                 <Row>
                     <Col>
                         {analysisResult.exceedsLimit ?
-                            <Alert variant="warning"> The number of Genes in your result exceeds the display limit (50 IDs). <br />
-                                To analyze your gene list with STRING, you can modify your search or <strong>Download</strong> your search result to analyze directly on the STRING website.</Alert>
+                            <Alert variant="warning"> The number of Genes in your result exceeds the display limit ({RESULT_SIZE_LIMIT} IDs). <br />
+                                Please filter your result set or or <strong>Download</strong> your search result to get the full list of gene identifiers and analyze directly on the STRING website.</Alert>
                             :
-                            <STRINGNetwork genes={analysisResult.genes} organism={analysisResult.organism} webAppUrl={webAppUrl} />}
+                            <div>
+                                <STRINGNetwork genes={analysisResult.genes} organism={analysisResult.organism} webAppUrl={webAppUrl} />
+                                <StepAnalysisButtonArray configs={stepAnalysisButtonConfigFactory(analysisResult.genes, analysisResult.organism)} />
+                            </div>
+                        }
                     </Col>
                 </Row>
             </Container>

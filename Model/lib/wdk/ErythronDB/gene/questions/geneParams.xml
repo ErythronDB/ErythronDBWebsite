@@ -1,0 +1,38 @@
+<wdkModel>
+
+  <!--===========================================================================-->
+  <!-- Params  -->
+  <!--===========================================================================-->
+
+  <paramSet name="geneParams">
+
+    <enumParam name="taxon" prompt="Taxon" displayType="checkBox" multiPick="false" quote="true">
+      <enumList>
+        <enumValue>
+          <term>Human (Hs)</term>
+          <internal>Human</internal>
+        </enumValue>
+        <enumValue>
+          <term>Mouse (Mm)</term>
+          <internal>Mouse</internal>
+        </enumValue>
+      </enumList>
+      <help>Select taxon</help>
+    </enumParam>
+
+    <enumParam name="incl_synonyms" prompt="Incl. Synonyms?" displayType="checkBox" multiPick="false" quote="true">
+      <enumList>
+        <enumValue>
+          <term>yes</term>
+          <internal>yes</internal>
+        </enumValue>
+        <enumValue>
+          <term>no</term>
+          <internal>no</internal>
+        </enumValue>
+      </enumList>
+      <help>Select 'yes' to search synonyms as well as Official Gene Symbols</help>
+    </enumParam>
+
+  </paramSet>
+</wdkModel>

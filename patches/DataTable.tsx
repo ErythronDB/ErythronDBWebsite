@@ -151,8 +151,7 @@ class DataTable extends PureComponent<Props, State> {
 
     let columnsChanged = didPropChange(this, prevProps, 'columns')
     let dataChanged = didPropChange(this, prevProps, 'data');
-    let sortingChanged = didPropChange(this, prevProps, 'sorting') &&
-      !eq(this.props.sorting, prevProps.sorting);
+    let sortingChanged = didPropChange(this, prevProps, 'sorting');
     let widthChanged = didPropChange(this, prevProps, 'width');
     let heightChanged = didPropChange(this, prevProps, 'height');
     let expandedRowsChanged = didPropChange(this, prevProps, 'expandedRows');

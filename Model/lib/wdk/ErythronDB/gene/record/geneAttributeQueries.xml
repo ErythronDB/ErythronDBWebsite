@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wdkModel>
-    <querySet name="GeneAttributes" queryType="attribute" isCacheable="false">
-	
-	<sqlQuery name="Basic">
-	    <column name="source_id"/>
-	    <column name="project_id"/>
-	    <column name="project"/>
-	    <column name="symbol"/>
-	    <column name="gene_type"/>
-	    <column name="chromosome"/>
-	    <column name="start_min"/>
-	    <column name="end_max"/>
-	    <column name="strand"/>
-	    <column name="organism"/>
-	    <column name="product"/>
-	    <column name="locus"/>
-	    <column name="location"/>
-	    <sql>
-	      <![CDATA[
+	<querySet name="GeneAttributes" queryType="attribute" isCacheable="false">
+		<sqlQuery name="GenericBasic">
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<sql>
+				<![CDATA[
+			SELECT source_id, '@PROJECT_ID@'::text AS project_id FROM CBIL.GeneAttributes
+			]]>
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Basic">
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="project"/>
+			<column name="symbol"/>
+			<column name="gene_type"/>
+			<column name="chromosome"/>
+			<column name="start_min"/>
+			<column name="end_max"/>
+			<column name="strand"/>
+			<column name="organism"/>
+			<column name="product"/>
+			<column name="locus"/>
+			<column name="location"/>
+			<sql>
+				<![CDATA[
 		       SELECT source_id,
 		       '@PROJECT_ID@'::text AS project_id,
 		       '@PROJECT_ID@'::text AS project,
@@ -33,15 +42,15 @@
 		       chromosome || ':' || start_min::text || '-' || end_max::text || ':' || CASE WHEN is_reversed THEN '-' ELSE '+' END AS location
 		       FROM CBIL.GeneAttributes
 	      ]]>
-	    </sql>
-	</sqlQuery>
+			</sql>
+		</sqlQuery>
 
-	<sqlQuery name="Synonyms">
-	  <column name="source_id"/>
-	  <column name="project_id"/>
-	  <column name="synonym"/>
-	  <sql>
-	    <![CDATA[
+		<sqlQuery name="Synonyms">
+			<column name="source_id"/>
+			<column name="project_id"/>
+			<column name="synonym"/>
+			<sql>
+				<![CDATA[
 		     SELECT ga.source_id, '@PROJECT_ID@'::text AS project_id, 
 		     string_agg(gi.external_id, ', ' ORDER BY dbref_id DESC) AS synonym
 		     FROM
@@ -50,46 +59,54 @@
 		     AND gi.dbref_id IN ('prev_symbol', 'alias_symbol')
 		     GROUP BY gi.gene_id, ga.source_id
 	    ]]>
-	  </sql>
-	</sqlQuery>
-	
-	<sqlQuery name="Ortholog">
-	  <column name="source_id" columnType="string"/>
-	  <column name="project_id" columnType="string"/>
-	  <column name="ortholog_taxon" columnType="string"/>
-	  <column name="ortholog_source_id" columnType="string"/>
-	  <column name="ortholog_symbol" columnType="string"/>
-	  <sql>
-	    <![CDATA[
-		     WITH Human AS (	     
-		     SELECT gene_id, source_id, gene_symbol, annotation->>'mgd_id' AS mgi_id 
-		     FROM CBIL.GeneAttributes 
-		     WHERE organism = 'Human' and annotation->>'mgd_id' IS NOT NULL),
-		     Orthology AS (
-		     SELECT h.source_id AS human_source_id, h.gene_symbol AS human_gene_symbol,
-		     ga.source_id AS mouse_source_id, ga.gene_symbol AS mouse_gene_symbol, h.mgi_id AS mapping_mgi_id
-		     FROM CBIL.GeneAttributes ga,
-		     Human h
-		     WHERE annotation->>'mgi_id' = h.mgi_id),
-		     MappedOrthology AS (
-		     SELECT DISTINCT ga.source_id,
-		     CASE WHEN organism = 'Human' THEN mouse_source_id ELSE human_source_id END AS ortholog_source_id,
-		     CASE WHEN organism = 'Human' THEN mouse_gene_symbol ELSE human_gene_symbol END AS ortholog_symbol,
-		     CASE WHEN organism = 'Human' THEN 'Mm' ELSE 'Hs' END AS ortholog_taxon
-		     FROM 
-		     CBIL.GeneAttributes ga, 
-		     Orthology o
-		     WHERE o.human_source_id = ga.source_id
-		     OR o.mouse_source_id = ga.source_id)
-		     SELECT id.source_id, m.ortholog_source_id, m.ortholog_symbol, m.ortholog_taxon,
-		     '@PROJECT_ID@'::text AS project_id
-		     FROM (##WDK_ID_SQL##) id
-		     LEFT OUTER JOIN 
-		     MappedOrthology m
-		     ON id.source_id = m.source_id
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Ortholog">
+			<column name="source_id" columnType="string"/>
+			<column name="project_id" columnType="string"/>
+			<column name="ortholog_taxon" columnType="string"/>
+			<column name="ortholog_source_id" columnType="string"/>
+			<column name="ortholog_symbol" columnType="string"/>
+			<column name="ortholog_record_link" columnType="string"/>
+			<sql>
+				<![CDATA[
+		  WITH id AS (##WDK_ID_SQL##),
+Ortholog AS (
+SELECT id.source_id, 
+CASE WHEN id.source_id = mouse.source_id THEN human.gene_symbol ELSE mouse.gene_symbol END AS ortholog_gene_symbol,
+CASE WHEN id.source_id = mouse.source_id THEN human.source_id ELSE mouse.source_id END AS ortholog_source_id,
+CASE WHEN id.source_id = mouse.source_id THEN 'Hs' ELSE 'Mm' END AS ortholog_taxon
+FROM CBIL.GeneAttributes human, 
+CBIL.GeneAttributes mouse, id
+WHERE mouse.annotation->>'mgi_id' = human.annotation->>'mgd_id'
+AND (human.source_id = id.source_id OR mouse.source_id = id.source_id))
+SELECT id.source_id, '@PROJECT_ID@'::text AS project_id, 
+string_agg(o.ortholog_gene_symbol, ' // ' ORDER BY o.ortholog_source_id) AS ortholog_symbol,
+string_agg(o.ortholog_source_id, ' // ' ORDER BY o.ortholog_source_id) AS ortholog_source_id,
+string_agg('<a href="/@WEBAPP@/app/record/' || lower(o.ortholog_taxon) || '/' || o.ortholog_source_id
+|| '">' || o.ortholog_gene_symbol || '</a>', ' // ' ORDER BY o.ortholog_source_id)  AS ortholog_record_link
+FROM Ortholog o RIGHT OUTER JOIN id ON id.source_id = o.source_id
+GROUP BY id.source_id, '@PROJECT_ID@'::text, o.ortholog_taxon
 	    ]]>
-		     
-	  </sql>
-	</sqlQuery>
-    </querySet>
+
+			</sql>
+		</sqlQuery>
+
+		<sqlQuery name="Note">
+			<column name="source_id" columnType="string"/>
+			<column name="project_id" columnType="string"/>
+			<column name="note" columnType="string"/>
+			<sql>
+			<![CDATA[
+			WITH id AS (##WDK_ID_SQL##),
+			note AS (
+			SELECT ga.source_id,  gn.note
+			FROM CBIL.GeneAttributes ga, ErythronDB.GeneNote gn
+			WHERE gn.gene_id = ga.gene_id)
+			SELECT id.source_id, '@PROJECT_ID@'::text AS project_id, n.note FROM Note n RIGHT OUTER JOIN id ON id.source_id = n.source_id
+			]]>
+			</sql>
+		</sqlQuery>
+	</querySet>
 </wdkModel>

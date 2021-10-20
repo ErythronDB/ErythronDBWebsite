@@ -1,52 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Link as RouterLink } from "wdk-client/Components";
-import { safeHtml } from "wdk-client/Utils/ComponentUtils";
-import { CompositeService as WdkService } from "wdk-client/Service/ServiceMixins";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { _faq } from '../../../data/faq';
+import { makeClassNameHelper } from "wdk-client/Utils/ComponentUtils";
 
-interface FAQItem {
-    question: string,
-    description: string,
-    category: string
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Accordion from "react-bootstrap/Accordion";
+import Card, { CardText } from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
+
+import { _faq } from "../../../data/faq";
+
+import "./../FAQPage/FAQPage.scss";
+
+const cx = makeClassNameHelper("edb-faq");
+
+interface FAQ {
+  question: string;
+  anchor: string;
+  content: string;
 }
 
-const FAQ: React.FC<{}> = () => {
-    return (
-        <Row>
-           
+const FAQPageNav: React.FC<{}> = () => {
+  return (
+    <Nav
+      defaultActiveKey="about"
+      className={`mt-5 mb-5 flex-column ${cx("side-nav")}`}
+    >
 
-            <Col>
-               
-            </Col>
-        </Row>
-
-    );
-}
-
-const FAQPage: React.FC<RouteComponentProps<any>> = () => {
-
-
-    return (
-        <Container fluid={true}>
-            <Row>
-                <Col>
-                    <h1>FAQ</h1>
-                    <p>Description coming soon</p>
-                </Col>
-            </Row>
-            
-          
-        </Container>
-    );
+    {_faq.map((f) => _buildNav(f))}
+     
+    </Nav>
+  );
 };
 
-const _buildResource = (result: FAQItem, category: string) => {
+const FAQPage: React.FC<RouteComponentProps<any>> = () => {
+  return (
+    <Container fluid={true} className="mb-5 no-gutters px-0">
+      <Row>
+        <FAQPageNav />
+      </Row>
+      <Row>
+          <Col>
+          {_faq.map((f) => _buildFAQ(f))};
+          </Col>
+      </Row>
+    </Container>
+  );
+};
+
+const _buildNav = ( faq: FAQ) => {
     return (
-      <div></div>
+        <Nav.Link key={faq.anchor} className={cx("--nav")} href={`#${faq.anchor}`} eventKey={faq.anchor}>{faq.question}</Nav.Link>
+    )
+}
+
+const _buildFAQ = (faq: FAQ) => {
+  return (
+      <div key={faq.anchor}>
+      <a id={faq.anchor} className={cx("--question")}>{faq.question}</a>
+      <p className={cx("--text")}>{faq.content}</p>
+      </div>
     );
 };
 

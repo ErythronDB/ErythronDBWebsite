@@ -1,9 +1,16 @@
 // welcome
+@import "../../../../../sass/variables.scss";
 
 $title-color: $primary-dark;
 $subtitle-color: $primary-grey;
 $button-hover-color: $highlight;
 $study-section-title-color: $primary-med;
+
+.wdk-RootContainer__erythrondb-home {
+    .wdk-PageContent {
+       padding: 0px;
+    }
+}
 
 .welcome-panel {
     background-size: 100% !important;

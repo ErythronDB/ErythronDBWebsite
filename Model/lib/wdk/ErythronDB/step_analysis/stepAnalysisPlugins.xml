@@ -1,8 +1,6 @@
 <wdkModel>
   <stepAnalysisPlugins>
 
-    <viewConfig prefix="/wdkCustomization/jsp/analysis/" 
-      suffix=".jsp"/>
     <executionConfig threadPoolSize="25" 
       fileStoreDirectory="@STEP_ANALYSIS_JOB_DIR@"/>
 
@@ -17,7 +15,7 @@
       <paramRef ref="geneNetworkAnalysisParams.organism"/>
 
       <shortDescription>
-        <![CDATA[Generate a STRINGdb interaction network from the genes in the search result.]]>
+        <![CDATA[Generate a STRING interaction network from the genes in the search result.]]>
       </shortDescription>
       <description>
         <![CDATA[

@@ -19,10 +19,56 @@
       <suggest default="Epor,Gata1,Jak2,Stat3"/>
     </datasetParam>
 
+    <enumParam name="taxon" prompt="Taxon" displayType="checkBox" multiPick="false" quote="true" readonly="true">
+      <enumList>
+        <enumValue>
+          <term>Mouse (Mm)</term>
+          <internal>Mouse</internal>
+        </enumValue>
+      </enumList>
+      <help><![CDATA[Selected taxon; cannot be revised.  To search against human genes, please begin a <a href="/@WEBAPP@/app/search/gene/upload">new upload.</a>]]></help>
+    </enumParam>
+
+    <answerParam name="mgene_answer" readonly="true" visible="false">
+      <recordClass ref="MouseGeneRecordClasses.MouseGeneRecordClass" />
+    </answerParam>
+
+     <stringParam name="gene_list" number="false" prompt="Genes" readonly="true">
+      <help>Genes from GO or pathway encrichment</help>
+    </stringParam>
+
+    <stringParam name="annotation" number="false" prompt="Annotation" readonly="true">
+      <help>GO term or pathway associatd with the genes</help>
+    </stringParam>
+
+    <stringParam name="keyword" number="false" prompt="Search Term" readonly="false">
+      <help>Term or phrase to match; use asterisk (*) to indicated wild card matches.</help>
+    </stringParam>
+
+    <enumParam name="keyword_field" prompt="Search/Filter Field" displayType="checkBox" multiPick="true" quote="true">
+      <enumList>
+	<enumValue>
+	  <display>Identifier (symbol/name/description)</display>
+	  <term>identifier</term>
+	  <internal>identifier</internal>
+	</enumValue>
+	<enumValue>
+	  <display>Gene Ontology (GO) Term or ID</display>
+	  <term>go_term</term>
+	  <internal>go_term</internal>
+	</enumValue>
+	<enumValue>
+	  <display>Gene Type</display>
+	  <term>gene_type</term>
+	  <internal>gene_type</internal>
+	</enumValue>
+      </enumList>
+    </enumParam>
+
     <!-- =================================================================== -->
     <!-- Percentile -->
     <!-- =================================================================== -->
- 
+    
     <stringParam name="minimum_percentile" number="true" prompt="Minimum expression percentile">
       <help>Lower bound on the expression percentile.</help>
     </stringParam>
@@ -44,7 +90,7 @@
     <!-- Dataset -->
     <!-- =================================================================== -->
 
- 
+    
     <flatVocabParam name="experiment" queryRef="MouseGeneVQ.Experiments" prompt="Experiment" multiPick="false">
       <help>Select a or treatment.</help>
     </flatVocabParam>
@@ -93,15 +139,15 @@
     <flatVocabParam name="regulated_dir" prompt="Direction" multiPick="true" displayType="checkBox" quote="true" queryRef="MouseGeneVQ.RegulatedDirection">
       <noTranslation value="true" />
       <help>
-          <![CDATA[
-                    <ul>
-		    <li>Select <strong><em>up-regulated</em></strong> to retrieve genes that have higher expression
-		    in the comparator relative to the reference.</li><br>
-		    <li>Select <strong><em>down-regulated</em></strong> to retrieve genes that have lower expression
-		    in the comparator relative to the reference.</li><br>
-		    <li>Select both to retrieve genes that meet the fold change cutoff, regardless of regulation direction.</li>
-		    </ul>
-          ]]>      
+        <![CDATA[
+                 <ul>
+		 <li>Select <strong><em>up-regulated</em></strong> to retrieve genes that have higher expression
+		 in the comparator relative to the reference.</li><br>
+		 <li>Select <strong><em>down-regulated</em></strong> to retrieve genes that have lower expression
+		 in the comparator relative to the reference.</li><br>
+		 <li>Select both to retrieve genes that meet the fold change cutoff, regardless of regulation direction.</li>
+		 </ul>
+        ]]>      
       </help>
     </flatVocabParam>
     

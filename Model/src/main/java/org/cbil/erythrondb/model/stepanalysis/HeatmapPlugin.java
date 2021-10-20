@@ -21,6 +21,7 @@ import org.json.simple.parser.ParseException;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+
 import org.gusdb.fgputil.FormatUtil;
 import org.gusdb.fgputil.db.runner.BasicResultSetHandler;
 import org.gusdb.fgputil.db.runner.SQLRunner;
@@ -49,7 +50,6 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 	private static final Logger logger = Logger.getLogger(HeatmapPlugin.class);
 
 	private static final String PROFILE_PARAM_KEY = "experiment";
-	private static final String ORGANISM_PARAM_KEY = "organism";
 	private static final String VALUE_PARAM_KEY = "value_type";
 	private static final String COLOR_PARAM_KEY = "color";
 	private static final String CLUSTER_SAMPLES_PARAM_KEY = "boolean_cluster_samples";
@@ -57,6 +57,7 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 	private static final String RESULT_FILE_PREFIX = "dendro_heatmap_";
 	private static final String TREE_FILE_NAME = RESULT_FILE_PREFIX + "tree";
 	private static final String RESULT_FILE_NAME = RESULT_FILE_PREFIX + "complete";
+	private static final String DENDRO_HEATMAP_IMG_FILE_NAME = RESULT_FILE_PREFIX + "img";
 	private static final String INPUT_FILE_PREFIX = "expression_";
 	private static final String INPUT_FILE_NAME = INPUT_FILE_PREFIX + "internal_";
 	private static final String DOWNLOAD_EXPRESSION_FILE_NAME = INPUT_FILE_PREFIX;
@@ -75,7 +76,7 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 	 */
 
 	private String getSampleListing() throws WdkUserException, WdkModelException {
-		String profileId = getFormParams().get(PROFILE_PARAM_KEY)[0];
+		String profileId = PluginUtil.getSingleAllowableValueParam(PROFILE_PARAM_KEY, getFormParams(), null);
 
 		String sql = "SELECT DISTINCT REPLACE(sample_abbrev, '/', '_') AS sample_abbrev," + NL
 				+ " replace(sample, '; replicate ', ' R') AS sample," + NL 
@@ -117,9 +118,9 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 
 		idSql = getAnswerValue().getIdSql();
 
-		String profileId = getFormParams().get(PROFILE_PARAM_KEY)[0];
-		String valueType = getFormParams().get(VALUE_PARAM_KEY)[0];
-
+		String profileId = PluginUtil.getSingleAllowableValueParam(PROFILE_PARAM_KEY, getFormParams(), null);
+		String valueType = PluginUtil.getSingleAllowableValueParam(VALUE_PARAM_KEY, getFormParams(), null);
+		
 		String sql = "WITH ids AS (" + idSql  + ")," + NL
 			+ "stats AS (" + NL
 			+ "SELECT ge.gene_source_id," + NL
@@ -180,8 +181,8 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 
 		String samples = getSampleListing();
 		String idSql = getAnswerValue().getIdSql();
-		String profileId = getFormParams().get(PROFILE_PARAM_KEY)[0];
-
+		String profileId = PluginUtil.getSingleAllowableValueParam(PROFILE_PARAM_KEY, getFormParams(), null);
+	
 		String sql = "SELECT ids.source_id," + NL 
 				+ "ga.gene_symbol," + NL
 				+ "string_agg(round(log(2, ge.value::numeric),2)::text, ',' ORDER BY series_order, sample_order) AS log2_values" + NL 
@@ -268,9 +269,9 @@ public class HeatmapPlugin extends AbstractSimpleProcessAnalyzer {
 
 			result.setResult(tree);
 			result.setExpressionFile(_expressionDownloadFile);
-			result.setColor(getFormParams().get(COLOR_PARAM_KEY)[0]);
-			result.setClusterSamplesFlag(getFormParams().get(CLUSTER_SAMPLES_PARAM_KEY)[0]);
-			
+			result.setColor(PluginUtil.getSingleAllowableValueParam(COLOR_PARAM_KEY, getFormParams(), null));
+			result.setClusterSamplesFlag(PluginUtil.getSingleAllowableValueParam(CLUSTER_SAMPLES_PARAM_KEY, getFormParams(), null));
+							
 			return result.toJson();
 		} catch (FileNotFoundException e) {
 			throw new WdkModelException("Result file not found at: " + treeFile);
