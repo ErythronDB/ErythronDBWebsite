@@ -2,6 +2,7 @@
 # Properties defined here can be referenced in model XML files.
 # For example, this line: NAME=value
 # will cause the WDK to replace  all occurrences of "@NAME@" in the model XML with "value".
+# occurrences of @NAME@ in this file will be replaced during the Docker build
 
 # NOTE:
 # ===========================================================================================================
@@ -17,11 +18,11 @@ PROJECT_ID=ErythronDB
 
 HIDE_PRIVATE_DATA=true
 
-WEBAPP=ErythronDB
+WEBAPP=@WEBAPP@
 
-SITE_ADMIN_EMAIL=allenem@pennmedicine.upenn.edu
+SITE_ADMIN_EMAIL=@SITE_ADMIN_EMAIL@
 
-STEP_ANALYSIS_JOB_DIR=/world/common/temp
+STEP_ANALYSIS_JOB_DIR=/www/common/temp
 
 # external links
 

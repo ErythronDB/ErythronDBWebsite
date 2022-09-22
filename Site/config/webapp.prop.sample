@@ -1,0 +1,13 @@
+webappTargetDir=/www/erythrondb/webapp
+confTargetDir=/www/erythrondb/conf
+htdocsTargetDir=/www/erythrondb/htdocs
+cgibinTargetDir=/www/erythrondb/cgi-bin
+cgilibTargetDir=/www/erythrondb/cgi-lib
+
+# webappCtx: path specified in the tomcat-context.xml file (including initial slash)
+# googlAnalyticsId: google analytics id if exists, NA otherwise
+# assetPath: path to assests in webapp directory after build
+webappCtx=/@WEBAPP@
+build=@PROJECT_ID@
+googleAnalyticsId=@GOOGLE_ANALYTICS_ID@
+assetPath=bundles/modern
