@@ -1,5 +1,5 @@
 <Context path="/@WEBAPP@"
-         docBase="/www/ErythronDB/webapp"
+         docBase="/www/erythrondb/webapp"
          swallowOutput="true"
          privileged="false" >
   <Parameter name="model" value="@MODEL@"/>
