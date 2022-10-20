@@ -57,6 +57,7 @@
 
 			<attributeQueryRef ref="GeneAttributes.Basic">
 				<columnAttribute name="project_id" internal="true" />
+				<columnAttribute name="project_id" internal="true" displayName="Ensembl ID"/>
 				<columnAttribute name="chromosome" displayName="Chromosome" />
 				<columnAttribute name="gene_type" displayName="Gene Type" internal="false" help="Gene product category" />
 				<columnAttribute name="symbol" displayName="Symbol" removable="false" internal="false" align="center"/>

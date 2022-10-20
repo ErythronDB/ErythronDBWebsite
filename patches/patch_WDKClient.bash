@@ -2,8 +2,6 @@
 echo "DataTable.tsx -- allow drawing of react elements inside a cell"
 cp $PROJECT_HOME/ErythronDBWebsite/patches/DataTable.tsx $PROJECT_HOME/WDKClient/Client/src/Components/DataTable/DataTable.tsx
 
-echo "configs"
-cp $PROJECT_HOME/ErythronDBWebsite/patches/package.json $PROJECT_HOME/WDKClient/Client/package.json
 
 echo "remove checkbox tree constraint on grouping when < 5 categories for searches"
 cp $PROJECT_HOME/ErythronDBWebsite/patches/SearchInputSelector.tsx $PROJECT_HOME/WDKClient/Client/src/Views/Strategy/SearchInputSelector.tsx

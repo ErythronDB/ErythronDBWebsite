@@ -2,20 +2,47 @@
 // Then run `python $PROJECT_HOME/GenomicsDBWebsite/Model/bin/generateExternalUrlConstantsJson` to regenerate this file.
 // See the model.prop.sample file for more information.
 export const _externalUrls = {
-  GENE_FAMILY_URL: "https://www.genenames.org/cgi-bin/genefamilies/set/",
-  ENSEMBL_TRANSCRIPT_URL:
-    "https://useast.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;t=",
-  AMIGO_TERM_URL: "http://amigo.geneontology.org/amigo/term/",
-  UNIPROT_RECORD_URL: "http://www.uniprot.org/uniprot/?query=",
-  PUBMED_URL: "https://www.ncbi.nlm.nih.gov/pubmed/",
-  ARRAY_EXPRESS_URL: "https://www.ebi.ac.uk/arrayexpress/experiments/",
   REVIGO_BASE_URL: "http://revigo.irb.hr/",
   STRING_URL: "https://string-db.org/",
+  HUGO_URL: "https://www.genenames.org/",
+  ARRAY_EXPRESS_URL: "https://www.ebi.ac.uk/arrayexpress/experiments/",
+  PUBMED_URL: "https://www.ncbi.nlm.nih.gov/pubmed/",
   REACTOME_PATHWAY_URL: "https://reactome.org/content/detail/",
   KEGG_PATHWAY_URL: "https://www.kegg.jp/kegg-bin/show_pathway?",
-  HUGO_URL: "https://www.genenames.org/",
   MOUSE_UCSC_BROWSER_URL:
     "http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&position=",
   HUMAN_UCSC_BROWSER_URL:
     "http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=",
+  GENE_FAMILY_URL: "https://www.genenames.org/cgi-bin/genefamilies/set/",
+  UNIPROT_RECORD_URL: "http://www.uniprot.org/uniprot/?query=",
+  OMIM_CLINICAL_URL: "https://www.omim.org/entry/",
+  COSMIC_CLINICAL_URL: "https://cancer.sanger.ac.uk/cosmic/gene/analysis?ln=",
+  ORPHANET_CLINICAL_URL:
+    "http://www.orpha.net/consor/cgi-bin/OC_Exp.php?Lng=GB&Expert=",
+  HGNC_GENE_URL:
+    "https://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=",
+  ENSEMBL_GENE_URL: "https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=",
+  ENTREZ_GENE_GENE_URL: "https://www.ncbi.nlm.nih.gov/gene/",
+  VEGA_GENE_URL:
+    "https://vega.sanger.ac.uk/Homo_sapiens/Gene/Summary?db=core;g=",
+  MGI_GENE_URL: "http://www.informatics.jax.org/marker/",
+  HUMAN_UCSC_GENE_URL:
+    "https://genome.cse.ucsc.edu/cgi-bin/hgGene?db=hg38&org=Human&hgg_chrom=none&hgg_type=knownGene&hgg_gene=",
+  MGI_HOMOLOG_URL: "http://www.informatics.jax.org/marker/",
+  RGD_HOMOLOG_URL: "https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=",
+  AMIGO_TERM_URL: "http://amigo.geneontology.org/amigo/term/",
+  UNIPROT_PROTEIN_URL: "http://www.uniprot.org/uniprot/",
+  PDBE_PROTEIN_URL:
+    "https://www.ebi.ac.uk/pdbe/entry/search/index?uniprot_accession:",
+  INTERPRO_PROTEIN_URL: "https://www.ebi.ac.uk/interpro/protein/",
+  ENSEMBL_TRANSCRIPT_URL:
+    "https://useast.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;t=",
+  GENBANK_NUCLEOTIDE_SEQUENCES_URL: "https://www.ncbi.nlm.nih.gov/nuccore/",
+  MIRBASE_NUCLEOTIDE_SEQUENCES_URL:
+    "http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc=",
+  RNACENTRAL_NUCLEOTIDE_SEQUENCES_URL: "http://rnacentral.org/rna/",
+  ENA_NUCLEOTIDE_SEQUENCES_URL: "https://www.ebi.ac.uk/ena/data/view/",
+  REFSEQ_NUCLEOTIDE_SEQUENCES_URL: "https://www.ncbi.nlm.nih.gov/nuccore/",
+  CCDS_NUCLEOTIDE_SEQUENCES_URL:
+    "https://www.ncbi.nlm.nih.gov/CCDS/CcdsBrowse.cgi?REQUEST=CCDS&DATA=",
 };
