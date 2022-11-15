@@ -65,6 +65,18 @@ const stepAnalysisButtonConfigFactory = (
             href: `${webAppUrl}/service/users/current/steps/${stepId}/analyses/${analysisId}/resources?path=${expressionFile}`,
             iconClassName: 'fa fa-download blue-text',
             contents: 'Download Data'
+        },
+        {
+            key: 'download-png',
+            href: `${webAppUrl}/service/users/current/steps/${stepId}/analyses/${analysisId}/resources?path=expression_heatmap.png`,
+            iconClassName: 'fa fa-download blue-text',
+            contents: 'Download PNG'
+        },
+        {
+            key: 'download-svg',
+            href: `${webAppUrl}/service/users/current/steps/${stepId}/analyses/${analysisId}/resources?path=expression_heatmap.svg`,
+            iconClassName: 'fa fa-download blue-text',
+            contents: 'Download SVG'
         }
     ];
 

@@ -99,8 +99,8 @@ export const StepAnalysisGeneNetworkResults: React.FC<StepAnalysisResultPluginPr
                                 Please filter your result set or or <strong>Download</strong> your search result to get the full list of gene identifiers and analyze directly on the STRING website.</Alert>
                             :
                             <div>
-                                <STRINGNetwork genes={analysisResult.genes} organism={analysisResult.organism} webAppUrl={webAppUrl} />
                                 <StepAnalysisButtonArray configs={stepAnalysisButtonConfigFactory(analysisResult.genes, analysisResult.organism)} />
+                                <STRINGNetwork genes={analysisResult.genes} organism={analysisResult.organism} webAppUrl={webAppUrl} />  
                             </div>
                         }
                     </Col>
