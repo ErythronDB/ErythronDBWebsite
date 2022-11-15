@@ -2,7 +2,7 @@
 <wdkModel>
   <recordClassSet name="HumanGeneRecordClasses">
     <recordClass name="HumanGeneRecordClass" urlName="hs" displayName="Gene (Hs)" displayNamePlural="Genes (Hs)" 
-    shortDisplayName="Gene" shortDisplayNamePlural="Genes" useBasket="false">
+    shortDisplayName="Hs Gene" shortDisplayNamePlural="Genes" useBasket="false">
       <!-- =================================================================== -->
       <!-- Primary Key -->
       <!-- =================================================================== -->
