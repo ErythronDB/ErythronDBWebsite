@@ -145,6 +145,11 @@
       <include name="UserRegistration.jsx"/>
       <replaceFilter token="@webappCtx@" property="webappCtx"/>
     </replace>
+
+    <replace dir="${projectsDir}/ErythronDBWebsite/Site/webapp/wdkCustomization/js/client/components/Layout/" propertyFile="${webPropFile}">
+      <include name="Footer.tsx"/>
+      <replaceFilter token="@siteAdminEmail@" property="siteAdminEmail"/>
+    </replace>
   </target>
 
   <!-- patch WDKWebsite/View, rebuild, and then build ErythronDBWebsite/Site -->
@@ -160,6 +165,7 @@
       <replacefilter token="@assetPath@" property="assetPath" />
       <replacefilter token="@googleAnalyticsId@" property="googleAnalyticsId" />
       <replacefilter token="@webappCtx@" property="webappCtx" />
+      <replacefilter token="@siteAdminEmail@" property="siteAdminEmail"/>
     </replace>
   </target>
 

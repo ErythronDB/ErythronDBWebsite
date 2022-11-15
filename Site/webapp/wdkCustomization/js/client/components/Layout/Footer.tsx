@@ -17,7 +17,7 @@ export default function Footer() {
                     <Col md="auto">
                         <div>ErythronDB ©{new Date().getFullYear()} University of Pennsylvania Perelman School of Medicine</div>
                         <div>
-                            Please <NewWindowLink href={webAppUrl + '/app/contact-us'}>Contact Us</NewWindowLink> with any questions or comments
+                            Please <NewWindowLink href="mailto:allenem@pennmedicie.upenn.edu">Contact Us</NewWindowLink> with any questions or comments
                     </div>
                     </Col>
                 </Row>
