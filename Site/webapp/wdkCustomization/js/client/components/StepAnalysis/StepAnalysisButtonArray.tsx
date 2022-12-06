@@ -36,7 +36,7 @@ const StepAnalysisButton: React.SFC<StepAnalysisButtonProps> = ({
     {
       customButton || (
           <Button variant="info" href={href} onClick={onClick}>
-            <i className={`${iconClassName} text-white mr-2`}> </i>
+            <i className={`${iconClassName} mr-2`}> </i>
             {contents}
           </Button>
       )

@@ -93,7 +93,7 @@ def generate_image(by, transpose=False):
 
     plot = sns.clustermap(data, standard_scale=0, metric="correlation",
                           row_cluster=rowCluster, col_cluster=colCluster, cmap='viridis')
-    imgName = args.img if args.image is not None else 'expression_heatmap'
+    imgName = args.img if args.img is not None else 'expression_heatmap'
     plot.savefig(imgName + ".png")
     plot.savefig(imgName + ".svg")
 

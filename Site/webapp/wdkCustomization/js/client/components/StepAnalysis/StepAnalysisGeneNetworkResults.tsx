@@ -63,7 +63,7 @@ const stepAnalysisButtonConfigFactory = (
         {
             key: 'stringdb',
             href: `${_externalUrls.STRING_URL}cgi/network.pl?species=${organism}&identifiers=${genes.join("%0d")}`,
-            iconClassName: 'fa fa-external-link blue-text',
+            iconClassName: 'fa fa-external-link',
             contents: 'View at STRING'
         }
     ];
