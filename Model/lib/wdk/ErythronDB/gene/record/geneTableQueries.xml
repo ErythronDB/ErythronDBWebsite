@@ -94,29 +94,16 @@
         <![CDATA[
         WITH id AS (##WDK_ID_SQL##),
       Links AS (
-      SELECT
-          ga.source_id,
-          a.external_id,
-          string_agg('<a href="+' ||      
-          replace(drl.url, 'UCSC', upper(ga.organism) || '_UCSC')        
-          || '+' || a.external_id || '" class="wdk-toolitp" title="' ||
-          drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ' ORDER BY drl.resource_full_name) 
+        SELECT
+        id.source_id,
+          glo.external_id,
+          replace(replace(replace(glo.external_links, '+UCSC', '+' || upper(glo.organism) || '_UCSC'),
+                                   '+VEGA', '+' || upper(glo.organism) || '_VEGA'),
+                                   '+ENSEMBL_GENE', '+' || upper(glo.organism) || '_ENSEMBL_GENE')
           AS external_links
       FROM
-          CBIL.DbRefLink drl,
-          CBIL.GeneAttributes ga,
-          LATERAL jsonb_each(annotation),
-          LATERAL UNNEST(string_to_array(REPLACE(value::text, '"',''), '|')) a(external_id)
-      WHERE
-          drl.dbref_id = KEY
-      AND drl.resource_type = 'gene'
-      AND ga.source_id = (SELECT source_id FROM id)
-      GROUP BY
-          ga.source_id,
-          a.external_id
-      ORDER BY
-          ga.source_id,
-          a.external_id )
+         CBIL.GeneLinkOuts glo, id
+      WHERE glo.source_id = id.source_id )
       SELECT
         source_id,
         external_id,
@@ -137,40 +124,17 @@
       <column name="external_id" />
       <sql>
         <![CDATA[
-        WITH id AS (##WDK_ID_SQL##),
-        Links AS (
-        SELECT
-            ga.source_id,
-            a.external_id,
-            string_agg('<a href="+' ||      
-            drl.url
-            || '+' || a.external_id || '" class="wdk-toolitp" title="' ||
-            drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ' ORDER BY drl.resource_full_name) 
-            AS external_links
-        FROM
-            CBIL.DbRefLink drl,
-            CBIL.GeneAttributes ga,
-            LATERAL jsonb_each(annotation),
-            LATERAL UNNEST(string_to_array(REPLACE(value::text, '"',''), '|')) a(external_id)
-        WHERE
-            drl.dbref_id = KEY
-        AND drl.resource_type = 'clinical'
-        AND ga.source_id = (SELECT source_id FROM id)
-        GROUP BY
-            ga.source_id,
-            a.external_id
-        ORDER BY
-            ga.source_id,
-            a.external_id )
+        WITH id AS (##WDK_ID_SQL##)
     SELECT
-        source_id,
+        id.source_id,
         external_id,
         multi_replace(external_links,
         ARRAY['+ORPHANET_CLINICAL_URL+', '+OMIM_CLINICAL_URL+', '+COSMIC_CLINICAL_URL+'],
         ARRAY['@ORPHANET_CLINICAL_URL@', '@OMIM_CLINICAL_URL@', '@COSMIC_CLINICAL_URL@'])
          AS external_links
-        FROM Links
-        ORDER BY source_id, external_id
+        FROM CBIL.ClinicalLinkOuts clo, id
+        WHERE id.source_id = clo.source_id
+        ORDER BY id.source_id, external_id
 	]]>
       </sql>
     </sqlQuery>
@@ -181,40 +145,17 @@
       <column name="external_id" />
       <sql>
         <![CDATA[
-        WITH id AS (##WDK_ID_SQL##),
-        Links AS (
+        WITH id AS (##WDK_ID_SQL##)
         SELECT
-            ga.source_id,
-            a.external_id,
-            string_agg('<a href="+' ||      
-            drl.url
-            || '+' || a.external_id || '" class="wdk-toolitp" title="' ||
-            drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ' ORDER BY drl.resource_full_name) 
-            AS external_links
-        FROM
-            CBIL.DbRefLink drl,
-            CBIL.GeneAttributes ga,
-            LATERAL jsonb_each(annotation),
-            LATERAL UNNEST(string_to_array(REPLACE(value::text, '"',''), '|')) a(external_id)
-        WHERE
-            drl.dbref_id = KEY
-        AND drl.resource_type = 'nucleotide sequences'
-        AND ga.source_id = (SELECT source_id FROM id)
-        GROUP BY
-            ga.source_id,
-            a.external_id
-        ORDER BY
-            ga.source_id,
-            a.external_id )
-        SELECT
-        source_id,
+        id.source_id,
         external_id,
         multi_replace(external_links,
         ARRAY['+CCDS_NUCLEOTIDE_SEQUENCES_URL+', '+ENA_NUCLEOTIDE_SEQUENCES_URL+', '+GENBANK_NUCLEOTIDE_SEQUENCES_URL+', '+MIRBASE_NUCLEOTIDE_SEQUENCES_URL+', '+REFSEQ_NUCLEOTIDE_SEQUENCES_URL+', '+RNACENTRAL_NUCLEOTIDE_SEQUENCES_URL+'],
         ARRAY['@CCDS_NUCLEOTIDE_SEQUENCES_URL@', '@ENA_NUCLEOTIDE_SEQUENCES_URL@', '@GENBANK_NUCLEOTIDE_SEQUENCES_URL@', '@MIRBASE_NUCLEOTIDE_SEQUENCES_URL@', '@REFSEQ_NUCLEOTIDE_SEQUENCES_URL@', '@RNACENTRAL_NUCLEOTIDE_SEQUENCES_URL@'])
          AS external_links
-        FROM Links
-        ORDER BY source_id, external_id
+        FROM CBIL.NSeqLinkOuts nlo, id
+        WHERE id.source_id = nlo.source_id
+        ORDER BY id.source_id, external_id
 	]]>
       </sql>
     </sqlQuery>
@@ -225,39 +166,16 @@
       <column name="external_id" />
       <sql>
         <![CDATA[
-        WITH id AS (##WDK_ID_SQL##),
-        Links AS (
+        WITH id AS (##WDK_ID_SQL##)
         SELECT
-            ga.source_id,
-            a.external_id,
-            string_agg('<a href="+' ||      
-            drl.url
-            || '+' || a.external_id || '" class="wdk-toolitp" title="' ||
-            drl.resource_full_name || '">' || drl.resource_abbrev || '</a>', ' // ' ORDER BY drl.resource_full_name) 
-            AS external_links
-        FROM
-            CBIL.DbRefLink drl,
-            CBIL.GeneAttributes ga,
-            LATERAL jsonb_each(annotation),
-            LATERAL UNNEST(string_to_array(REPLACE(value::text, '"',''), '|')) a(external_id)
-        WHERE
-            drl.dbref_id = KEY
-        AND drl.resource_type = 'protein'
-        AND ga.source_id = (SELECT source_id FROM id)
-        GROUP BY
-            ga.source_id,
-            a.external_id
-        ORDER BY
-            ga.source_id,
-            a.external_id )
-        SELECT
-        source_id,
+        id.source_id,
         external_id,
         multi_replace(external_links,
-        ARRAY['+INTERPRO_PROTEIN_URL+', '+PDBE_RPOTEIN_URL+', '+UNIPROT_PROTEIN_URL+'],
-        ARRAY['@INTERPRO_PROTEIN_URL@', '@PDBE_RPOTEIN_URL@', '@UNIPROT_PROTEIN_URL@'])     AS external_links
-        FROM Links
-        ORDER BY source_id, external_id
+        ARRAY['+INTERPRO_PROTEIN_URL+', '+PDBE_PROTEIN_URL+', '+UNIPROT_PROTEIN_URL+'],
+        ARRAY['@INTERPRO_PROTEIN_URL@', '@PDBE_PROTEIN_URL@', '@UNIPROT_PROTEIN_URL@'])     AS external_links
+        FROM CBIL.ProteinLinkOuts plo, id
+        WHERE plo.source_id = id.source_id
+        ORDER BY id.source_id, external_id
 	]]>
       </sql>
     </sqlQuery>
