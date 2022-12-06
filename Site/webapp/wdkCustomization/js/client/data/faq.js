@@ -15,6 +15,12 @@ var _faq = [
         "question": "Why are comparison results (gene differential expression) reported differently for the Ontogeny of Erythropoeisis (Palis) and EPO Target (Wojchowski) murine gene expression datasets?",
         "anchor": "diff-exp-methods",
         "content": "The Ontogeny of Erythropoeisis (Palis) dataset is presented exactly as it was in ErythronDB 1.0.  Differential expression analysis for this study was performed using a non-parametric/permutation approach using the PaGE software (PMID: Manduchi et al. Bioinformatics. 2000; PMID:11099255).  The newly added EPO Target datasets (Wojchowski) were analyzed in R, using limma."
+    },
+
+    {
+        "question": "How can I filter a gene result by gene function (Gene Ontology terms) or type?",
+        "anchor": "go-filter",
+        "content": "Click the 'Add Step' button and choose to combine your search result with a Text > Keyword Search/Filter.  Alternatively, if want to identify GO annotations enriched in your result, selet the 'Analyze Results' tab above the table of results."
     }
 
 ];
