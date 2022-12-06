@@ -109,7 +109,7 @@
 		 SELECT s.source_id AS dataset_id, 
 		 string_agg(replace(split_part(b.authors, ',', 1) || ' <em>et al.</em> ' || b.year || '. ' || b.title || ' <em>' 
 		 || b.publication || '</em>. ' || volume || ':' || pages 
-		 || '. PMID: <a href="@PUBMED_URL@' || b.source_id || '">' || b.source_id || '</>', '  ', ''), ' // ' ORDER BY bib_ref_type_id)  AS primary_publication
+		 || '. PMID: <a href="@PUBMED_URL@' || b.source_id || '">' || b.source_id || '</a>', '  ', ''), '<br/><br/>' ORDER BY bib_ref_type_id)  AS primary_publication
 		 FROM 
 		 Study.Study s LEFT OUTER JOIN
 		 b
