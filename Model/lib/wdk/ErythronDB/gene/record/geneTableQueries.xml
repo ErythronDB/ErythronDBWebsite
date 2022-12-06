@@ -120,12 +120,9 @@
       SELECT
         source_id,
         external_id,
-        multi_replace(CASE
-            WHEN external_id LIKE 'OTTMUS%'
-            THEN REPLACE(external_links, 'Homo_sapiens', 'Mus_musculus')
-            ELSE external_links END , 
-        ARRAY['+VEGA_GENE_URL+', '+ENSEMBL_GENE_URL+', '+MGI_GENE_URL+', '+NCBI_GENE_URL+', '+HGNC_GENE_URL+', '+HUMAN_UCSC_GENE_URL+', '+MOUSE_UCSC_GENE_URL+', '+HUMAN_UCSC_BROWSER_URL+', '+MOUSE_UCSC_BROWSER_URL+'], 
-            ARRAY['@VEGA_GENE_URL@', '@ENSEMBL_GENE_URL@', '@MGI_GENE_URL@', '@NCBI_GENE_URL@', '@HGNC_GENE_URL@', '@HUMAN_UCSC_GENE_URL@', '@MOUSE_UCSC_GENE_URL@', '@HUMAN_UCSC_BROWSER_URL@', '@MOUSE_UCSC_BROWSER_URL@'])
+        multi_replace(external_links, 
+        ARRAY['+HUMAN_VEGA_GENE_URL+', '+MOUSE_VEGA_GENE_URL+', '+HUMAN_ENSEMBL_GENE_URL+', '+MOUSE_ENSEMBL_GENE_URL+','+MGI_GENE_URL+', '+NCBI_GENE_URL+', '+HGNC_GENE_URL+', '+HUMAN_UCSC_GENE_URL+', '+MOUSE_UCSC_GENE_URL+', '+HUMAN_UCSC_BROWSER_URL+', '+MOUSE_UCSC_BROWSER_URL+'], 
+            ARRAY['@HUMAN_VEGA_GENE_URL@', '@MOUSE_VEGA_GENE_URL@', '@HUMAN_ENSEMBL_GENE_URL@', '@MOUSE_ENSEMBL_GENE_URL@', '@MGI_GENE_URL@', '@NCBI_GENE_URL@', '@HGNC_GENE_URL@', '@HUMAN_UCSC_GENE_URL@', '@MOUSE_UCSC_GENE_URL@', '@HUMAN_UCSC_BROWSER_URL@', '@MOUSE_UCSC_BROWSER_URL@'])
         AS external_links
         FROM Links
         ORDER BY source_id, external_id
