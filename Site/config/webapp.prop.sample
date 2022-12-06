@@ -8,6 +8,7 @@ cgilibTargetDir=/www/erythrondb/cgi-lib
 # googlAnalyticsId: google analytics id if exists, NA otherwise
 # assetPath: path to assests in webapp directory after build
 webappCtx=/@WEBAPP@
-build=@PROJECT_ID@
+projectId=@PROJECT_ID@
 googleAnalyticsId=@GOOGLE_ANALYTICS_ID@
 assetPath=bundles/modern
+siteAdminEmail=@SITE_ADMIN_EMAIL@

@@ -34,11 +34,11 @@
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
 
-  <target name="ErythronDB-WDKModel-Patch">
+ <!-- <target name="ErythronDB-WDKModel-Patch">
     <echo message="Patching: WDK/Model" />
     <property name="patch-full-path-wdkmodel" location="${projectsDir}/${project}/patches/patch_WDKModel.bash" />
     <exec executable="${patch-full-path-wdkmodel}" />
-  </target>
+  </target> -->
 
 
   <target name="ErythronDBWebsite/Model-Installation">    <!--depends="ErythronDB-WDKModel-Patch">-->
@@ -135,15 +135,7 @@
                                                       ErythronDBWebsite/Site-WebInstallation">
   </target>
 
-  <target name="ErythronDB-Website-Patch">
-    <echo message="Applying patches from ${projectsDir}/${project}/patches" />
-    <echo message="Patching: EbrcWebsiteCommon" />
-    <property name="patch-full-path-ebrc" location="${projectsDir}/${project}/patches/patch_EbrcWebsiteCommon.bash" />
-    <exec executable="${patch-full-path-ebrc}" />
-    <echo message="Patching: WDKClient" />
-    <property name="patch-full-path-wdkclient" location="${projectsDir}/${project}/patches/patch_WDKClient.bash" />
-    <exec executable="${patch-full-path-wdkclient}" />
-
+ <target name="ErythronDB-Website-Patch">
     <replace dir="${projectsDir}/EbrcWebsiteCommon/Site/webapp/wdkCustomization/js/client/components" propertyFile="${webPropFile}">
       <include name="CookieBanner.jsx"/>
       <replaceFilter token="@webappCtx@" property="webappCtx"/>
@@ -152,6 +144,11 @@
     <replace dir="${projectsDir}/WDKClient/Client/src/Views/User/Profile" propertyFile="${webPropFile}">
       <include name="UserRegistration.jsx"/>
       <replaceFilter token="@webappCtx@" property="webappCtx"/>
+    </replace>
+
+    <replace dir="${projectsDir}/ErythronDBWebsite/Site/webapp/wdkCustomization/js/client/components/Layout/" propertyFile="${webPropFile}">
+      <include name="Footer.tsx"/>
+      <replaceFilter token="@siteAdminEmail@" property="siteAdminEmail"/>
     </replace>
   </target>
 
@@ -168,6 +165,7 @@
       <replacefilter token="@assetPath@" property="assetPath" />
       <replacefilter token="@googleAnalyticsId@" property="googleAnalyticsId" />
       <replacefilter token="@webappCtx@" property="webappCtx" />
+      <replacefilter token="@siteAdminEmail@" property="siteAdminEmail"/>
     </replace>
   </target>
 

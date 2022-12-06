@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wdkModel>
 	<recordClassSet name="MouseGeneRecordClasses">
-		<recordClass name="MouseGeneRecordClass" urlName="mm" displayName="Gene (Mm)" shortDisplayName="Gene" displayNamePlural="Genes (Mm)" shortDisplayNamePlural="Genes">
+		<recordClass name="MouseGeneRecordClass" urlName="mm" displayName="Gene (Mm)" shortDisplayName="Mm Gene" 
+					displayNamePlural="Genes (Mm)" shortDisplayNamePlural="Genes" useBasket="false" >
 			<!-- =================================================================== -->
 			<!-- Primary Key -->
 			<!-- =================================================================== -->

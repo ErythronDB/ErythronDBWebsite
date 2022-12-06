@@ -15,7 +15,8 @@ const HeaderRecordActions: React.SFC<HeaderRecordActions> = props => {
 	return <ul className="wdk-RecordActions d-flex">
 		{props.headerActions.map((action, index) => {
 			return (
-				<li key={index} className="wdk-RecordActionItem">
+				//@ts-ignore
+				!action.label.includes("favorites") && <li key={index} className="wdk-RecordActionItem">
 					<RecordActionLink
 						record={props.record}
 						recordClass={props.recordClass}

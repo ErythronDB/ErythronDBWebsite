@@ -47,9 +47,11 @@ from scipy.spatial.distance import pdist
 import seaborn as sns
 import numpy as np
 
+
 def warning(*objs):
     """A wrapper for printing to stderr"""
     print(*objs, file=sys.stderr)
+
 
 def toNum(s):
     """ Convert string to numeric value, returning int or float as appropriate."""
@@ -66,6 +68,7 @@ def linkage_to_newick(Z, labels):
     from https://github.com/biocore/scikit-bio/issues/1579
     """
     tree = to_tree(Z, False)
+
     def build_newick(node, newick, parentdist, leaf_names):
         if node.is_leaf():
             return "%s:%f%s" % (leaf_names[node.id], (parentdist - node.dist)/2, newick)
@@ -74,8 +77,10 @@ def linkage_to_newick(Z, labels):
                 newick = "):%f%s" % ((parentdist - node.dist)/2.0, newick)
             else:
                 newick = ");"
-            newick = build_newick(node.get_left(), newick, node.dist, leaf_names)
-            newick = build_newick(node.get_right(), ",%s" % (newick), node.dist, leaf_names)
+            newick = build_newick(node.get_left(), newick,
+                                  node.dist, leaf_names)
+            newick = build_newick(node.get_right(), ",%s" %
+                                  (newick), node.dist, leaf_names)
             newick = "(%s" % (newick)
             return newick
     return build_newick(tree, "", tree.dist, labels)
@@ -83,35 +88,40 @@ def linkage_to_newick(Z, labels):
 
 def generate_image(by, transpose=False):
     """ use seaborn to generate a downloadable heatmap """
-    rowCluster = True if (by == 'row' or by = 'both') else False
-    colCluster = True if (by == 'column' or by = 'both') else False
+    rowCluster = True if (by == 'row' or by == 'both') else False
+    colCluster = True if (by == 'column' or by == 'both') else False
 
-    plot = sns.clustermap(data, standard_scale =0, metric="correlation", row_cluster = rowCluster, col_cluster = colCluster, cmap='viridis')
-    plot.savefig(args.img + ".png")
-    plot.savefig(args.img + ".svg")
+    plot = sns.clustermap(data, standard_scale=0, metric="correlation",
+                          row_cluster=rowCluster, col_cluster=colCluster, cmap='viridis')
+    imgName = args.img if args.img is not None else 'expression_heatmap'
+    plot.savefig(imgName + ".png")
+    plot.savefig(imgName + ".svg")
 
 
-def cluster(labels, transpose = False):
+def cluster(labels, transpose=False):
     """ cluster data by gene/row """
-    if args.verbose: warning("Tree labels:", labels)
+    if args.verbose:
+        warning("Tree labels:", labels)
 
     # calc correlation/as pdist object from transposed matrix
     dist = None
     if transpose:
         dist = pdist(data.T, metric='correlation')
     else:
-        dist = pdist(data, metric="correlation" )
+        dist = pdist(data, metric="correlation")
 
     # cluster and get dendrogram structure in newick format
-    Z = linkage(dist, method='complete') # , optimal_ordering=True)  # -- pmacs LPC version too old for python 2.7
+    # , optimal_ordering=True)  # -- pmacs LPC version too old for python 2.7
+    Z = linkage(dist, method='complete')
     return linkage_to_newick(Z, labels)
-    
+
 
 def get_labels(axis):
     if axis == "column":
         return args.columnDisplayNames.split(',') if args.columnDisplayNames else list(data.columns.values)
-    else: # assume row for now
+    else:  # assume row for now
         return args.rowDisplayNames.split(',') if args.rowDisplayNames else list(data.index.values)
+
 
 if __name__ == "__main__":
 
@@ -126,17 +136,21 @@ if __name__ == "__main__":
                         help="cluster rows only", action="store_true")
     parser.add_argument('-c', '--cluster', choices=['row', 'column', 'both'],
                         help="clustering axis", required=True)
-    parser.add_argument('--columnDisplayNames', 
+    parser.add_argument('--columnDisplayNames',
                         help="comma separated list of column names; if not supplied will use column headers")
-    parser.add_argument('--rowDisplayNames', 
-                        help="comma separated list of row names; if not supplied will use row names (first column)" )
+    parser.add_argument('--rowDisplayNames',
+                        help="comma separated list of row names; if not supplied will use row names (first column)")
     parser.add_argument('--verbose', action="store_true")
     args = parser.parse_args()
 
+    # warning(args)
+
     try:
-        if args.verbose: warning("Loading input file")
-        data = pd.read_csv(args.input, header = 0, index_col=0, sep=',')
-        if args.verbose: warning(data) 
+        if args.verbose:
+            warning("Loading input file")
+        data = pd.read_csv(args.input, header=0, index_col=0, sep=',')
+        if args.verbose:
+            warning(data)
     except pd.io.common.EmptyDataError as e:
         warning("ERROR: Input file " + args.input + " is empty.")
     except IOError as e:
@@ -148,14 +162,7 @@ if __name__ == "__main__":
     if args.cluster in ['column', 'both']:
         result['colTree'] = cluster(get_labels("column"), transpose=True)
 
-    if args.cluster = 'row':
-        generate_image(by='row')
-    if args.cluster = 'column':
-        generate_image(by='column')
-    if args.cluster = 'both':
-        generate_image(by='both')
+    generate_image(by=args.cluster)
 
     with open(args.output, 'w') as of:
         json.dump(result, of)
-
-

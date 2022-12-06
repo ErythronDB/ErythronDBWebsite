@@ -163,11 +163,10 @@ function observeUserSettings(action$, state$) {
     switchMap(action => {
       let state = state$.value[key];
       
-      /** Show navigation for genes, but hide for all other record types */
       let navigationVisible = getStateFromStorage(
         storageItems.navigationVisible,
         state,
-        isGeneRecord(state.record)
+        false //isGeneRecord(state.record)
       );
 
       let allFields = RecordStoreModule.getAllFields(state);

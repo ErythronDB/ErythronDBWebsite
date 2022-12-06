@@ -208,7 +208,7 @@ const Menu: React.FC<MenuProps> = ({ projectId, user, actions, webAppUrl }) => {
                     <DropDownStudyMenu text="Proteomics (Hs)" studyItems={_studies} type="proteomics" webAppUrl={webAppUrl} />
                     <DropDownMenu text="Workspace" items={_workspace} webAppUrl={webAppUrl} />
                     <DropDownMenu text="About" items={_about} webAppUrl={webAppUrl} />
-                    {!isGuest && <UserMenu user={user}></UserMenu>}
+                    {/*!isGuest && <UserMenu user={user}></UserMenu>*/}
                 </ul>
                 <HelpIcon>
                     <div>
@@ -225,11 +225,12 @@ const Menu: React.FC<MenuProps> = ({ projectId, user, actions, webAppUrl }) => {
                                 : buildRouteFromResult(value)
                         )} />
             </div>
-          
+
+          {/*
             {isGuest && <Button className="menu-button" onClick={() => showLoginForm(window.location.href)}>Sign In</Button>}
             {isGuest && <Button className="menu-button" href={`${webAppUrl}/app/user/registration`}>Sign Up</Button>}
 
-            {!isGuest && <Button className="menu-button" onClick={() => showLogoutWarning()}>Logout</Button>}
+                        {!isGuest && <Button className="menu-button" onClick={() => showLogoutWarning()}>Logout</Button>} */}
         </nav>
     )
 }

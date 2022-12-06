@@ -45,9 +45,11 @@ OMIM_CLINICAL_URL=https://www.omim.org/entry/
 COSMIC_CLINICAL_URL=https://cancer.sanger.ac.uk/cosmic/gene/analysis?ln=
 ORPHANET_CLINICAL_URL=http://www.orpha.net/consor/cgi-bin/OC_Exp.php?Lng=GB&Expert=
 HGNC_GENE_URL=https://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=
-ENSEMBL_GENE_URL=https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=
+HUMAN_ENSEMBL_GENE_URL=https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=
+MOUSE_ENSEMBL_GENE_URL=https://www.ensembl.org/Mus_musculus/Gene/Summary?g=
 NCBI_GENE_URL=https://www.ncbi.nlm.nih.gov/gene/
-VEGA_GENE_URL=https://vega.sanger.ac.uk/Homo_sapiens/Gene/Summary?db=core;g=
+HUMAN_VEGA_GENE_URL=https://vega.sanger.ac.uk/Homo_sapiens/Gene/Summary?db=core;g=
+MOUSE_VEGA_GENE_URL=https://vega.sanger.ac.uk/Mus_musculus/Gene/Summary?db=core;g=
 MGI_GENE_URL=http://www.informatics.jax.org/marker/
 HUMAN_UCSC_GENE_URL=https://genome.cse.ucsc.edu/cgi-bin/hgGene?db=hg38&org=Human&hgg_chrom=none&hgg_type=knownGene&hgg_gene=
 MGI_HOMOLOG_URL=http://www.informatics.jax.org/marker/

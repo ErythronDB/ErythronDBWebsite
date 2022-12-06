@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wdkModel>
   <recordClassSet name="HumanGeneRecordClasses">
-    <recordClass name="HumanGeneRecordClass" urlName="hs" displayName="Gene (Hs)" displayNamePlural="Genes (Hs)" shortDisplayName="Gene" shortDisplayNamePlural="Genes">
+    <recordClass name="HumanGeneRecordClass" urlName="hs" displayName="Gene (Hs)" displayNamePlural="Genes (Hs)" 
+    shortDisplayName="Hs Gene" shortDisplayNamePlural="Genes" useBasket="false">
       <!-- =================================================================== -->
       <!-- Primary Key -->
       <!-- =================================================================== -->
