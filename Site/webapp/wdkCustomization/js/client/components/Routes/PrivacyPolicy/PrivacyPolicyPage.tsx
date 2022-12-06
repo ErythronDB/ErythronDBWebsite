@@ -75,8 +75,7 @@ const PrivacyPolicyPage: React.FC<RouteComponentProps<any>> = () => {
         </ul>
         <p>
           This automatically collected information does not identify you
-          personally unless you include personally identifying information in a
-          support form request; see the “Contact Us” policy below for details.
+          personally.
           We use this information to measure the number of visitors to our site.
           The aggregate data may be included in prospectuses and reports to
           funding agencies.
@@ -112,31 +111,6 @@ const PrivacyPolicyPage: React.FC<RouteComponentProps<any>> = () => {
           can be correlated with the address automatically collected as noted
           above. If your user profile personally identifies you, then it may be
           possible to associate you with your detailed activity on ErythronDB.
-        </p>
-        <h3 id="contact-us-form">“Contact Us” Form</h3>
-        <p>
-          The header on each web page includes a “Contact Us” link to a form
-          where users can submit questions, error reports, feature requests, and
-          dataset proposals. Submissions through this form are emailed to
-          ErythronDB staff and recorded in a project management application
-          accessible only by ErythronDB staff.
-        </p>
-        <p>
-          The form includes a field for an email address. If the email address
-          identifies you personally, say if you use your institutional email,
-          then your correspondence with us will likewise be linked to you. A
-          valid email is not strictly required, although we cannot reply to you
-          without one.
-        </p>
-        <p>
-          When you submit the form, your IP address and browser version will be
-          recorded for internal use. In the case of reported bugs or other site
-          errors, this information may be used by technical staff to help locate
-          your session in the server logs to aid in troubleshooting the issue.
-          This does have the side effect of making it possible to associate an
-          IP address with an email address which may, in turn, personally
-          identify you. However, ErythronDB does not publicly release this
-          information.
         </p>
         <h2 id="how-eupathdb-uses-cookies">How ErythronDB Uses Cookies</h2>
         <p>
@@ -234,7 +208,7 @@ const PrivacyPolicyPage: React.FC<RouteComponentProps<any>> = () => {
         </ol>
         <p>
           To make any of the above stated requests or if you have any questions
-          please <RouterLink to="/contact-us">contact us</RouterLink>.
+          please contact us (link at bottom of page).
         </p>
       </div>
     </Container>

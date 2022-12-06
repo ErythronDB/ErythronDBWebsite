@@ -26,10 +26,7 @@ var _about = [
         text: "FAQ",
         route: "/faq"
     },
-    {
-        text: "Contact Us",
-        route: "/contact-us"
-    }
+
 ];
 
 
