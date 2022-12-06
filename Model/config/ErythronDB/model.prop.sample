@@ -1,75 +1,72 @@
 # This file contains macros used in model.xml
-# Properties defined here can be referenced in model XML files.
-# For example, this line: NAME=value
-# will cause the WDK to replace  all occurrences of "@NAME@" in the model XML with "value".
-# occurrences of @NAME@ in this file will be replaced during the Docker build
 
-# NOTE:
+PROJECT_ID=ErythronDB
+HIDE_PRIVATE_DATA=true
+WEBAPP=@WEBAPP@
+SITE_ADMIN_EMAIL=@SITE_ADMIN_EMAIL@
+STEP_ANALYSIS_JOB_DIR=/www/common/temp
+
+# NOTE: Managing URLs for External Links
 # ===========================================================================================================
-# All External URLS (including references to other NIAGADS resources) must be defined in this 
-# file and assigned a name ending in "_URL".  After updating/adding new _URL macros, please 
+# All External URLS must be defined in this file and assigned a name ending in "_URL". 
+# After updating/adding new _URL macros, please 
 # run `python $PROJECT_HOME/ErythronDBWebsite/Model/bin/generateExternalUrlConstantsJson` to regenerate 
 # the external url constant file for the front end, setting the --modelPropFile option to this file and the 
 # --outputFile option to $PROJECT_HOME/ErythronDBWebsite/Site/webapp/wdkCustomization/js/client/data/_externalUrls.js.
 # The updated model.prop.sample & externalUrls.js can then be committed to the repository
 
+# external links 
 
-PROJECT_ID=ErythronDB
+# 3rd party base urls
 
-HIDE_PRIVATE_DATA=true
-
-WEBAPP=@WEBAPP@
-
-SITE_ADMIN_EMAIL=@SITE_ADMIN_EMAIL@
-
-STEP_ANALYSIS_JOB_DIR=/www/common/temp
-
-# external links
-
-GENE_FAMILY_URL=https://www.genenames.org/cgi-bin/genefamilies/set/
-ENSEMBL_TRANSCRIPT_URL=https://useast.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;t=
-AMIGO_TERM_URL=http://amigo.geneontology.org/amigo/term/
-UNIPROT_RECORD_URL=http://www.uniprot.org/uniprot/?query=
-PUBMED_URL=https://www.ncbi.nlm.nih.gov/pubmed/
-ARRAY_EXPRESS_URL=https://www.ebi.ac.uk/arrayexpress/experiments/
 REVIGO_BASE_URL=http://revigo.irb.hr/
 STRING_URL=https://string-db.org/
-REACTOME_PATHWAY_URL=https://reactome.org/content/detail/
-KEGG_PATHWAY_URL=https://www.kegg.jp/kegg-bin/show_pathway?
 HUGO_URL=https://www.genenames.org/
 
+# dataset references
+ARRAY_EXPRESS_URL=https://www.ebi.ac.uk/arrayexpress/experiments/
+PUBMED_URL=https://www.ncbi.nlm.nih.gov/pubmed/
 
+# GO Terms
+AMIGO_TERM_URL=http://amigo.geneontology.org/amigo/term/
+
+# pathways
+REACTOME_PATHWAY_URL=https://reactome.org/content/detail/
+KEGG_PATHWAY_URL=https://www.kegg.jp/kegg-bin/show_pathway?
+
+# UCSC genome browser
 MOUSE_UCSC_BROWSER_URL=http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&position=
 HUMAN_UCSC_BROWSER_URL=http://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=
 
-# links for link-out tables on gene record pages
-
-OMIM_CLINICAL_URL=https://www.omim.org/entry
+# genes
+GENE_FAMILY_URL=https://www.genenames.org/cgi-bin/genefamilies/set/
+UNIPROT_RECORD_URL=http://www.uniprot.org/uniprot/?query=
+OMIM_CLINICAL_URL=https://www.omim.org/entry/
 COSMIC_CLINICAL_URL=https://cancer.sanger.ac.uk/cosmic/gene/analysis?ln=
-ORPHANET_CLINICAL_URL=https://www.orpha.net/consor/cgi-bin/Disease_Genes.php?lng=EN&Disease_Disease_Genes_diseaseType=Gen&Disease_Disease_Genes_diseaseGroup=
-
-UNIPROT_PROTEIN_URL=http://www.uniprot.org/uniprot/
-INTERPRO_PROTEIN_URL=https://www.ebi.ac.uk/interpro/protein/
-PDBE_RPOTEIN_URL=https://www.ebi.ac.uk/pdbe/entry/search/index?uniprot_accession:
-
+ORPHANET_CLINICAL_URL=http://www.orpha.net/consor/cgi-bin/OC_Exp.php?Lng=GB&Expert=
 HGNC_GENE_URL=https://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=
-MGI_GENE_URL=http://www.informatics.jax.org/marker/
-NCBI_GENE_URL=https://www.ncbi.nlm.nih.gov/gene/
-
-UCSC_GENE_URL
 HUMAN_ENSEMBL_GENE_URL=https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=
-HUMAN_VEGA_GENE_URL=https://vega.sanger.ac.uk/Homo_sapiens/Gene/Summary?db=core;g=
 MOUSE_ENSEMBL_GENE_URL=https://www.ensembl.org/Mus_musculus/Gene/Summary?g=
+NCBI_GENE_URL=https://www.ncbi.nlm.nih.gov/gene/
+HUMAN_VEGA_GENE_URL=https://vega.sanger.ac.uk/Homo_sapiens/Gene/Summary?db=core;g=
 MOUSE_VEGA_GENE_URL=https://vega.sanger.ac.uk/Mus_musculus/Gene/Summary?db=core;g=
+MGI_GENE_URL=http://www.informatics.jax.org/marker/
+HUMAN_UCSC_GENE_URL=https://genome.cse.ucsc.edu/cgi-bin/hgGene?db=hg38&org=Human&hgg_chrom=none&hgg_type=knownGene&hgg_gene=
+MGI_HOMOLOG_URL=http://www.informatics.jax.org/marker/
+RGD_HOMOLOG_URL=https://rgd.mcw.edu/rgdweb/report/gene/main.html?id=
 
+# proteins
+UNIPROT_PROTEIN_URL=http://www.uniprot.org/uniprot/
+PDBE_PROTEIN_URL=https://www.ebi.ac.uk/pdbe/entry/search/index?uniprot_accession:
+INTERPRO_PROTEIN_URL=https://www.ebi.ac.uk/interpro/protein/
 
+# transcripts
+ENSEMBL_TRANSCRIPT_URL=https://useast.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;t=
+
+# sequences
 GENBANK_NUCLEOTIDE_SEQUENCES_URL=https://www.ncbi.nlm.nih.gov/nuccore/
-MIRBASE_NUCLEOTIDE_SEQUENCES_URL=https://www.mirbase.org/cgi-bin/mirna_entry.pl?acc=
-RNACENTRAL_NUCLEOTIDE_SEQUENCES_URL=https://rnacentral.org/rna/
+MIRBASE_NUCLEOTIDE_SEQUENCES_URL=http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc=
+RNACENTRAL_NUCLEOTIDE_SEQUENCES_URL=http://rnacentral.org/rna/
 ENA_NUCLEOTIDE_SEQUENCES_URL=https://www.ebi.ac.uk/ena/data/view/
 REFSEQ_NUCLEOTIDE_SEQUENCES_URL=https://www.ncbi.nlm.nih.gov/nuccore/
 CCDS_NUCLEOTIDE_SEQUENCES_URL=https://www.ncbi.nlm.nih.gov/CCDS/CcdsBrowse.cgi?REQUEST=CCDS&DATA=
-
-# RGD_HOMOLOG_URL
-
-
