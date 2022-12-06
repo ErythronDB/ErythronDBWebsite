@@ -102,20 +102,20 @@
 
       <sql>
 	<![CDATA[
-		 WITH b AS 
+ WITH b AS 
 		 (SELECT r.study_id, b.*
 		 FROM SRes.BibliographicReference b, Study.StudyBibRef r
-		 WHERE r.bibliographic_reference_id = b.bibliographic_reference_id
-		 AND b.bib_ref_type_id IS NOT NULL)
-		 SELECT s.source_id AS dataset_id, b.bib_ref_type_id,
-		 split_part(b.authors, ',', 1) || '<em> et al.</em> ' || b.year || '. ' || b.title || ' <em>' 
+		 WHERE r.bibliographic_reference_id = b.bibliographic_reference_id)
+		 SELECT s.source_id AS dataset_id, 
+		 string_agg(replace(split_part(b.authors, ',', 1) || ' <em>et al.</em> ' || b.year || '. ' || b.title || ' <em>' 
 		 || b.publication || '</em>. ' || volume || ':' || pages 
-		 || '. PMID: <a href="@PUBMED_URL@' || b.source_id || '">' || b.source_id || '</>'  AS primary_publication
+		 || '. PMID: <a href="@PUBMED_URL@' || b.source_id || '">' || b.source_id || '</>', '  ', ''), ' // ' ORDER BY bib_ref_type_id)  AS primary_publication
 		 FROM 
 		 Study.Study s LEFT OUTER JOIN
 		 b
 		 ON s.study_id = b.study_id
 		 WHERE s.investigation_id IS NULL
+		 GROUP BY s.study_id
 	]]>
       </sql>
     </sqlQuery>
