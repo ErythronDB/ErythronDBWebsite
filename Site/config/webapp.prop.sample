@@ -11,4 +11,5 @@ webappCtx=/@WEBAPP@
 projectId=@PROJECT_ID@
 googleAnalyticsId=@GOOGLE_ANALYTICS_ID@
 assetPath=bundles/modern
+webAssets.optimize=true
 siteAdminEmail=@SITE_ADMIN_EMAIL@
