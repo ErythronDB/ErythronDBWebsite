@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:14
+    container_name: erythrondb-db
+    restart: always
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_INIT_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_INIT_PASSWORD}
+      POSTGRES_DB: init-ignore
+    volumes:
+      # note - db will not initialize if DB_DATA directory already exists
+      - ${DB_INIT}:/docker-entrypoint-initdb.d/init.sql.gz
+      - ${DB_DATA}:/var/lib/postgresql/data
+
+  web:
+    container_name: erythrondb-web
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile-with-ARGs
+    depends_on:
+      - db
+    ports:
+      - '${TOMCAT_PORT}:8080'
+    volumes:
+      - ${LOG}:/usr/local/tomcat/logs
+    # links:
+    #  - db
+    environment:
+      PG_HOST: 'db'
+
+volumes:
+  pg-data:
+    driver: local
+
