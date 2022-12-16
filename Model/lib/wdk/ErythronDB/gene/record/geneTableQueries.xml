@@ -41,7 +41,7 @@
 		 go_term,
 		 ot.definition,
 		 replace(go_term_id, '_', ':') AS go_id,
-		 evidence_code,
+     array_to_string(array_unique(string_to_array(evidence_code, ',')), ',') AS evidence_code,
 		 ontology_abbrev AS ontology
 		 FROM CBIL.GoAssociation_TC goa,
 		 SRes.OntologyTerm ot
