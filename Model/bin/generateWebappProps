@@ -18,8 +18,6 @@ prop() {
     grep "${1}" ${PROPERTIES_FILE}|cut -d'=' -f2
 }
 
-WEBAPP=$(prop 'WEBAPP')
-
 # set webapp properties
 echo "Setting webapp properties (webapp.prop file)"
 cp $PROJECT_HOME/ErythronDBWebsite/Site/config/webapp.prop.sample $GUS_HOME/config/webapp.prop 
