@@ -23,5 +23,5 @@ WEBAPP=$(prop 'WEBAPP')
 echo "Setting webapp properties (webapp.prop file)"
 cp $PROJECT_HOME/ErythronDBWebsite/Site/config/webapp.prop.sample $GUS_HOME/config/webapp.prop 
 sed -i "s|@WEBAPP@|$WEBAPP|g" $GUS_HOME/config/webapp.prop
-sed -i "s|@PROJECT_ID@|ErythronDB|g" $GUS_HOME/config/webapp.prop
-sed -i "s|@SITE_ADMIN_EMAIL@|${SITE_ADMIN_EMAIL}|g" $GUS_HOME/config/webapp.prop
+sed -i "s|@PROJECT_ID@|$WEBAPP|g" $GUS_HOME/config/webapp.prop
+sed -i "s|@SITE_ADMIN_EMAIL@|$(prop 'SITE_ADMIN_EMAIL')|g" $GUS_HOME/config/webapp.prop
