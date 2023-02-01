@@ -1,0 +1,50 @@
+#!/bin/sh
+# update config files (perform docker substitutions)
+echo "Usage GUS_HOME=$GUS_HOME & PROJECT_HOME=$PROJECT_HOME & DB_HOST=$DB_HOST pulled from environemnt."
+echo "All other properties need to be passed via a properties file"
+echo "See docker build .env and site-admin.properties files or guide"
+
+PROPERTIES_FILE=$1
+
+if test -f "$PROPERTIES_FILE"; then
+  echo "Pulling properties from $PROPERTIES_FILE"
+else
+    echo "$PROPERTIES_FILE does not exist - exiting" 
+    return 1
+fi
+
+prop() {
+    grep "${1}" ${PROPERTIES_FILE}|cut -d'=' -f2
+}
+
+WEBAPP=$(prop 'WEBAPP')
+
+# model.props (specific for genome build b/c of third-party URLs)
+echo "Setting model properties (model.prop file)"
+cp $GUS_HOME/config/ErythronDB/model.prop.sample $GUS_HOME/config/ErythronDB/model.prop
+sed -i "s|@WEBAPP@|$WEBAPP|g" $GUS_HOME/config/ErythronDB/model.prop
+sed -i "s|@SITE_ADMIN_EMAIL@|$(prop 'SITE_ADMIN_EMAIL')|g" $GUS_HOME/config/ErythronDB/model.prop
+sed -i "s|@PROJECT_ID@|ErythronDB|g" $GUS_HOME/config/ErythronDB/model.prop
+
+# model-config
+echo "Setting model configuration (model-config.xml file)"
+cp $GUS_HOME/config/model-config.xml.sample $GUS_HOME/config/ErythronDB/model-config.xml
+sed -i "s|@MODEL@|ErythronDB|g" $GUS_HOME/config/ErythronDB/model-config.xml
+sed -i "s|@SITE_ADMIN_EMAIL@|$(prop 'SITE_ADMIN_EMAIL')|g" $GUS_HOME/config/ErythronDB/model-config.xml
+sed -i "s|@DB_USER@|$(prop 'WEB_DB_USER')|g" $GUS_HOME/config/ErythronDB/model-config.xml
+sed -i "s|@DB_PASSWORD@|$(prop 'WEB_DB_PASSWORD')|g" $GUS_HOME/config/ErythronDB/model-config.xml
+sed -i "s|@DB_HOST@:@DB_PORT@|$DB_HOSTNAME|g" $GUS_HOME/config/ErythronDB/model-config.xml
+sed -i "s|@DB_NAME@|$(prop 'WEB_DB_NAME')|g" $GUS_HOME/config/ErythronDB/model-config.xml 
+
+# tomcat-context.xml
+echo "Setting tomcat context (tomcat-context.xml file)"
+mkdir -p $CATALINA_HOME/conf/Catalina/localhost && \
+cp $GUS_HOME/config/tomcat-context.xml.sample $CATALINA_HOME/conf/Catalina/localhost/${WEBAPP}.xml
+sed -i "s|@MODEL@|${PROJECT_ID}|g" $CATALINA_HOME/conf/Catalina/localhost/${WEBAPP}.xml
+sed -i "s|@WEBAPP@|${WEBAPP}|g" $CATALINA_HOME/conf/Catalina/localhost/${WEBAPP}.xml
+
+# tomcat-users.xml
+echo "Setting tomcat users from manager app (tomcat-users.xml file)"
+cp $GUS_HOME/config/tomcat-users.xml.sample $CATALINA_HOME/conf/tomcat-users.xml
+sed -i "s|@TOMCAT_MANAGER_PASSWORD@|$TOMCAT_MANAGER_PASSWORD|g" $CATALINA_HOME/conf/tomcat-users.xml
+cp $GUS_HOME/config/tomcat-manager-context.xml $CATALINA_HOME/webapps/manager/META-INF/context.xml
