@@ -1,7 +1,7 @@
 #!/bin/sh
 # update config files (perform docker substitutions)
 
-PROPERTIES_FILE=$SITE_ADMIN_PROPERTIES_FLIE
+PROPERTIES_FILE=$SITE_ADMIN_PROPERTIES_FILE
 
 echo "Usage GUS_HOME=$GUS_HOME & PROJECT_HOME=$PROJECT_HOME & DB_HOST=$DB_HOST pulled from environemnt."
 echo "All other properties will be extracted from property file: $SITE_ADMIN_PROPERTIES_FILE"
