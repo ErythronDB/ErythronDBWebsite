@@ -75,7 +75,7 @@
   <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
    <init-param>
     <param-name>cors.allowed.origins</param-name>
-    <param-value>https://string-db.org</param-value>
+    <param-value>https://string-db.org,@corsAllowedOrigins@</param-value>
   </init-param>
    <init-param>
     <param-name>cors.allowed.methods</param-name>
@@ -160,6 +160,7 @@
     <location>/404.html</location>
   </error-page>
   <error-page>
+    <error-code>500</error-code>
     <location>/500.html</location>
   </error-page>
 

@@ -167,6 +167,11 @@
       <replacefilter token="@webappCtx@" property="webappCtx" />
       <replacefilter token="@siteAdminEmail@" property="siteAdminEmail"/>
     </replace>
+
+    <replace dir="${webappTargetDir}/WEB-INF" propertyFile="${webPropFile}">
+      <include name="web.xml" />
+      <replacefilter token="@corsAllowedOrigins@" property="corsAllowedOrigins"/>
+    </replace>
   </target>
 
 

@@ -10,5 +10,6 @@ cgilibTargetDir=/www/erythrondb/cgi-lib
 webappCtx=/@WEBAPP@
 projectId=@PROJECT_ID@
 siteAdminEmail=@SITE_ADMIN_EMAIL@
+corsAllowedOrigins=@CORS_ALLOWED_ORIGINS@
 assetPath=bundles/modern
 webAssets.optimize=true
