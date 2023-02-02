@@ -163,7 +163,6 @@
       <include name="client.html" />
       <replacefilter token="@build@" property="projectId"/>
       <replacefilter token="@assetPath@" property="assetPath" />
-      <replacefilter token="@googleAnalyticsId@" property="googleAnalyticsId" />
       <replacefilter token="@webappCtx@" property="webappCtx" />
       <replacefilter token="@siteAdminEmail@" property="siteAdminEmail"/>
     </replace>
