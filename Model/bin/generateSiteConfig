@@ -47,3 +47,7 @@ echo "Setting tomcat users from manager app (tomcat-users.xml file)"
 cp $GUS_HOME/config/tomcat-users.xml.sample $CATALINA_HOME/conf/tomcat-users.xml
 sed -i "s|@TOMCAT_MANAGER_PASSWORD@|$(prop 'TOMCAT_MANAGER_PASSWORD')|g" $CATALINA_HOME/conf/tomcat-users.xml
 cp $GUS_HOME/config/tomcat-manager-context.xml $CATALINA_HOME/webapps/manager/META-INF/context.xml
+
+# setting log permissions
+echo "Setting log file permissions ($CATALINA_HOME/logs)"
+chmod -R 777 $CATALINA_HOME/logs
